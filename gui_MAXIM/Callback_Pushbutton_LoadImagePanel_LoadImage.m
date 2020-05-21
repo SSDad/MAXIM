@@ -95,40 +95,59 @@ data.Panel.View.Comp.hAxis.Image.XLim = [x0 dx*(N-1)];
 data.Panel.View.Comp.hAxis.Image.YLim = [y0 dy*(M-1)];
 %= imshow(I, RA, 'parent', hAxis.snake);
 
+% slider
+hSS = data.Panel.View.Comp.hSlider.Slice;
+hSS.Min = 1;
+hSS.Max = nImages;
+hSS.Value = sV;
+hSS.SliderStep = [1 10]/(nImages-1);
 
-%% initialize snake panel
-guidata(hFig, data);
-initSnakePanel(hFig);
-data = guidata(hFig);
-
-%% data initilization
-data.cont = cell(nImages, 1);
-data.maskCont = data.cont;
-data.FreeHand = [];
-data.FreeHandDone = false;
-data.SnakeDone = false;
-data.AllPointDone = false;
-
-waitbar(2/3, hWB, 'Fetching tumor contours...');
-%% initialize Tumor panel
-guidata(hFig, data);
-initTumorPanel(hFig)
-data = guidata(hFig);
-
-data.Tumor.indSS = 1:nImages;
-
-%% enable menus
-data.hMenuItem.FreeHand.Enable = 'on';
-data.hMenuItem.Tumor.Profile.Enable = 'on';
-
-data.hMenuItem.Tumor.bwSum.Checked = 'on';
-data.hMenuItem.Snake.Enable = 'on';
-data.hMenuItem.Tumor.bwSum.Enable = 'on';
-data.hMenuItem.Tumor.TrackContour.Enable = 'on';
-
-%% save
-guidata(hFig, data);
+data.Panel.View.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(nImages)];
 
 waitbar(1, hWB, 'Bingo!');
 pause(2);
 close(hWB);
+
+% contrast
+yc = histcounts(I, max(I(:))+1);
+yc = log10(yc);
+yc = yc/max(yc);
+xc = 1:length(yc);
+xc = xc/max(xc);
+
+data.Panel.View.Comp.Panel.Constrast.hPlotObj.Hist.XData = xc;
+data.Panel.View.Comp.Panel.Constrast.hPlotObj.Hist.YData = yc;
+
+guidata(hFig, data);
+
+% initSnakePanel(hFig);
+% data = guidata(hFig);
+% 
+% %% data initilization
+% data.cont = cell(nImages, 1);
+% data.maskCont = data.cont;
+% data.FreeHand = [];
+% data.FreeHandDone = false;
+% data.SnakeDone = false;
+% data.AllPointDone = false;
+% 
+% waitbar(2/3, hWB, 'Fetching tumor contours...');
+% %% initialize Tumor panel
+% guidata(hFig, data);
+% initTumorPanel(hFig)
+% data = guidata(hFig);
+% 
+% data.Tumor.indSS = 1:nImages;
+% 
+% %% enable menus
+% data.hMenuItem.FreeHand.Enable = 'on';
+% data.hMenuItem.Tumor.Profile.Enable = 'on';
+% 
+% data.hMenuItem.Tumor.bwSum.Checked = 'on';
+% data.hMenuItem.Snake.Enable = 'on';
+% data.hMenuItem.Tumor.bwSum.Enable = 'on';
+% data.hMenuItem.Tumor.TrackContour.Enable = 'on';
+% 
+% %% save
+% guidata(hFig, data);
+% 

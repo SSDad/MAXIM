@@ -89,8 +89,18 @@ Image.RA = imref2d([M N], xWL, yWL);
 
 data.Panel.View.Comp.hPlotObj.Image.CData = I;
 data.Panel.View.Comp.hPlotObj.Image.XData = x0:dx:dx*(N-1);
-data.Panel.View.Comp.hPlotObj.Image.XData = x0:dx:dx*(N-1);
+data.Panel.View.Comp.hPlotObj.Image.YData = y0:dy:dy*(M-1);
+
+data.Panel.View.Comp.hAxis.Image.XLim = [x0 dx*(N-1)];
+data.Panel.View.Comp.hAxis.Image.YLim = [y0 dy*(M-1)];
 %= imshow(I, RA, 'parent', hAxis.snake);
+
+% slider
+hSlider = data_main.hSlider;
+hSlider.snake.Min = 1;
+hSlider.snake.Max = nImages;
+hSlider.snake.Value = sV;
+hSlider.snake.SliderStep = [1 10]/(nImages-1);
 
 
 %% initialize snake panel
