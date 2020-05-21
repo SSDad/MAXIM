@@ -1,0 +1,23 @@
+clearvars
+load('junk')
+% refC = data_main.refContour;
+
+hF = figure(99); clf
+hA1 =subplot(121, 'parent', hF);
+
+hI = imshow(J, [], 'parent', hA1);
+
+% convert to ij
+xx = FC(:,1)/dx+1;
+yy = FC(:,2)/dy+1;
+
+line(hA1, xx, yy, 'Color', 'g')
+
+
+[M, N] = size(J);
+
+hA1 =subplot(122, 'parent', hF);
+
+x = round(N/2);
+
+line(
