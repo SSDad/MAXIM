@@ -10,4 +10,7 @@ Comp.hAxis.Image = axes('Parent',                   hPanel, ...
                             'Position',                 [0.05 0.025 0.9 0.9]);
 
 Comp.hAxis.Image.XAxisLocation='top';
-hold(Comp.hAxis.Image, 'on') 
+hold(Comp.hAxis.Image, 'on')
+
+Comp.hPlotObj.Image = imshow([], 'parent', Comp.hAxis.Image);
+
