@@ -1,0 +1,20 @@
+function Callback_Pushbutton_SnakePanel_FreeHand(src, evnt)
+
+hFig = ancestor(src, 'Figure');
+data = guidata(hFig);
+hSlider = data.Panel.View.Comp.hSlider.Slice;
+data.FreeHand.iSlice = round(hSlider.Value);
+
+% axis(data_main.hAxis.snake);
+L = images.roi.AssistedFreehand(data.Panel.View.Comp.hAxis.Image,...
+    'Image', data.Panel.View.Comp.hPlotObj.Image, ...
+    'Closed', 0);
+draw(L);
+
+data.FreeHand.L = L;
+data.FreeHand.Done = true;
+
+data..hMenuItem.snake.Enable = 'on';
+
+%% save
+guidata(hFig_main, data_main);                
