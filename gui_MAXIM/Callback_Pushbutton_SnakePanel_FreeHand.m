@@ -3,7 +3,7 @@ function Callback_Pushbutton_SnakePanel_FreeHand(src, evnt)
 hFig = ancestor(src, 'Figure');
 data = guidata(hFig);
 
-hSlider = data.Panel.View.Comp.hSlider.Slice;
+hSlider = data.Panel.SliceSlider.Comp.hSlider.Slice;
 data.FreeHand.iSlice = round(hSlider.Value);
 
 hA = data.Panel.View.Comp.hAxis.Image;

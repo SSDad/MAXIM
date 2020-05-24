@@ -1,4 +1,4 @@
-function Callback_Slider_ViewPanel_Slice(src, evnt)
+function Callback_Slider_SliceSliderPanel_SliceSlider(src, evnt)
 
 global contrastRectLim
 
@@ -8,10 +8,19 @@ data = guidata(hFig);
 sV = round(get(src, 'Value'));
 I = rot90(data.Image.Images{sV}, 3);
 
+% contrast limit
+maxI = max(I(:));
+minI = min(I(:));
+wI = maxI-minI;
+cL1 = minI+wI*contrastRectLim(1);
+cL2 = minI+wI*contrastRectLim(2);
+I(I<cL1) = cL1;
+I(I>cL2) = cL2;
+
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 hPlotObj.Image.CData = I;
 
-data.Panel.View.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(data.Image.nImages)];
+data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(data.Image.nImages)];
 
 % x0 = data_main.x0;
 % y0 = data_main.y0;
@@ -25,8 +34,8 @@ yc = log10(yc);
 yc = yc/max(yc);
 xc = 1:length(yc);
 xc = xc/max(xc);
-data.Panel.View.Comp.Panel.Constrast.hPlotObj.Hist.XData = xc;
-data.Panel.View.Comp.Panel.Constrast.hPlotObj.Hist.YData = yc;
+data.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.XData = xc;
+data.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.YData = yc;
 
 % 
 % % contrast limit
