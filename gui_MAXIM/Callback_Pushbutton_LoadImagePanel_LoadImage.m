@@ -87,15 +87,15 @@ yWL(1) = y0-dy/2;
 yWL(2) = yWL(1)+dy*M;
 RA = imref2d([M N], xWL, yWL);
 
-data.Panel.View.Comp.hPlotObj.Image = imshow(I, RA, 'parent', data.Panel.View.Comp.hAxis.Image);
+hPlotObj.Image = imshow(I, RA, 'parent', data.Panel.View.Comp.hAxis.Image);
 axis(data.Panel.View.Comp.hAxis.Image, 'tight', 'equal')
-% data.Panel.View.Comp.hPlotObj.Image.CData = I;
-% data.Panel.View.Comp.hPlotObj.Image.XData = x0:dx:dx*(N-1);
-% data.Panel.View.Comp.hPlotObj.Image.YData = y0:dy:dy*(M-1);
-% 
-% data.Panel.View.Comp.hAxis.Image.XLim = [x0 dx*(N-1)];
-% data.Panel.View.Comp.hAxis.Image.YLim = [y0 dy*(M-1)];
-%= imshow(I, RA, 'parent', hAxis.snake);
+% snake
+hPlotObj.Snake = line(data.Panel.View.Comp.hAxis.Image,...
+    'XData', [], 'YData', [], 'Color', 'm', 'LineStyle', '-', 'LineWidth', 3);
+hPlotObj.SnakeMask = line(data.Panel.View.Comp.hAxis.Image,...
+    'XData', [], 'YData', [], 'Color', 'm', 'LineStyle', '-', 'LineWidth', 1);
+
+data.Panel.View.Comp.hPlotObj = hPlotObj;
 
 % slider
 hSS = data.Panel.SliceSlider.Comp.hSlider.Slice;

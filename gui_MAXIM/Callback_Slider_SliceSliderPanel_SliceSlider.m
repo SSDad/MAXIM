@@ -22,12 +22,6 @@ hPlotObj.Image.CData = I;
 
 data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(data.Image.nImages)];
 
-% x0 = data_main.x0;
-% y0 = data_main.y0;
-% dx = data_main.dx;
-% dy = data_main.dy;
-% 
-% 
 % hist
 yc = histcounts(I, max(I(:))+1);
 yc = log10(yc);
@@ -37,35 +31,22 @@ xc = xc/max(xc);
 data.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.XData = xc;
 data.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.YData = yc;
 
-% 
-% % contrast limit
-% maxI = max(I(:));
-% minI = min(I(:));
-% wI = maxI-minI;
-% cL1 = minI+wI*contrastRectLim(1);
-% cL2 = minI+wI*contrastRectLim(2);
-% I(I<cL1) = cL1;
-% I(I>cL2) = cL2;
-% hPlotObj.snakeImage.CData = I;
-% 
-% if data_main.FreeHandDone
-%     data_main.FreeHand.L.Visible = 'off';
-% %     if  sV == data_main.FreeHand.iSlice
-% %         data_main.FreeHand.L.Visible = 'on';
-% %     end
-% end
-% 
-% % contour
-% if data_main.SnakeDone
-%     CB =   data_main.cont{sV};
-%     if isempty(CB)
-%         data_main.hPlotObj.cont.XData = [];
-%         data_main.hPlotObj.cont.YData = [];
-%     else
-%         data_main.hPlotObj.cont.YData = (CB(:, 2)-1)*dy+y0;
-%         data_main.hPlotObj.cont.XData = (CB(:, 1)-1)*dx+x0;
-%     end
-%     
+% snake
+x0 = data.Image.x0;
+y0 = data.Image.y0;
+dx = data.Image.dx;
+dy = data.Image.dy;
+
+if data.Snake.SlitherDone
+    CB = data.Snake.Snakes{sV};
+    if isempty(CB)
+        data.Panel.View.Comp.hPlotObj.Snake.XData = [];
+        data.Panel.View.Comp.hPlotObj.Snake.YData = [];
+    else
+        data.Panel.View.Comp.hPlotObj.Snake.YData = (CB(:, 2)-1)*dy+y0;
+        data.Panel.View.Comp.hPlotObj.Snake.XData = (CB(:, 1)-1)*dx+x0;
+    end
+
 %     CM =  data_main.maskCont{sV};
 %     if isempty(CM)
 %         data_main.hPlotObj.maskCont.XData = [];
@@ -74,8 +55,13 @@ data.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.YData = yc;
 %         data_main.hPlotObj.maskCont.YData = (CM(:, 2)-1)*dy+y0;
 %         data_main.hPlotObj.maskCont.XData = (CM(:, 1)-1)*dx+x0;
 %     end
-%     
-% end
+    
+end
+
+
+% 
+% 
+
 % 
 % if data_main.LineDone
 %     % points on contour
