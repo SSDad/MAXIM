@@ -54,7 +54,7 @@ T = J(y1:y2, x1:x2);
 %% template match
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 mMid = round(mJ/2);
-for n = 1:30%nImages
+for n = 1:nImages
     
     if stopSlither
         src.String = 'Slither';

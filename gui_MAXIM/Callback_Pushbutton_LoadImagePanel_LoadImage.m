@@ -60,13 +60,13 @@ data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).ForegroundColor = 'c';
 data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).String = num2str(Image.dx);
 data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).ForegroundColor = 'c';
 
-% check previously saved snakes
-% [~, fn1, ~] = fileparts(matFile);
-% ffn_snakes = fullfile(dataPath, [fn1, '_snakes.mat']);
-% if exist(ffn_snakes, 'file')
-%     data.hMenuItem.LoadSnakes.Enable = 'on';
-% end
-% data.ffn_snakes = ffn_snakes;
+%check previously saved snakes
+[~, fn1, ~] = fileparts(matFile);
+ffn_snakes = fullfile(dataPath, [fn1, '_snakes.mat']);
+if exist(ffn_snakes, 'file')
+    data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'on';
+end
+data.FileInfo.ffn_snakes = ffn_snakes;
 
 waitbar(1/3, hWB, 'Initializing View...');
 

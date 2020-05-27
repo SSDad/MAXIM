@@ -7,7 +7,7 @@ hSlider = data.Panel.SliceSlider.Comp.hSlider.Slice;
 data.Snake.FreeHand.iSlice = round(hSlider.Value);
 
 hA = data.Panel.View.Comp.hAxis.Image;
-uistack(hA, 'top');
+% uistack(hA, 'top');
 
 axis(hA);
 L = images.roi.AssistedFreehand(hA,...
@@ -20,7 +20,7 @@ draw(L);
 data.Snake.FreeHand.L = L;
 data.Snake.FreeHand.Done = true;
 
-data.Panel.Snake.Comp.Panel.FreeHand.Togglebutton.Slither.Enable = 'on';
+data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'on';
 
 %% save
 guidata(hFig, data);                
