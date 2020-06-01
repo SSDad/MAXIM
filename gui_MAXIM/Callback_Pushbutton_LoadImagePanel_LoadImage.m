@@ -68,6 +68,8 @@ if exist(ffn_snakes, 'file')
 end
 data.FileInfo.ffn_snakes = ffn_snakes;
 
+data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'on';
+
 waitbar(1/3, hWB, 'Initializing View...');
 
 % CT images
@@ -121,35 +123,3 @@ data.Panel.ContrastBar.Comp.hPlotObj.Hist.XData = xc;
 data.Panel.ContrastBar.Comp.hPlotObj.Hist.YData = yc;
 
 guidata(hFig, data);
-
-% initSnakePanel(hFig);
-% data = guidata(hFig);
-% 
-% %% data initilization
-% data.cont = cell(nImages, 1);
-% data.maskCont = data.cont;
-% data.FreeHand = [];
-% data.FreeHandDone = false;
-% data.SnakeDone = false;
-% data.AllPointDone = false;
-% 
-% waitbar(2/3, hWB, 'Fetching tumor contours...');
-% %% initialize Tumor panel
-% guidata(hFig, data);
-% initTumorPanel(hFig)
-% data = guidata(hFig);
-% 
-% data.Tumor.indSS = 1:nImages;
-% 
-% %% enable menus
-% data.hMenuItem.FreeHand.Enable = 'on';
-% data.hMenuItem.Tumor.Profile.Enable = 'on';
-% 
-% data.hMenuItem.Tumor.bwSum.Checked = 'on';
-% data.hMenuItem.Snake.Enable = 'on';
-% data.hMenuItem.Tumor.bwSum.Enable = 'on';
-% data.hMenuItem.Tumor.TrackContour.Enable = 'on';
-% 
-% %% save
-% guidata(hFig, data);
-% 

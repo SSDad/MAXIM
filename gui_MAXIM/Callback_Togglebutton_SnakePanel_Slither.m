@@ -96,8 +96,15 @@ for n = 1:nImages
     clear sC;
     
 end
-data.Snake.SlitherDone = true;
-guidata(hFig, data);
+    data.Snake.SlitherDone = true;
+
+    % enable buttons
+    data.Panel.Snake.Comp.Togglebutton.ReDraw.Enable = 'on';
+    data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'on';
+    data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
+
+
+    guidata(hFig, data);
 
     src.String = 'Slither';
     src.ForegroundColor = 'g';

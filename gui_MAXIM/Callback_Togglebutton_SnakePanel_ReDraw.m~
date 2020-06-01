@@ -17,8 +17,6 @@ if strcmp(str, 'reDraw')
     src.ForegroundColor = 'r';
     src.BackgroundColor = [1 1 1]*0.25;
     
-%         axes(data_main.hAxis.snake);
-
     C = data.Snake.Snakes{iSlice};
     % convert to xy
     C(:, 1) = (C(:, 1)-1)*dx+x0;
@@ -33,6 +31,11 @@ if strcmp(str, 'reDraw')
 
     data.Panel.View.Comp.hPlotObj.Snake.YData = [];
     data.Panel.View.Comp.hPlotObj.Snake.XData = [];
+
+    % disable buttons
+    data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
+    data.Panel.Snake.Comp.Pushbutton.DeleteSnake.Enable = 'off';
+    data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'off';
 
 else
     src.String = 'reDraw';
@@ -52,7 +55,7 @@ else
     data.Panel.View.Comp.hPlotObj.Snake.XData = (C(:, 1)-1)*dx+x0;
     
     reContL.Visible = 'off';
-
+    
+    guidata(hFig, data)
 end
 
-guidata

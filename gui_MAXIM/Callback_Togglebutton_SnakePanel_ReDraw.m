@@ -32,6 +32,12 @@ if strcmp(str, 'reDraw')
     data.Panel.View.Comp.hPlotObj.Snake.YData = [];
     data.Panel.View.Comp.hPlotObj.Snake.XData = [];
 
+    % disable buttons
+    data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'off';
+    data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
+    data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'off';
+    data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'off';
+
 else
     src.String = 'reDraw';
     src.ForegroundColor = 'c';
@@ -51,6 +57,11 @@ else
     
     reContL.Visible = 'off';
     
+    % enable buttons
+    data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'on';
+    data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'on';
+    data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
+
     guidata(hFig, data)
 end
 
