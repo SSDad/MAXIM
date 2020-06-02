@@ -55,7 +55,25 @@ if data.Snake.SlitherDone
 %         data_main.hPlotObj.maskCont.YData = (CM(:, 2)-1)*dy+y0;
 %         data_main.hPlotObj.maskCont.XData = (CM(:, 1)-1)*dx+x0;
 %     end
+
+    if data.Point.InitDone
+    % points on contour
+    iSlice = sV;
+    xi = data.Point.xi;
+    yi = data.Point.yi;
+    ixm = data.Point.ixm;
+    NP = data.Point.NP;
     
+    hPlotObj = data.Panel.View.Comp.hPlotObj;
+    hPlotObj.Point.XData = xi(ixm);
+    hPlotObj.Point.YData = yi(iSlice, ixm);
+    hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
+    hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
+    hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
+    hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+
+    end
+
 end
 
 

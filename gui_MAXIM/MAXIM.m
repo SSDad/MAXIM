@@ -16,6 +16,7 @@ hFig = figure('MenuBar',            'none', ...
                     'Color',                 'black', ...
                     'Visible',               'on');
 
+addToolbar(hFig);
                 
 data.Panel = addPanel(hFig);
 data.Panel.LoadImage.Comp = addComponents2Panel_LoadImage(data.Panel.LoadImage.hPanel);
@@ -23,6 +24,8 @@ data.Panel.View.Comp = addComponents2Panel_View(data.Panel.View.hPanel);
 data.Panel.Snake.Comp = addComponents2Panel_Snake(data.Panel.Snake.hPanel);
 data.Panel.ContrastBar.Comp = addComponents2Panel_ContrastBar(data.Panel.ContrastBar.hPanel);
 data.Panel.SliceSlider.Comp = addComponents2Panel_SliceSlider(data.Panel.SliceSlider.hPanel);
+
+data.Panel.Point.Comp = addComponents2Panel_Point(data.Panel.Point.hPanel);
 
 guidata(hFig, data);
                                
