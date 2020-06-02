@@ -62,11 +62,13 @@ data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).ForegroundColor = 'c';
 
 %check previously saved snakes
 [~, fn1, ~] = fileparts(matFile);
-ffn_snakes = fullfile(dataPath, [fn1, '_snakes.mat']);
+ffn_snakes = fullfile(dataPath, [fn1, '_Snake.mat']);
+data.FileInfo.ffn_snakes = ffn_snakes;
 if exist(ffn_snakes, 'file')
     data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'on';
 end
-data.FileInfo.ffn_snakes = ffn_snakes;
+ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
+data.FileInfo.ffn_points = ffn_points;
 
 data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'on';
 
