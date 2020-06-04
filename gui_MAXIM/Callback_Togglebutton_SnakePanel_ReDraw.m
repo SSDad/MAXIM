@@ -37,10 +37,11 @@ if strcmp(str, 'reDraw')
     data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
     data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'off';
     data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'off';
+    data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'off';
 
 else
     src.String = 'reDraw';
-    src.ForegroundColor = 'c';
+    src.ForegroundColor = 'g';
     src.BackgroundColor = [1 1 1]*0.25;
 
     data.Snake.Snakes{iSlice} = [];
@@ -61,6 +62,7 @@ else
     data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'on';
     data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'on';
     data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
+    data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'on';
 
     guidata(hFig, data)
 end

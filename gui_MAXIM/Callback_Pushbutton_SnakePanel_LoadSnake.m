@@ -27,6 +27,8 @@ data.Panel.Snake.Comp.Togglebutton.ReDraw.Enable = 'on';
 data.Panel.Snake.Comp.Pushbutton.DeleteSnake.Enable = 'on';
 data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
 
+data.Panel.Point.Comp.Popup.Neighbour.Enable = 'on';
+data.Panel.Point.Comp.Pushbutton.Init.Enable = 'on';
 
 % points
 dataPath = data.FileInfo.DataPath;
@@ -51,6 +53,11 @@ if exist(ffn_points, 'file')
     hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
     hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
     
+    data.Panel.Point.Comp.Popup.Neighbour.Enable = 'off';
+    data.Panel.Point.Comp.Pushbutton.Init.Enable = 'off';
+    data.Panel.Point.Comp.Togglebutton.Move.Enable = 'on';
+    data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';
+
 end
 
 guidata(hFig, data);

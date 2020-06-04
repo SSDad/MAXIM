@@ -21,6 +21,7 @@ data.Snake.FreeHand.L = L;
 data.Snake.FreeHand.Done = true;
 
 data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'on';
+data.Panel.Snake.Comp.Togglebutton.Slither.ForegroundColor = 'g';
 
 %% save
 guidata(hFig, data);                

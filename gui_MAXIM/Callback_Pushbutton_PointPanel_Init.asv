@@ -91,8 +91,7 @@ idx = data.Panel.Point.Comp.Popup.Neighbour.Value;
 NP = str2num(str{idx});
 data.Point.NP = NP;
 
-data.Panel.Point.Comp.Togglebutton.Move.Enable = 'on';
-data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';
+data.Panel.Point.Comp.Tobutton.Move.Enable = 'on';
 
 %% save
 guidata(hFig, data);
