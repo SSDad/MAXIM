@@ -21,6 +21,7 @@ else
     end
 end
 
+if matFile ~=0
 hWB = waitbar(0, 'Loading Images...');
 
 ffn = fullfile(dataPath, matFile);
@@ -142,3 +143,5 @@ data.Panel.ContrastBar.Comp.hPlotObj.Hist.YData = yc;
 data.Point.InitDone = false;
 
 guidata(hFig, data);
+
+end
