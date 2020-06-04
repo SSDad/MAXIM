@@ -2,10 +2,21 @@ function Callback_Pushbutton_SnakePanel_DeleteSnake(src, evnt)
 
 hFig = ancestor(src, 'Figure');
 data = guidata(hFig);
+hPlotObj = data.Panel.View.Comp.hPlotObj;
 
-sV = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
-data.Snake.Snakes{sV} = [];
-data.Panel.View.Comp.hPlotObj.Snake.YData = [];
-data.Panel.View.Comp.hPlotObj.Snake.XData = [];
+iSlice = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
+data.Snake.Snakes{iSlice} = [];
+hPlotObj.Snake.YData = [];
+hPlotObj.Snake.XData = [];
+
+% points
+    data.Point.yi(iSlice, :) = NaN;
+    
+    hPlotObj.Point.XData = [];
+    hPlotObj.Point.YData = [];
+    hPlotObj.LeftPoints.XData = [];
+    hPlotObj.LeftPoints.YData = [];
+    hPlotObj.RightPoints.XData = [];
+    hPlotObj.RightPoints.YData = [];
 
 guidata(hFig, data)

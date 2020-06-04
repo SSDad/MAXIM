@@ -24,7 +24,7 @@ hPlotObj.Snake.XData = (CB(:, 1)-1)*dx+x0;
 
 data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
 data.Panel.Snake.Comp.Togglebutton.ReDraw.Enable = 'on';
-data.Panel.Snake.Comp.Pushbutton.DeleteSnake.Enable = 'on';
+data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'on';
 data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
 
 data.Panel.Point.Comp.Popup.Neighbour.Enable = 'on';

@@ -18,8 +18,7 @@ if strcmp(str, 'reDraw')
     src.BackgroundColor = [1 1 1]*0.25;
     
     C = data.Snake.Snakes{iSlice};
-    hA = data.Panel.View.Comp.hAxis.Image;
-
+    
     if isempty(C)
         axis(hA);
         L = images.roi.AssistedFreehand(hA,...
@@ -29,7 +28,7 @@ if strcmp(str, 'reDraw')
 %     'Closed', 0);
         draw(L);
 
-        reContL = L;
+reContL = L;
 
     else
         % convert to xy
@@ -40,7 +39,7 @@ if strcmp(str, 'reDraw')
         WP = false(nWP, 1);
         WP(round(linspace(1, nWP-nWP/14, 14))) = true;
 
-        reContL = drawfreehand(hA,...
+        reContL = drawfreehand(data.Panel.View.Comp.hAxis.Image,...
             'Position', C, 'Closed', 0);%, 'Waypoints', WP);
 
         data.Panel.View.Comp.hPlotObj.Snake.YData = [];
