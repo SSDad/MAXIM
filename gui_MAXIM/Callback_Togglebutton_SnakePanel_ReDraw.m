@@ -86,10 +86,10 @@ else
     n1 = ceil((min(xxh)-x0)/dx);
     n2 = floor((max(xxh)-x0)/dx);
     
-    xi = data.Point.xi;
-    ixm = data.Point.ixm;
-    NP = data.Point.NP;
-    yi = data.Point.yi;
+    xi = data.Point.Data.xi;
+    ixm = data.Point.Data.ixm;
+    NP = data.Point.Data.NP;
+    yi = data.Point.Data.yi;
     for n = n1:n2
         x1 = [xi(n) xi(n)];
         y1 = [1 1e4];
@@ -100,7 +100,7 @@ else
             yi(iSlice, n) = yc;
         end
     end
-    data.Point.yi = yi;
+    data.Point.Data.yi = yi;
     
     hPlotObj = data.Panel.View.Comp.hPlotObj;
     hPlotObj.Point.XData = xi(ixm);

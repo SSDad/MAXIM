@@ -10,7 +10,7 @@ hPlotObj.Snake.YData = [];
 hPlotObj.Snake.XData = [];
 
 % points
-    data.Point.yi(iSlice, :) = NaN;
+    data.Point.Data.yi(iSlice, :) = NaN;
     
     hPlotObj.Point.XData = [];
     hPlotObj.Point.YData = [];

@@ -73,23 +73,23 @@ waitbar(1, hWB, 'Bingo!');
 pause(2);
 close(hWB);
 
-data.Point.xi = xi;
-data.Point.yi = yi;
-data.Point.ixm = ixm;
+data.Point.Data.xi = xi;
+data.Point.Data.yi = yi;
+data.Point.Data.ixm = ixm;
 
 data.Point.InitDone = true;
 
 else
-    xi = data.Point.xi;
-    yi = data.Point.yi;
-    ixm = data.Point.ixm;
+    xi = data.Point.Data.xi;
+    yi = data.Point.Data.yi;
+    ixm = data.Point.Data.ixm;
   
 end
 
 str = data.Panel.Point.Comp.Popup.Neighbour.String;
 idx = data.Panel.Point.Comp.Popup.Neighbour.Value;
 NP = str2num(str{idx});
-data.Point.NP = NP;
+data.Point.Data.NP = NP;
 
 data.Panel.Point.Comp.Togglebutton.Move.Enable = 'on';
 data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';

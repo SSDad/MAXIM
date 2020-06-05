@@ -59,10 +59,10 @@ if data.Snake.SlitherDone
     if data.Point.InitDone
     % points on contour
     iSlice = sV;
-    xi = data.Point.xi;
-    yi = data.Point.yi;
-    ixm = data.Point.ixm;
-    NP = data.Point.NP;
+    xi = data.Point.Data.xi;
+    yi = data.Point.Data.yi;
+    ixm = data.Point.Data.ixm;
+    NP = data.Point.Data.NP;
     
     hPlotObj = data.Panel.View.Comp.hPlotObj;
     hPlotObj.Point.XData = xi(ixm);

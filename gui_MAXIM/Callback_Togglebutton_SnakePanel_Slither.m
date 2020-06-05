@@ -103,6 +103,8 @@ end
     data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'on';
     data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
 
+    data.Panel.Point.Comp.Popup.Neighbour.Enable = 'on';
+    data.Panel.Point.Comp.Pushbutton.Init.Enable = 'on';
 
     guidata(hFig, data);
 

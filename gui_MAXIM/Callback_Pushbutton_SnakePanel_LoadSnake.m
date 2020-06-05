@@ -39,14 +39,14 @@ matFile = data.FileInfo.MatFile;
 ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
 if exist(ffn_points, 'file')
     load(ffn_points);
-    data.Point = Point;
+    data.Point.Data = Point;
     data.Point.InitDone = true;
     
     % show on snakei
-    xi = data.Point.xi;
-    yi = data.Point.yi;
-    ixm = data.Point.ixm;
-    NP = data.Point.NP;
+    xi = data.Point.Data.xi;
+    yi = data.Point.Data.yi;
+    ixm = data.Point.Data.ixm;
+    NP = data.Point.Data.NP;
 
     hPlotObj.Point.XData = xi(ixm);
     hPlotObj.Point.YData = yi(iSlice, ixm);

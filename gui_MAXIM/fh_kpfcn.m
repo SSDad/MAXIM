@@ -2,10 +2,10 @@ function [] = fh_kpfcn(H, E)
 
 data = guidata(H);
 
-ixm = data.Point.ixm;
-xi = data.Point.xi;
-yi = data.Point.yi;
-NP = data.Point.NP;
+ixm = data.Point.Data.ixm;
+xi = data.Point.Data.xi;
+yi = data.Point.Data.yi;
+NP = data.Point.Data.NP;
 
 switch E.Key
     case 'rightarrow'
@@ -15,7 +15,7 @@ switch E.Key
     otherwise  
 end
 
-data.Point.ixm = ixm;
+data.Point.Data.ixm = ixm;
 guidata(H, data);
 
 % on image
