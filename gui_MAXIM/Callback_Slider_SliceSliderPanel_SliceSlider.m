@@ -57,21 +57,24 @@ if data.Snake.SlitherDone
 %     end
 
     if data.Point.InitDone
-    % points on contour
-    iSlice = sV;
-    xi = data.Point.Data.xi;
-    yi = data.Point.Data.yi;
-    ixm = data.Point.Data.ixm;
-    NP = data.Point.Data.NP;
-    
-    hPlotObj = data.Panel.View.Comp.hPlotObj;
-    hPlotObj.Point.XData = xi(ixm);
-    hPlotObj.Point.YData = yi(iSlice, ixm);
-    hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
-    hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
-    hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
-    hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+        % points on contour
+        iSlice = sV;
+        xi = data.Point.Data.xi;
+        yi = data.Point.Data.yi;
+        ixm = data.Point.Data.ixm;
+        NP = data.Point.Data.NP;
 
+        hPlotObj = data.Panel.View.Comp.hPlotObj;
+        hPlotObj.Point.XData = xi(ixm);
+        hPlotObj.Point.YData = yi(iSlice, ixm);
+        hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
+        hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
+        hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
+        hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+
+        % point of current slice on points plot
+        data.Point.View.hPlotObj.PlotPoint.Current.XData = iSlice;
+        data.Point.View.hPlotObj.PlotPoint.Current.YData = mean(yi(iSlice, ixm-NP:ixm+NP));
     end
 
 end
@@ -82,22 +85,5 @@ end
 
 % 
 % if data_main.LineDone
-%     % points on contour
-%     iSlice = sV;
-%     xi = data_main.Point.xi;
-%     yi = data_main.Point.yi;
-%     ixm = data_main.Point.ixm;
-%     data_main.hPlotObj.Point.XData = xi(ixm);
-%     data_main.hPlotObj.Point.YData = yi(iSlice, ixm);
-% 
-%     NP = data_main.Point.NP;
-%     hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
-%     hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
-%     hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
-%     hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
 %     
-%     % point of current slice on points plot
-%     hPlotObj.PlotPoint.Current.XData = iSlice;
-%     hPlotObj.PlotPoint.Current.YData = mean(yi(iSlice, ixm-NP:ixm+NP));
-% end    
 % 

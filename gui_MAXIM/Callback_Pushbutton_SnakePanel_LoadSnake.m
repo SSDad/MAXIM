@@ -59,6 +59,11 @@ if exist(ffn_points, 'file')
     data.Panel.Point.Comp.Pushbutton.Init.Enable = 'off';
     data.Panel.Point.Comp.Togglebutton.Move.Enable = 'on';
     data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';
+    
+    data.Point.Data.iSlice = iSlice;
+    % point plot
+    updatePointPlot(data.Point);
+    data.Point.hFig.Visible = 'on';
 
 end
 

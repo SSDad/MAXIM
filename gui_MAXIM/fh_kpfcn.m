@@ -16,7 +16,6 @@ switch E.Key
 end
 
 data.Point.Data.ixm = ixm;
-guidata(H, data);
 
 % on image
 iSlice = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
@@ -29,7 +28,13 @@ hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
 hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
 hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
 
-% % on point plot
+data.Point.Data.iSlice = iSlice;
+guidata(H, data);
+
+% on point plot
+updatePointPlot(data.Point)
+
+
 % yy = mean(yi(:, ixm-NP:ixm+NP), 2);
 % hPlotObj.PlotPoint.All.YData = yy;
 % hPlotObj.PlotPoint.Current.XData = iSlice;
