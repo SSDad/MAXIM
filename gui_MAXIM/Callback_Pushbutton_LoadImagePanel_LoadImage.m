@@ -140,6 +140,7 @@ xc = xc/max(xc);
 data.Panel.ContrastBar.Comp.hPlotObj.Hist.XData = xc;
 data.Panel.ContrastBar.Comp.hPlotObj.Hist.YData = yc;
 
+data.Snake.SlitherDone = false;
 data.Point.InitDone = false;
 
 guidata(hFig, data);

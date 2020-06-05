@@ -17,6 +17,15 @@ if strcmp(str, 'reDraw')
     src.ForegroundColor = 'r';
     src.BackgroundColor = [1 1 1]*0.25;
     
+    % turn off points
+    hPlotObj = data.Panel.View.Comp.hPlotObj;
+    hPlotObj.Point.XData = [];
+    hPlotObj.Point.YData = [];
+    hPlotObj.LeftPoints.XData = [];
+    hPlotObj.LeftPoints.YData = [];
+    hPlotObj.RightPoints.XData = [];
+    hPlotObj.RightPoints.YData = [];
+    
     C = data.Snake.Snakes{iSlice};
     hA = data.Panel.View.Comp.hAxis.Image;
 
@@ -45,7 +54,7 @@ if strcmp(str, 'reDraw')
 
         data.Panel.View.Comp.hPlotObj.Snake.YData = [];
         data.Panel.View.Comp.hPlotObj.Snake.XData = [];
-        end
+    end
         % disable buttons
         data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'off';
         data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
@@ -69,6 +78,38 @@ else
     % show
     data.Panel.View.Comp.hPlotObj.Snake.YData = (C(:, 2)-1)*dy+y0;
     data.Panel.View.Comp.hPlotObj.Snake.XData = (C(:, 1)-1)*dx+x0;
+    
+    % points
+    xxh = (C(:, 1)-1)*dx+x0;
+    yyh = (C(:, 2)-1)*dy+y0;
+    
+    n1 = ceil((min(xxh)-x0)/dx);
+    n2 = floor((max(xxh)-x0)/dx);
+    
+    xi = data.Point.xi;
+    ixm = data.Point.ixm;
+    NP = data.Point.NP;
+    yi = data.Point.yi;
+    for n = n1:n2
+        x1 = [xi(n) xi(n)];
+        y1 = [1 1e4];
+        [~, yc] = polyxpoly(x1, y1, xxh, yyh);
+        if length(yc)>1
+            yi(iSlice, n) = max(yc);
+        elseif length(yc)==1
+            yi(iSlice, n) = yc;
+        end
+    end
+    data.Point.yi = yi;
+    
+    hPlotObj = data.Panel.View.Comp.hPlotObj;
+    hPlotObj.Point.XData = xi(ixm);
+    hPlotObj.Point.YData = yi(iSlice, ixm);
+    hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
+    hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
+    hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
+    hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+
     
     reContL.Visible = 'off';
     

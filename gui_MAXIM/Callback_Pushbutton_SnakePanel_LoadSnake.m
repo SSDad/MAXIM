@@ -18,9 +18,11 @@ dy = data.Image.dy;
 iSlice = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
 CB =   data.Snake.Snakes{iSlice};
 
-hPlotObj = data.Panel.View.Comp.hPlotObj;
-hPlotObj.Snake.YData = (CB(:, 2)-1)*dy+y0;
-hPlotObj.Snake.XData = (CB(:, 1)-1)*dx+x0;
+if ~isempty(CB)
+    hPlotObj = data.Panel.View.Comp.hPlotObj;
+    hPlotObj.Snake.YData = (CB(:, 2)-1)*dy+y0;
+    hPlotObj.Snake.XData = (CB(:, 1)-1)*dx+x0;
+end
 
 data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
 data.Panel.Snake.Comp.Togglebutton.ReDraw.Enable = 'on';
