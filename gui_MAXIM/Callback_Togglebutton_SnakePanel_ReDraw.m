@@ -34,12 +34,8 @@ if strcmp(str, 'reDraw')
         L = images.roi.AssistedFreehand(hA,...
             'Image', data.Panel.View.Comp.hPlotObj.Image, ...
             'Closed', 0);
-% L = images.roi.AssistedFreehand('Image', data.Panel.View.Comp.hPlotObj.Image, ...
-%     'Closed', 0);
         draw(L);
-
         reContL = L;
-
     else
         % convert to xy
         C(:, 1) = (C(:, 1)-1)*dx+x0;
@@ -62,7 +58,7 @@ if strcmp(str, 'reDraw')
         data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'off';
         data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'off';
 
-else
+else % Done
     src.String = 'reDraw';
     src.ForegroundColor = 'g';
     src.BackgroundColor = [1 1 1]*0.25;
@@ -109,7 +105,6 @@ else
     hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
     hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
     hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
-
     
     reContL.Visible = 'off';
     
@@ -120,5 +115,7 @@ else
     data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'on';
 
     guidata(hFig, data)
+    
+    updatePlotPoint;
 end
 

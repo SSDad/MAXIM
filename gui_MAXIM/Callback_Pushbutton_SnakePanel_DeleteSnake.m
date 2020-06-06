@@ -20,3 +20,5 @@ hPlotObj.Snake.XData = [];
     hPlotObj.RightPoints.YData = [];
 
 guidata(hFig, data)
+
+updatePlotPoint

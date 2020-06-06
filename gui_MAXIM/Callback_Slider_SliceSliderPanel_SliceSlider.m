@@ -4,8 +4,8 @@ global hFig hFig2 contrastRectLim
 
 data = guidata(hFig);
 
-sV = round(get(src, 'Value'));
-I = rot90(data.Image.Images{sV}, 3);
+iSlice = round(get(src, 'Value'));
+I = rot90(data.Image.Images{iSlice}, 3);
 
 % contrast limit
 maxI = max(I(:));
@@ -19,7 +19,7 @@ I(I>cL2) = cL2;
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 hPlotObj.Image.CData = I;
 
-data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(data.Image.nImages)];
+data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(data.Image.nImages)];
 
 % hist
 yc = histcounts(I, max(I(:))+1);
@@ -37,7 +37,7 @@ dx = data.Image.dx;
 dy = data.Image.dy;
 
 if data.Snake.SlitherDone
-    CB = data.Snake.Snakes{sV};
+    CB = data.Snake.Snakes{iSlice};
     if isempty(CB)
         data.Panel.View.Comp.hPlotObj.Snake.XData = [];
         data.Panel.View.Comp.hPlotObj.Snake.YData = [];
@@ -57,7 +57,7 @@ if data.Snake.SlitherDone
 
     if data.Point.InitDone
         % points on contour
-        iSlice = sV;
+        iSlice = iSlice;
         xi = data.Point.Data.xi;
         yi = data.Point.Data.yi;
         ixm = data.Point.Data.ixm;
@@ -79,6 +79,8 @@ if data.Snake.SlitherDone
 
 end
 
+data.Point.Data.iSlice = iSlice;
+guidata(hFig, data);
 
 % 
 % 
