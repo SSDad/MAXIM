@@ -27,6 +27,14 @@ hWB = waitbar(0, 'Loading Images...');
 ffn = fullfile(dataPath, matFile);
 load(ffn)
 
+%%%%%%%%%%%%%%%%%%%%%%%
+% tumor
+data.Tumor.gatedContour = gatedContour;
+data.Tumor.trackContour = trackContour;
+data.Tumor.refContour = refContour;
+data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
+%%%%%%%%%%%%%%%%%%%%%%%
+
 data.FileInfo.DataPath = dataPath;
 data.FileInfo.MatFile = matFile;
 
@@ -91,6 +99,7 @@ xWL(2) = xWL(1)+dx*N;
 yWL(1) = y0-dy/2;
 yWL(2) = yWL(1)+dy*M;
 RA = imref2d([M N], xWL, yWL);
+data.Image.RA = RA;
 
 hA = data.Panel.View.Comp.hAxis.Image;
 hPlotObj.Image = imshow(I, RA, 'parent', hA);

@@ -1,46 +1,48 @@
-function initTumorPanel(hFig_main)
+function Callback_Pushbutton_TumorPanel_Init(src, evnt)
 
-data_main = guidata(hFig_main);
-hPanel = data_main.hPanel;
-hAxis = data_main.hAxis;
-hPlotObj = data_main.hPlotObj;
+global hFig hFig2
 
-hAxis.Tumor = axes('Parent',                   hPanel.Tumor, ...
+data = guidata(hFig);
+data2 = guidata(hFig2);
+
+data2.Panel.Tumor.hAxis.Tumor = axes('Parent',                   data2.Panel.Tumor.hPanel, ...
                             'color',        'none',...
                             'xcolor', 'w',...
                             'ycolor', 'w', ...
                             'gridcolor',   'w',...
                             'Units',                    'normalized', ...
                             'HandleVisibility',     'callback', ...
-                            'Position',                 [0.05 0.025 0.85 0.85]);
+                            'Position',                 [0.05 0.025 0.9 0.9]);
 
+hAxis = data2.Panel.Tumor.hAxis;                         
 hAxis.Tumor.XAxisLocation='top';
 hold(hAxis.Tumor, 'on')
 
 % tumor contour with 1x1 pixel size
-[mask_GC, mask_TC, CC_GC, CC_TC, CC_RC] = getTumorContour(hFig_main);
+[mask_GC, mask_TC, CC_GC, CC_TC, CC_RC] = getTumorContour(hFig);
 
 % binary image
 bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);
-hPlotObj.Tumor.bwSum = imshow(bwSum, data_main.RA, 'parent', hAxis.Tumor);
+data2.Panel.Tumor.hPlotObj.Tumor.bwSum = imshow(bwSum, data.Image.RA, 'parent',  data2.Panel.Tumor.hAxis.Tumor);
 if any(bwSum(:))
-    hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
+     data2.Panel.Tumor.hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
 end
 % linkaxes([hAxis.snake hAxis.Tumor]);
 
-data_main.Tumor.mask_GC = mask_GC;
-data_main.Tumor.mask_TC = mask_TC;
-data_main.Tumor.CC_GC = CC_GC;
-data_main.Tumor.CC_TC = CC_TC;
-data_main.Tumor.RC_TC = CC_RC;
+data.Tumor.mask_GC = mask_GC;
+data.Tumor.mask_TC = mask_TC;
+data.Tumor.CC_GC = CC_GC;
+data.Tumor.CC_TC = CC_TC;
+data.Tumor.RC_TC = CC_RC;
 
-data_main.hMenuItem.Tumor.bwSum.Checked = 'on';
+% data.hMenuItem.Tumor.bwSum.Checked = 'on';
 
 % contour
+hPlotObj = data2.Panel.Tumor.hPlotObj;
 hPlotObj.Tumor.hgTrackContour = hggroup(hAxis.Tumor);
 hPlotObj.Tumor.hgGatedContour = hggroup(hAxis.Tumor);
 hPlotObj.Tumor.hgPoints = hggroup(hAxis.Tumor);
-for n = 1:data_main.nImages
+for n = 1:data.Image.nImages
     hPlotObj.Tumor.TrackContour(n) = line(hPlotObj.Tumor.hgTrackContour, ...
         'XData',  [], 'YData',  [],  'Color', 'b', 'LineStyle', '-', 'LineWidth', 1);
     if ~isempty(CC_TC{n})
@@ -81,12 +83,12 @@ end
 %     end
 % end
 
-data_main.hMenuItem.Tumor.TrackContour.Checked = 'on';
+% data.hMenuItem.Tumor.TrackContour.Checked = 'on';
 
 % % turn on
 % hPlotObj.Tumor.bwSum.Visible = 'on';
 
 %% save data
-data_main.hAxis = hAxis;
-data_main.hPlotObj = hPlotObj;
-guidata(hFig_main, data_main);
+% data.hAxis = hAxis;
+data2.Panel.Tumor.hPlotObj = hPlotObj;
+guidata(hFig2, data2);
