@@ -31,30 +31,10 @@ h = range(yy);
 hPlotObj.Rect.Position = [x0 y0 w, h];
 
 y1 = max(yy);
-hPlotObj.Text.UL.Position(1) = length(xx)+1;
-hPlotObj.Text.UL.Position(2) = y1;
-hPlotObj.Text.UL.String = num2str(y1, '%4.1f');
+n0 = 0;
+n1 = 0;
 
-hPlotObj.Text.LL.Position(1) = length(xx)+1;
-hPlotObj.Text.LL.Position(2) = y0;
-hPlotObj.Text.LL.String = num2str(y0, '%4.1f');
-
-hPlotObj.Text.Gap.Position(1) = length(xx)+1;
-hPlotObj.Text.Gap.Position(2) = (y0+y1)/2;
-hPlotObj.Text.Gap.String = num2str(y1-y0, '%4.1f');
-
-% number of points
-hPlotObj.Text.UP.Position(1) = length(xx)+12;
-hPlotObj.Text.UP.Position(2) = y1;
-hPlotObj.Text.UP.String = num2str(0, '%4d');
-
-hPlotObj.Text.LP.Position(1) = length(xx)+12;
-hPlotObj.Text.LP.Position(2) = y0;
-hPlotObj.Text.LP.String = num2str(0, '%4d');
-
-hPlotObj.Text.MP.Position(1) = length(xx)+12;
-hPlotObj.Text.MP.Position(2) = (y0+y1)/2;
-hPlotObj.Text.MP.String = num2str(length(yy), '%4d');
+updatePlotPointRectText(hPlotObj.Text, y0, y1, w, n0, n1)
 
 data.Point.xx = xx;
 data.Point.yy = yy;

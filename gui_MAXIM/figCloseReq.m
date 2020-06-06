@@ -1,10 +1,10 @@
 function figCloseReq(src, callbackdata)
 % Close all figures
 
-data = guidata(src);
-% if ishandle(data.Point.hFig)
-%     delete(data.Point.hFig)
-% end
+global hFig2
+if ishandle(hFig2)
+    delete(hFig2)
+end
 delete(src)
 %    selection = questdlg('Close This Figure?',...
 %       'Close Request Function',...

@@ -8,18 +8,16 @@ data2 = guidata(hFig2);
 src.Position(1) = evnt.PreviousPosition(1);
 src.Position(3) = evnt.PreviousPosition(3);
 
-y1 = src.Position(2);
-y2 = y1+src.Position(4);
-
-
-
+y0 = src.Position(2);
+y1 = y0+src.Position(4);
 
 yy = data.Point.yy;
 
-nUP = sum(yy < y1);
-nLP = sum(yy > y2);
-nMP = length(yy)-nUP-nLP;
+n0 = sum(yy < y0);
+n1 = sum(yy > y1);
+w = length(yy);
  
+updatePlotPointRectText(data2.Panel.View.Comp.hPlotObj.Text, y0, y1, w, n0, n1)
 
 
 % 
