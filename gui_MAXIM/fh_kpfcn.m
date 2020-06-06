@@ -32,7 +32,7 @@ data.Point.Data.iSlice = iSlice;
 guidata(H, data);
 
 % on point plot
-updatePointPlot(data.Point)
+updatePlotPoint;
 
 
 % yy = mean(yi(:, ixm-NP:ixm+NP), 2);

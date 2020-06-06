@@ -1,6 +1,8 @@
 function Callback_Pushbutton_SnakePanel_LoadSnake(src, evnt)
 
-hFig = ancestor(src, 'Figure');
+global hFig hFig2
+
+% hFig = ancestor(src, 'Figure');
 data = guidata(hFig);
 
 ffn_snakes = data.FileInfo.ffn_snakes;
@@ -61,10 +63,11 @@ if exist(ffn_points, 'file')
     data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';
     
     data.Point.Data.iSlice = iSlice;
+    guidata(hFig, data);    
+    
     % point plot
-    updatePointPlot(data.Point);
-    data.Point.hFig.Visible = 'on';
+    updatePlotPoint;
+    hFig2.Visible = 'on';
 
 end
 
-guidata(hFig, data);

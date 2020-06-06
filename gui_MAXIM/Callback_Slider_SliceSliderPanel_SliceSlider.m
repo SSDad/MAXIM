@@ -1,8 +1,7 @@
 function Callback_Slider_SliceSliderPanel_SliceSlider(src, evnt)
 
-global contrastRectLim
+global hFig hFig2 contrastRectLim
 
-hFig = ancestor(src, 'Figure');
 data = guidata(hFig);
 
 sV = round(get(src, 'Value'));
@@ -73,8 +72,9 @@ if data.Snake.SlitherDone
         hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
 
         % point of current slice on points plot
-        data.Point.View.hPlotObj.PlotPoint.Current.XData = iSlice;
-        data.Point.View.hPlotObj.PlotPoint.Current.YData = mean(yi(iSlice, ixm-NP:ixm+NP));
+        data2 = guidata(hFig2);
+        data2.Panel.View.Comp.hPlotObj.PlotPoint.Current.XData = iSlice;
+        data2.Panel.View.Comp.hPlotObj.PlotPoint.Current.YData = mean(yi(iSlice, ixm-NP:ixm+NP));
     end
 
 end

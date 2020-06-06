@@ -1,9 +1,11 @@
 function MAXIM
 
 %% global 
-global stopSlither
-global reContL
-global contrastRectLim
+global hFig hFig2
+
+% global stopSlither
+% global reContL
+% global contrastRectLim
 
 %% main window
 hFig = figure('MenuBar',            'none', ...
@@ -27,19 +29,21 @@ data.Panel.ContrastBar.Comp = addComponents2Panel_ContrastBar(data.Panel.Contras
 data.Panel.SliceSlider.Comp = addComponents2Panel_SliceSlider(data.Panel.SliceSlider.hPanel);
 
 data.Panel.Point.Comp = addComponents2Panel_Point(data.Panel.Point.hPanel);
+guidata(hFig, data);
 
 %% point fig
-data.Point.hFig = figure('MenuBar',            'none', ...
+hFig2 = figure('MenuBar',            'none', ...
                     'Toolbar',              'none', ...
                     'HandleVisibility',  'callback', ...
                     'Name',                'MAXIM - Points on Diaphragm', ...
                     'NumberTitle',      'off', ...
                     'Units',                 'normalized',...
-                    'Position',             [0.05 0.65 0.9 0.3],...
+                    'Position',             [0.05 0.05 0.9 0.9],...
                     'Color',                 'black', ...
-                    'Visible',               'on');
+                    'Visible',               'off');
 
-data.Point.View = addPointFig(data.Point.hFig);
+data2.Panel = addPanel2(hFig2);
+data2.Panel.View.Comp = addComponents2Panel2_View(data2.Panel.View.hPanel);
 
-guidata(hFig, data);
+guidata(hFig2, data2);
                                

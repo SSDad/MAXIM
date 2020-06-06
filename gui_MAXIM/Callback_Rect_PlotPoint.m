@@ -1,9 +1,27 @@
-function Callback_Rect_PointPlot(src, evnt)
+function Callback_Rect_PlotPoint(src, evnt)
 
 global pointRectLim
+global hFig hFig2
+data = guidata(hFig);
+data2 = guidata(hFig2);
 
-% hFig = ancestor(src, 'Figure');
-% data = guidata(hFig);
+src.Position(1) = evnt.PreviousPosition(1);
+src.Position(3) = evnt.PreviousPosition(3);
+
+y1 = src.Position(2);
+y2 = y1+src.Position(4);
+
+
+
+
+yy = data.Point.yy;
+
+nUP = sum(yy < y1);
+nLP = sum(yy > y2);
+nMP = length(yy)-nUP-nLP;
+ 
+
+
 % 
 % recPos = src.Position;
 % % I = hPlotObj.snakeImage.CData;
