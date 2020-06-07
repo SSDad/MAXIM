@@ -31,9 +31,9 @@ hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
 data.Point.Data.iSlice = iSlice;
 guidata(H, data);
 
-% on point plot
+% point
 updatePlotPoint;
-
+updateTumorPoint;
 
 % yy = mean(yi(:, ixm-NP:ixm+NP), 2);
 % hPlotObj.PlotPoint.All.YData = yy;

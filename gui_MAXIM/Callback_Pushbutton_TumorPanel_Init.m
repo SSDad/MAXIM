@@ -24,8 +24,6 @@ data.Tumor.CC_GC = CC_GC;
 data.Tumor.CC_TC = CC_TC;
 data.Tumor.RC_TC = CC_RC;
 
-% data.hMenuItem.Tumor.bwSum.Checked = 'on';
-
 % contour
 hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
 hPlotObj.Tumor.hgTrackContour = hggroup(hAxis.Tumor);
@@ -67,6 +65,22 @@ if ~isempty(CC_RC{n})
     hPlotObj.Tumor.RefContour(n).YData = CC_RC{n}(:, 2);
 end
 
+% profile
+marg = 0.2;
+xL = xmax-xmin;
+yM = (ymin+ymax)/2;
+pos = [xmin-xL*marg  yM
+          xmax+xL*marg yM];
+      
+hPlotObj.Tumor.ProfileLine = images.roi.Line(hAxis.Tumor, 'Color', 'c', 'Position', pos , 'Tag', 'PL');
+addlistener(hPlotObj.Tumor.ProfileLine, 'MovingROI', @Callback_Line_Profile);
+
+data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
+guidata(hFig2, data2);
+guidata(hFig, data);
+
+updateTumorProfile;
+
 % points
 if data.Point.InitDone
     xi = data.Point.Data.xi;
@@ -91,7 +105,7 @@ if data.Point.InitDone
     
     data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
     guidata(hFig2, data2);
-    updateTumorPoints(hFig, hFig2)
+    updateTumorPoint;
 end
 
 dx = xmax-xmin;
@@ -124,6 +138,7 @@ guidata(hFig, data);
 % end
 
 data2.Panel.Button.Comp.Radiobutton.Profile.Enable = 'on';
+data2.Panel.Button.Comp.Radiobutton.Profile.Value = 1;
 data2.Panel.Button.Comp.Radiobutton.bwSum.Enable = 'on';
 data2.Panel.Button.Comp.Radiobutton.bwSum.Value = 1;
 data2.Panel.Button.Comp.Radiobutton.Contour.Enable = 'on';

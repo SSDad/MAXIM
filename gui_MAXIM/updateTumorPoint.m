@@ -1,4 +1,6 @@
-function updateTumorPoints(hFig, hFig2)
+function updateTumorPoint
+
+global hFig hFig2
 
 data = guidata(hFig);
 data2 = guidata(hFig2);
