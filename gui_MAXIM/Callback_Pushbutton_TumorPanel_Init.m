@@ -117,5 +117,13 @@ guidata(hFig, data);
 
 %% save data
 % data.hAxis = hAxis;
+
+data2.Panel.Button.Comp.Radiobutton.Profile.Enable = 'on';
+data2.Panel.Button.Comp.Radiobutton.bwSum.Enable = 'on';
+data2.Panel.Button.Comp.Radiobutton.bwSum.Value = 1;
+data2.Panel.Button.Comp.Radiobutton.Contour.Enable = 'on';
+data2.Panel.Button.Comp.Radiobutton.Contour.Value = 1;
+data2.Panel.Button.Comp.Radiobutton.Point.Enable = 'on';
+data2.Panel.Button.Comp.Radiobutton.Point.Value = 1;
 data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
 guidata(hFig2, data2);

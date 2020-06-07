@@ -49,5 +49,6 @@ addToolbar(hFig2);
 data2.Panel = addPanel2(hFig2);
 data2.Panel.View.Comp = addComponents2Panel2_View(data2.Panel.View.hPanel);
 data2.Panel.Tumor.Comp = addComponents2Panel2_Tumor(data2.Panel.Tumor.hPanel);
+data2.Panel.Button.Comp = addComponents2Panel2_Button(data2.Panel.Button.hPanel);
 guidata(hFig2, data2);
                                
