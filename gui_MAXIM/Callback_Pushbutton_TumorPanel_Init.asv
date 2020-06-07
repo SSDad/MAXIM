@@ -78,19 +78,18 @@ ymax = y1+dy*mg;
 % points
 if data.Point.InitDone
     xi = data.Point.Data.xi;
-    ixm = data.Point.Data.ixm;
     yi = data.Point.Data.yi;
-%     for n = 1:size(yi,1)
-%         yy = yi(n,:);
-%         junk = ~isnan(yy);
-%         xmin = min(xi(find(junk, 1, 'first')), xmin);
-%         xmax = max(xi(find(junk, 1, 'last')), xmax);
-%     end
+    for n = 1:size(yi,1)
+        yy = yi(n,:);
+        junk = ~isnan(yy);
+        x1 = find(junk, 1, 'first');
+        x2 = find(junk, 1, 'last');
+        
+    
+    junk = min(xi);    xmin = min(junk, xmin);
+    junk = max(xi);    xmax = max(junk, xmax);
     junk = min(yi(:));   ymin = min(junk, ymin);
     junk = max(yi(:));    ymax = max(junk, ymax);
-    xmin = min(xmin, xi(ixm));
-    xmax = max(xmax, xi(ixm));
-    
 end
     
 hAxis.Tumor.XLim = [xmin xmax];
