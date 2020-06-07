@@ -36,8 +36,8 @@ n1 = 0;
 
 updatePlotPointRectText(hPlotObj.Text, y0, y1, w, n0, n1)
 
-data.Point.xx = xx;
-data.Point.yy = yy;
+data.Point.Data.xx = xx;
+data.Point.Data.yy = yy;
 guidata(hFig, data)
 
 

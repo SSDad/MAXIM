@@ -31,21 +31,21 @@ hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
 hPlotObj.Tumor.hgTrackContour = hggroup(hAxis.Tumor);
 hPlotObj.Tumor.hgGatedContour = hggroup(hAxis.Tumor);
 hPlotObj.Tumor.hgPoints = hggroup(hAxis.Tumor);
-x0 = inf;
-x1 = 0;
-y0 = inf;
-y1 = 0;
+xmin = inf;
+xmax = 0;
+ymin = inf;
+ymax = 0;
 for n = 1:data.Image.nImages
     hPlotObj.Tumor.TrackContour(n) = line(hPlotObj.Tumor.hgTrackContour, ...
         'XData',  [], 'YData',  [],  'Color', 'b', 'LineStyle', '-', 'LineWidth', 1);
     if ~isempty(CC_TC{n})
         hPlotObj.Tumor.TrackContour(n).XData = CC_TC{n}(:, 1);
-        x0 = min(min(CC_TC{n}(:, 1)), x0);
-        x1 = max(max(CC_TC{n}(:, 1)), x1);
+        xmin = min(min(CC_TC{n}(:, 1)), xmin);
+        xmax = max(max(CC_TC{n}(:, 1)), xmax);
 
         hPlotObj.Tumor.TrackContour(n).YData = CC_TC{n}(:, 2);
-        y0 = min(min(CC_TC{n}(:, 2)), y0);
-        y1 = max(max(CC_TC{n}(:, 2)), y1);
+        ymin = min(min(CC_TC{n}(:, 2)), ymin);
+        ymax = max(max(CC_TC{n}(:, 2)), ymax);
     end
     
     hPlotObj.Tumor.GatedContour(n) = line(hPlotObj.Tumor.hgGatedContour, ...
@@ -67,32 +67,41 @@ if ~isempty(CC_RC{n})
     hPlotObj.Tumor.RefContour(n).YData = CC_RC{n}(:, 2);
 end
 
-dx = x1-x0;
-dy = y1-y0;
-mg = 0.2;
-xmin = x0-dx*mg;
-xmax = x1+dx*mg;
-ymin = y0-dy*mg;
-ymax = y1+dy*mg;
-
 % points
 if data.Point.InitDone
     xi = data.Point.Data.xi;
     ixm = data.Point.Data.ixm;
-    yi = data.Point.Data.yi;
+    yy = data.Point.Data.yy;
 %     for n = 1:size(yi,1)
 %         yy = yi(n,:);
 %         junk = ~isnan(yy);
 %         xmin = min(xi(find(junk, 1, 'first')), xmin);
 %         xmax = max(xi(find(junk, 1, 'last')), xmax);
 %     end
-    junk = min(yi(:));   ymin = min(junk, ymin);
-    junk = max(yi(:));    ymax = max(junk, ymax);
+    junk = min(yy);   ymin = min(junk, ymin);
+    junk = max(yy);    ymax = max(junk, ymax);
     xmin = min(xmin, xi(ixm));
     xmax = max(xmax, xi(ixm));
     
-end
+    hPlotObj.Tumor.hgPoints = hggroup(hAxis.Tumor);
+    for n = 1:data.Image.nImages
+        hPlotObj.Tumor.Points(n) = line(hPlotObj.Tumor.hgPoints, 'XData', [], 'YData', [],...
+            'Marker', '.',  'MarkerSize', 12, 'Color', 'c', 'LineStyle', 'none');
+    end
     
+    data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
+    guidata(hFig2, data2);
+    updateTumorPoints(hFig, hFig2)
+end
+
+dx = xmax-xmin;
+dy = ymax-ymin;
+mg = 0.2;
+xmin = xmin-dx*mg;
+xmax = xmax+dx*mg;
+ymin = ymin-dy*mg;
+ymax = ymax+dy*mg;
+
 hAxis.Tumor.XLim = [xmin xmax];
 hAxis.Tumor.YLim = [ymin ymax];
 
