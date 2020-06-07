@@ -11,7 +11,7 @@ src.Position(3) = evnt.PreviousPosition(3);
 y0 = src.Position(2);
 y1 = y0+src.Position(4);
 
-yy = data.Point.yy;
+yy = data.Point.Data.yy;
 
 n0 = sum(yy < y0);
 n1 = sum(yy > y1);

@@ -2,7 +2,7 @@
 
  h_Gap = 0.025;
  h_Button = 0.2;
- w_Button = 0.7;
+ w_Button = 0.8;
  x_Button = (1-w_Button)/2;
 
 BC =  [1 1 1]*0.25;
