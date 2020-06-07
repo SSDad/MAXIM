@@ -89,12 +89,14 @@ ymin = y0-dy*mg;
 ymax = y1+dy*mg;
 
 hAxis.Tumor.XLim = [xmin xmax];
-hAxis.Tumor.YLim = [ymin ymax];
+hAxis.Tumor.XLim = [xmin xmax];
 
-data.Tumor.xmin = xmin;
-data.Tumor.xmax = xmax;
-data.Tumor.ymin = ymin;
-data.Tumor.ymax = ymax;
+
+
+data.Tumor.xmin = x0;
+data.Tumor.xmax = x1;
+data.Tumor.ymin = y0;
+data.Tumor.ymax = y1;
 guidata(hFig, data);
 
 %
