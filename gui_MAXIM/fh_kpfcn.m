@@ -33,8 +33,10 @@ guidata(H, data);
 
 % point
 updatePlotPoint;
-updateTumorPoint;
 
+if data.Tumor.InitDone
+    updateTumorPoint;
+end
 % yy = mean(yi(:, ixm-NP:ixm+NP), 2);
 % hPlotObj.PlotPoint.All.YData = yy;
 % hPlotObj.PlotPoint.Current.XData = iSlice;

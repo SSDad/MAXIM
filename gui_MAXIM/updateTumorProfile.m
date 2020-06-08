@@ -55,6 +55,7 @@ RC = data.Tumor.RC_TC{1};
 xr = ((xi-xProf(1)).^2+(yi-yProf(1)).^2).^0.5;
 xr = sort(xr);
 
+if length(xr) == 2
 hPlotObj.Profile.RefLeft.XData = [xr(1) xr(1)];
 hPlotObj.Profile.RefLeft.YData = [0 maxV];
 
@@ -74,4 +75,4 @@ hPlotObj.Profile.RefTextRight1.HorizontalAlignment = 'right';
 hPlotObj.Profile.RefTextRight2.Position = [rr(xR2) maxV/2 0];
 hPlotObj.Profile.RefTextRight2.String = num2str(abs(xr(2)-rr(xR2)), '%4.1f');
 hPlotObj.Profile.RefTextRight2.HorizontalAlignment = 'left';
-
+end

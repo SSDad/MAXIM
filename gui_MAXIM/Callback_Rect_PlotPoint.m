@@ -1,6 +1,6 @@
 function Callback_Rect_PlotPoint(src, evnt)
 
-global pointRectLim
+global indSS
 global hFig hFig2
 data = guidata(hFig);
 data2 = guidata(hFig2);
@@ -19,6 +19,13 @@ w = length(yy);
  
 updatePlotPointRectText(data2.Panel.View.Comp.hPlotObj.Text, y0, y1, w, n0, n1)
 
+%
+if data.Tumor.InitDone
+    indSS = find(yy >= y0 & yy <= y1);
+    updateTumorOverlay;
+    updateTrackContour;
+    updateTumorProfile;
+end
 
 % 
 % recPos = src.Position;

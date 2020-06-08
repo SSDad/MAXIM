@@ -14,7 +14,7 @@ hAxis = data2.Panel.Tumor.Comp.hAxis;
 bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);
 data2.Panel.Tumor.Comp.hPlotObj.Tumor.bwSum = imshow(bwSum, data.Image.RA, 'parent',  hAxis.Tumor);
 if any(bwSum(:))
-     data2.Panel.Tumor.hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
+      hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
 end
 % linkaxes([hAxis.snake hAxis.Tumor]);
 

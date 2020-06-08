@@ -17,7 +17,7 @@ hold(hA, 'on')
 hPlotObj.PlotPoint.All = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 16, 'Color', 'c', 'LineStyle', '-');
 hPlotObj.PlotPoint.Current = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');
 
-hPlotObj.Rect = images.roi.Rectangle(hA, 'Position',[0, 0, 0, 0], 'Color', 'm', 'LineWidth', .5, 'FaceAlpha', 0.15);
+hPlotObj.Rect = images.roi.Rectangle(hA, 'Position',[0, 0, 0, 0], 'Edgecolor', 'm', 'FaceAlpha', 0.4);
 addlistener(hPlotObj.Rect, 'MovingROI', @Callback_Rect_PlotPoint);
 
 FS = 10;

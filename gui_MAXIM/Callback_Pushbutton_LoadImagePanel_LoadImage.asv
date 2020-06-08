@@ -151,7 +151,7 @@ data.Panel.ContrastBar.Comp.hPlotObj.Hist.YData = yc;
 
 data.Snake.SlitherDone = false;
 data.Point.InitDone = false;
-data.Tumor.InitDone = false;
+data.Point.InitDone = false;
 
 guidata(hFig, data);
 
