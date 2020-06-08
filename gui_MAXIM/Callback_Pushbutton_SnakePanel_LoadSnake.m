@@ -34,6 +34,8 @@ data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
 data.Panel.Point.Comp.Popup.Neighbour.Enable = 'on';
 data.Panel.Point.Comp.Pushbutton.Init.Enable = 'on';
 
+guidata(hFig, data);
+
 % points
 dataPath = data.FileInfo.DataPath;
 matFile = data.FileInfo.MatFile;

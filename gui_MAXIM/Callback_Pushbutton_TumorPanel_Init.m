@@ -124,6 +124,9 @@ data.Tumor.xmax = xmax;
 data.Tumor.ymin = ymin;
 data.Tumor.ymax = ymax;
 data.Tumor.InitDone = true;
+
+data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';
+
 guidata(hFig, data);
 
 % for n = 1:data_main.nImages
@@ -147,3 +150,5 @@ data2.Panel.Button.Comp.Radiobutton.Point.Enable = 'on';
 data2.Panel.Button.Comp.Radiobutton.Point.Value = 1;
 data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
 guidata(hFig2, data2);
+
+hFig2.Visible = 'on';
