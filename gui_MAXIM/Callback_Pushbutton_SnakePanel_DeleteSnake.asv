@@ -23,5 +23,3 @@ if data.Point.InitDone
     guidata(hFig, data)
     updatePlotPoint
 end
-
-guidata(hFig, data)

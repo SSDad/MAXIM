@@ -76,35 +76,40 @@ else % Done
     data.Panel.View.Comp.hPlotObj.Snake.XData = (C(:, 1)-1)*dx+x0;
     
     % points
-    xxh = (C(:, 1)-1)*dx+x0;
-    yyh = (C(:, 2)-1)*dy+y0;
-    
-    n1 = ceil((min(xxh)-x0)/dx);
-    n2 = floor((max(xxh)-x0)/dx);
-    
-    xi = data.Point.Data.xi;
-    ixm = data.Point.Data.ixm;
-    NP = data.Point.Data.NP;
-    yi = data.Point.Data.yi;
-    for n = n1:n2
-        x1 = [xi(n) xi(n)];
-        y1 = [1 1e4];
-        [~, yc] = polyxpoly(x1, y1, xxh, yyh);
-        if length(yc)>1
-            yi(iSlice, n) = max(yc);
-        elseif length(yc)==1
-            yi(iSlice, n) = yc;
+    if data.Point.InitDone
+        xxh = (C(:, 1)-1)*dx+x0;
+        yyh = (C(:, 2)-1)*dy+y0;
+
+        n1 = ceil((min(xxh)-x0)/dx);
+        n2 = floor((max(xxh)-x0)/dx);
+
+        xi = data.Point.Data.xi;
+        ixm = data.Point.Data.ixm;
+        NP = data.Point.Data.NP;
+        yi = data.Point.Data.yi;
+        for n = n1:n2
+            x1 = [xi(n) xi(n)];
+            y1 = [1 1e4];
+            [~, yc] = polyxpoly(x1, y1, xxh, yyh);
+            if length(yc)>1
+                yi(iSlice, n) = max(yc);
+            elseif length(yc)==1
+                yi(iSlice, n) = yc;
+            end
         end
-    end
-    data.Point.Data.yi = yi;
+        data.Point.Data.yi = yi;
+
+        hPlotObj = data.Panel.View.Comp.hPlotObj;
+        hPlotObj.Point.XData = xi(ixm);
+        hPlotObj.Point.YData = yi(iSlice, ixm);
+        hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
+        hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
+        hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
+        hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
     
-    hPlotObj = data.Panel.View.Comp.hPlotObj;
-    hPlotObj.Point.XData = xi(ixm);
-    hPlotObj.Point.YData = yi(iSlice, ixm);
-    hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
-    hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
-    hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
-    hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+        guidata(hFig, data)
+        updatePlotPoint;
+    end
     
     reContL.Visible = 'off';
     
@@ -115,7 +120,6 @@ else % Done
     data.Panel.Snake.Comp.Togglebutton.Slither.Enable = 'on';
 
     guidata(hFig, data)
-    
-    updatePlotPoint;
+
 end
 
