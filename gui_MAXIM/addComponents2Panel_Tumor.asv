@@ -1,4 +1,4 @@
- function Comp = addComponents2Panel_Tumor(hPanel)
+ function Comp = addComponents2Panel_About(hPanel)
 
  h_Gap = 0.1;
  h_Button = 0.6;
