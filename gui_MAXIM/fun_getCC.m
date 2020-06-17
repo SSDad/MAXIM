@@ -1,4 +1,4 @@
-function [bwCAll, mask, bwSum, polyA, CC] = fun_getCC(cont, M, N)
+function [bwCAll, mask, bwSum, polyA, CC, bInd] = fun_getCC(cont, M, N)
 
 nC = length(cont);
 bwCAll = cell(nC, 1);
@@ -6,12 +6,15 @@ mask = false(M, N, nC);
 bwSum = zeros(M, N);
 CC = cell(nC, 1);
 polyA = zeros(nC, 2);
+bInd = false(nC, 1);
 
 hWB = waitbar(0, 'Processing tumor contours...');
 
 for iC = 1:nC
     C = cont{iC};
     if ~isempty(C)
+        bInd(iC) = true;
+        
         bwC = false(N, M);  % original orientation
         for n = 1:size(C, 1)
             bwC(C(n, 2), C(n, 1)) = 1;

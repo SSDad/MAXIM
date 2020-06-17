@@ -60,6 +60,8 @@ for n = 1:nImages
         break;
     end
     
+    if data.Tumor.bInd_GC(n) | data.Tumor.bInd_TC(n) % gating or tracking contour on image
+    
     J =  rgb2gray(II{n});
     J = rot90(J, 3);
 
@@ -78,19 +80,28 @@ for n = 1:nImages
     % snake on cropped
     Rect = [xoffSet+1, yoffSet+1, size(T,2), nJ-yoffSet];
     [sC] = fun_findDiaphragm(J, Rect, C);
+    
+    else
+        sC = [];
+    end    
 
     data.Snake.Snakes{n} = sC;
    
     % show
     data.Panel.SliceSlider.Comp.hSlider.Slice.Value = n;
     hPlotObj.Image.CData = rot90(data.Image.Images{n}, 3);
-    hPlotObj.Snake.YData = (sC(:, 2)-1)*dy+y0;
-    hPlotObj.Snake.XData = (sC(:, 1)-1)*dx+x0;
+    if isempty(sC)
+        hPlotObj.Snake.YData = [];
+        hPlotObj.Snake.XData = [];
+    else
+        hPlotObj.Snake.YData = (sC(:, 2)-1)*dy+y0;
+        hPlotObj.Snake.XData = (sC(:, 1)-1)*dx+x0;
+    end
     data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(n), ' / ', num2str(nImages)];
     drawnow;
 
     clear sC;
-    
+
 end
 
     if stopSlither

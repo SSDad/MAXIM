@@ -8,7 +8,7 @@ data2 = guidata(hFig2);
 hAxis = data2.Panel.Tumor.Comp.hAxis;                         
 
 % tumor contour with 1x1 pixel size
-[mask_GC, mask_TC, CC_GC, CC_TC, CC_RC] = getTumorContour(hFig);
+[mask_GC, mask_TC, CC_GC, CC_TC, CC_RC, bInd_GC, bInd_TC] = getTumorContour(hFig);
 
 % binary image
 bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);
@@ -23,6 +23,8 @@ data.Tumor.mask_TC = mask_TC;
 data.Tumor.CC_GC = CC_GC;
 data.Tumor.CC_TC = CC_TC;
 data.Tumor.RC_TC = CC_RC;
+data.Tumor.bInd_GC = bInd_GC;
+data.Tumor.bInd_TC = bInd_TC;
 
 % contour
 hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
