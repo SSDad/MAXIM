@@ -96,6 +96,9 @@ data.Point.Data.NP = NP;
 data.Panel.Point.Comp.Togglebutton.Move.Enable = 'on';
 data.Panel.Point.Comp.Pushbutton.PointPlot.Enable = 'on';
 
+%% save
+guidata(hFig, data);
+
 %% show on snake gui
 iSlice = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
 if ~isempty(data.Snake.Snakes{iSlice})
@@ -108,10 +111,7 @@ if ~isempty(data.Snake.Snakes{iSlice})
     hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
 end
 
-data.Point.Data.iSlice = iSlice;
-
-%% save
-guidata(hFig, data);
+data.Point.
 
 % point plot
 updatePlotPoint;
