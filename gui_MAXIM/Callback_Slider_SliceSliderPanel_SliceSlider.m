@@ -4,7 +4,19 @@ global hFig hFig2 contrastRectLim
 
 data = guidata(hFig);
 
+startSlice = str2double(data.Panel.Snake.Comp.Edit.StartSlice.String);
+endSlice = str2double(data.Panel.Snake.Comp.Edit.EndSlice.String);
+
 iSlice = round(get(src, 'Value'));
+
+% slice range
+if iSlice < startSlice
+    iSlice = startSlice;
+elseif  iSlice > endSlice
+    iSlice = endSlice;
+end    
+src.Value = iSlice;
+
 I = rot90(data.Image.Images{iSlice}, 3);
 
 % contrast limit

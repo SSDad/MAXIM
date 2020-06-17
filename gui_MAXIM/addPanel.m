@@ -2,7 +2,7 @@ function Panel = addPanel(hFig)
 
 h_LoadImage = 0.25;
 h_Tumor = 0.;
-h_Snake = 0.4;
+h_Snake = 0.35;
 h_Point = 0.3;
 h_About = 1-h_LoadImage-h_Snake-h_Point-h_Tumor;
 
