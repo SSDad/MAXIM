@@ -13,7 +13,7 @@ iSlice = round(hSlider.Value);
 
 if iSlice < startSlice | iSlice > endSlice
     iSlice = startSlice;
-    hSlicer.Value = iSlice;
+    hSlider.Value = iSlice;
     data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(data.Image.nImages)];
 
     % image

@@ -9,13 +9,13 @@ endSlice = str2double(data.Panel.Snake.Comp.Edit.EndSlice.String);
 
 iSlice = round(get(src, 'Value'));
 
-% slice range
-if iSlice < startSlice
-    iSlice = startSlice;
-elseif  iSlice > endSlice
-    iSlice = endSlice;
-end    
-src.Value = iSlice;
+% % slice range
+% if iSlice < startSlice
+%     iSlice = startSlice;
+% elseif  iSlice > endSlice
+%     iSlice = endSlice;
+% end    
+% src.Value = iSlice;
 
 I = rot90(data.Image.Images{iSlice}, 3);
 

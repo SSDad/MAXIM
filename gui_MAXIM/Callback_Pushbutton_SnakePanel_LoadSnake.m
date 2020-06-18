@@ -26,7 +26,7 @@ if ~isempty(CB)
     hPlotObj.Snake.XData = (CB(:, 1)-1)*dx+x0;
 end
 
-data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
+% data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'off';
 data.Panel.Snake.Comp.Togglebutton.ReDraw.Enable = 'on';
 data.Panel.Snake.Comp.Pushbutton.Delete.Enable = 'on';
 data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';

@@ -79,6 +79,8 @@ if matFile ~=0
     ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
     data.FileInfo.ffn_points = ffn_points;
 
+    data.Snake.Snakes = cell(nImages, 1);
+    
     % enable buttons
     data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'on';
     data.Panel.Snake.Comp.Pushbutton.StartSlice.Enable = 'on';

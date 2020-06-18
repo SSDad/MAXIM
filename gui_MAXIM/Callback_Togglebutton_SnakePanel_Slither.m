@@ -1,9 +1,12 @@
 function Callback_Togglebutton_SnakePanel_Slither(src, evnt)
 
-global stopSlither
+global stopSlither 
 
 hFig = ancestor(src, 'Figure');
 data = guidata(hFig);
+
+startSlice = str2double(data.Panel.Snake.Comp.Edit.StartSlice.String);
+endSlice = str2double(data.Panel.Snake.Comp.Edit.EndSlice.String);
 
 bV = src.Value;
 % iSlice = round(data_main.hSlider.snake.Value);
@@ -54,7 +57,7 @@ T = J(y1:y2, x1:x2);
 %% template match
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 mMid = round(mJ/2);
-for n = 1:nImages
+for n = startSlice:endSlice
     
     if stopSlither
         break;
