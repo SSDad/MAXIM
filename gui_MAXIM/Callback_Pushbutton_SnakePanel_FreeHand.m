@@ -32,7 +32,26 @@ if iSlice < startSlice | iSlice > endSlice
     hPlotObj.Image.CData = I;
 end
 
-% data.Snake.FreeHand.iSlice = round(hSlider.Value);
+% remove snake
+hPlotObj = data.Panel.View.Comp.hPlotObj;
+hPlotObj.Snake.YData = [];
+hPlotObj.Snake.XData = [];
+
+%%%%%%%%%%%%%%%%%
+if data.Point.InitDone
+    data.Point.Data.yi(iSlice, :) = NaN;
+    
+    hPlotObj.Point.XData = [];
+    hPlotObj.Point.YData = [];
+    hPlotObj.LeftPoints.XData = [];
+    hPlotObj.LeftPoints.YData = [];
+    hPlotObj.RightPoints.XData = [];
+    hPlotObj.RightPoints.YData = [];
+
+    guidata(hFig, data)
+    updatePlotPoint
+end
+%%%%%%%%%%%%%%%%%
 
 hA = data.Panel.View.Comp.hAxis.Image;
 % uistack(hA, 'top');

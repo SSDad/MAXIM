@@ -57,42 +57,42 @@ T = J(y1:y2, x1:x2);
 %% template match
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 mMid = round(mJ/2);
-for n = startSlice:endSlice
+for iSlice = startSlice:endSlice
     
     if stopSlither
         break;
     end
     
-    if data.Tumor.bInd_GC(n) | data.Tumor.bInd_TC(n) % gating or tracking contour on image
+    if data.Tumor.bInd_GC(iSlice) | data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
     
-    J =  rgb2gray(II{n});
-    J = rot90(J, 3);
+        J =  rgb2gray(II{iSlice});
+        J = rot90(J, 3);
 
-    J2 = J(mMid:end, :);
+        J2 = J(mMid:end, :);
 
-    % template match
-    nXC = normxcorr2(T, J2);
-    [ypeak, xpeak] = find(nXC==max(nXC(:)));
-    yoffSet = ypeak-size(T,1);
-    yoffSet = yoffSet+mMid;
-    xoffSet = xpeak-size(T,2);
+        % template match
+        nXC = normxcorr2(T, J2);
+        [ypeak, xpeak] = find(nXC==max(nXC(:)));
+        yoffSet = ypeak-size(T,1);
+        yoffSet = yoffSet+mMid;
+        xoffSet = xpeak-size(T,2);
 
-    C(:, 1) = cAF(:, 1)+xoffSet-x1;
-    C(:, 2) = cAF(:, 2)+yoffSet-y1;
+        C(:, 1) = cAF(:, 1)+xoffSet-x1;
+        C(:, 2) = cAF(:, 2)+yoffSet-y1;
 
-    % snake on cropped
-    Rect = [xoffSet+1, yoffSet+1, size(T,2), nJ-yoffSet];
-    [sC] = fun_findDiaphragm(J, Rect, C);
+        % snake on cropped
+        Rect = [xoffSet+1, yoffSet+1, size(T,2), nJ-yoffSet];
+        [sC] = fun_findDiaphragm(J, Rect, C);
     
     else
         sC = [];
     end    
 
-    data.Snake.Snakes{n} = sC;
+    data.Snake.Snakes{iSlice} = sC;
    
-    % show
-    data.Panel.SliceSlider.Comp.hSlider.Slice.Value = n;
-    hPlotObj.Image.CData = rot90(data.Image.Images{n}, 3);
+    % snake on gui
+    data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
+    hPlotObj.Image.CData = rot90(data.Image.Images{iSlice}, 3);
     if isempty(sC)
         hPlotObj.Snake.YData = [];
         hPlotObj.Snake.XData = [];
@@ -100,9 +100,31 @@ for n = startSlice:endSlice
         hPlotObj.Snake.YData = (sC(:, 2)-1)*dy+y0;
         hPlotObj.Snake.XData = (sC(:, 1)-1)*dx+x0;
     end
-    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(n), ' / ', num2str(nImages)];
-    drawnow;
+    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nImages)];
+    
+    % points
+    if data.Point.InitDone && ~isempty(sC)
+        xi = data.Point.Data.xi;
+        ixm = data.Point.Data.ixm;
+        NP = data.Point.Data.NP;
+        yi = data.Point.Data.yi;
 
+        [~, yi(iSlice, :)] = fun_PointOnCurve(sC, dx, dy, x0, y0, xi, yi(iSlice, :));
+        data.Point.Data.yi = yi;
+
+        hPlotObj = data.Panel.View.Comp.hPlotObj;
+        hPlotObj.Point.XData = xi(ixm);
+        hPlotObj.Point.YData = yi(iSlice, ixm);
+        hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
+        hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
+        hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
+        hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+    
+        guidata(hFig, data)
+        updatePlotPoint;
+    end
+    
+    drawnow;
     clear sC;
 
 end
