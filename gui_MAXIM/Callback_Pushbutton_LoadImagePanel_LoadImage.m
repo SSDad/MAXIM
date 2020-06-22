@@ -69,16 +69,23 @@ if matFile ~=0
     data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).String = num2str(Image.dx);
     data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).ForegroundColor = 'c';
 
-    %check previously saved snakes
+    % check previously saved snakes
     [~, fn1, ~] = fileparts(matFile);
     ffn_snakes = fullfile(dataPath, [fn1, '_Snake.mat']);
     data.FileInfo.ffn_snakes = ffn_snakes;
     if exist(ffn_snakes, 'file')
         data.Panel.LoadImage.Comp.Pushbutton.LoadSnake.Enable = 'on';
     end
+    
+    % ffn_points
     ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
     data.FileInfo.ffn_points = ffn_points;
 
+    % ffn_measureData
+    ffn_measureData = fullfile(dataPath, [fn1, '_measureData.mat']);
+    data.FileInfo.ffn_measureData = ffn_measureData;
+    
+    
     data.Snake.Snakes = cell(nImages, 1);
     
     % enable buttons

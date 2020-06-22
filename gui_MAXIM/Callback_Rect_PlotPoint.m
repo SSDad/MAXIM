@@ -16,7 +16,10 @@ yy = data.Point.Data.yy;
 n0 = sum(yy < y0);
 n1 = sum(yy > y1);
 w = length(yy);
- 
+
+data.MeasureData.PlotPoint.LineYPos = [y0 y1];
+data.MeasureData.PlotPoint.NoPoints = [n0 n1 w];
+
 updatePlotPointRectText(data2.Panel.View.Comp.hPlotObj.Text, y0, y1, w, n0, n1)
 
 %
@@ -26,6 +29,8 @@ if data.Tumor.InitDone
     updateTrackContour;
     updateTumorProfile;
 end
+
+guidata(hFig, data)
 
 % 
 % recPos = src.Position;
