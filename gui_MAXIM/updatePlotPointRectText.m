@@ -1,7 +1,7 @@
 function updatePlotPointRectText(hText, y0, y1, w, n0, n1)
 
 g1 = 3;
-g2 = 30;
+g2 = 12;
 
 hPlotObj.Text = hText;
 hPlotObj.Text.UL.Position(1) = w+g1;
