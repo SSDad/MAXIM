@@ -4,11 +4,15 @@ global hFig hFig2
 data = guidata(hFig);
 data2 = guidata(hFig2);
 
-ffn_measureData = data.FileInfo.ffn_measureData;
+ffn_Data = data.FileInfo.ffn_measureData;
 nF = 0;
-if exist(ffn_measureData, 'file')
-    load(ffn_measureData);
+if exist(ffn_Data, 'file')
+    load(ffn_Data);
     nF = length(measureData);
 end
 measureData{nF+1} = data.MeasureData;
-save(ffn_measureData, 'measureData');
+save(ffn_Data, 'measureData');
+
+ffn_Fig = data.FileInfo.ffn_measureDataFig;
+ffn_Fig = [ffn_Fig, '_', num2str(nF+1)];
+saveas(hFig2, ffn_Fig, 'tif')
