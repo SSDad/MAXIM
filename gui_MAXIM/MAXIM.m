@@ -33,6 +33,8 @@ data.Panel.Tumor.Comp = addComponents2Panel_Tumor(data.Panel.Tumor.hPanel);
 
 data.Panel.About.Comp = addComponents2Panel_About(data.Panel.About.hPanel);
 
+data.FC = [255 255 102]/255;
+
 guidata(hFig, data);
 
 %% point fig
