@@ -37,7 +37,7 @@ else
     
     % save as 1x1 pixel size
     nImages = length(contGC);
-    save(ffn, 'bwSum_*', 'mask_*', 'polyA_*', 'CC_*', 'M', 'N', 'nImages', 'bInd_*');
+    save(ffn, 'bwSum_*', 'mask_*', 'polyA_*', 'CC_*', 'M', 'N', 'nImages', 'bInd_*', '-v7.3');
 end
 
 for n = 1:length(CC_GC)
