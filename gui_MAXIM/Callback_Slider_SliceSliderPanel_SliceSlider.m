@@ -31,6 +31,10 @@ I(I>cL2) = cL2;
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 hPlotObj.Image.CData = I;
 
+%tumor center
+data.Panel.View.Comp.hPlotObj.TumorCent.XData = data.Tumor.cent.x(iSlice);
+data.Panel.View.Comp.hPlotObj.TumorCent.YData = data.Tumor.cent.y(iSlice);
+
 data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(data.Image.nImages)];
 
 % hist

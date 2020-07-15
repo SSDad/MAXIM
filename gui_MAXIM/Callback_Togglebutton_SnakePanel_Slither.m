@@ -63,7 +63,7 @@ for iSlice = startSlice:endSlice
         break;
     end
     
-    if data.Tumor.bInd_GC(iSlice) | data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
+    if data.Tumor.bInd_GC(iSlice) || data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
     
         J =  rgb2gray(II{iSlice});
         J = rot90(J, 3);

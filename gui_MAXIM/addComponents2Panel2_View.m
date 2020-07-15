@@ -15,7 +15,7 @@ hA.YDir = 'reverse';
 hold(hA, 'on')
 
 % points
-hPlotObj.PlotPoint.All = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 16, 'Color', 'c', 'LineStyle', '-');
+hPlotObj.PlotPoint.All = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 16, 'Color', 'g', 'LineStyle', '-');
 hPlotObj.PlotPoint.Current = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');
 
 hPlotObj.Rect = images.roi.Rectangle(hA, 'Position',[0, 0, 0, 0], 'Color', 'm', 'LineWidth', .5, 'FaceAlpha', 0.15);
