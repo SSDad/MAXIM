@@ -10,6 +10,8 @@ hAxis = data2.Panel.Tumor.Comp.hAxis;
 % tumor contour with 1x1 pixel size
 [mask_GC, mask_TC, CC_GC, CC_TC, CC_RC, bInd_GC, bInd_TC] = getTumorContour(hFig);
 
+nSlice = length(CC_GC);
+
 % tumor center
 dataPath = data.FileInfo.DataPath;
 matFile = data.FileInfo.MatFile;
@@ -18,7 +20,6 @@ ffn = fullfile(dataPath, [fn1, '_TumorCenter.mat']);
 if exist(ffn, 'file')
     load(ffn)
 else
-    nSlice = length(CC_GC);
     cent.x = nan(nSlice, 1);
     cent.y = nan(nSlice, 1);
     for iSlice = 1:nSlice
@@ -39,6 +40,10 @@ end
 data.Tumor.cent = cent;
 data.Panel.View.Comp.hPlotObj.TumorCent = line(data.Panel.View.Comp.hAxis.Image,...
     'XData', cent.x(1), 'YData', cent.y(1), 'Marker', '.',  'MarkerSize', 16, 'Color', 'c', 'LineStyle', 'none');
+
+data2.Panel.View.Comp.hPlotObj.PlotPointTC.All.XData = 1:nSlice;
+data2.Panel.View.Comp.hPlotObj.PlotPointTC.All.YData = cent.y;
+
 
 % binary image
 bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);
