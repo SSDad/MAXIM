@@ -86,7 +86,7 @@ if matFile ~=0
     data.FileInfo.ffn_measureData = ffn_measureData;
     ffn_measureDataFig = fullfile(dataPath, [fn1, '_measureDataFig']);
     data.FileInfo.ffn_measureDataFig = ffn_measureDataFig;
-    
+    data.FileInfo.ffn_PointData = fullfile(dataPath, [fn1, '_PointData.csv']);
     
     data.Snake.Snakes = cell(nImages, 1);
     

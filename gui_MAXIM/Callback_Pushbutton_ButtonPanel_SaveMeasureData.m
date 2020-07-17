@@ -4,6 +4,11 @@ global hFig hFig2
 data = guidata(hFig);
 data2 = guidata(hFig2);
 
+% csv point data
+A = [data.Point.Data.xx data.Point.Data.yy data.Tumor.cent.y];
+T = array2table(A, 'VariableNames',{'Slice #', 'Yt', 'Yd'});
+writetable(T, data.FileInfo.ffn_PointData);
+
 ffn_Data = data.FileInfo.ffn_measureData;
 nF = 0;
 if exist(ffn_Data, 'file')
