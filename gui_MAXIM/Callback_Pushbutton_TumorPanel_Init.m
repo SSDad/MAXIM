@@ -49,6 +49,8 @@ data2.Panel.View.Comp.hPlotObj.PlotPointTC1.All.XData = 1:nSlice;
 data2.Panel.View.Comp.hPlotObj.PlotPointTC1.All.YData = cent.x;
 
 linkaxes([data2.Panel.View.Comp.hAxis.PlotPoint data2.Panel.View.Comp.hAxis.PlotPoint1], 'x');
+data2.Panel.Button1.Comp.Radiobutton.xt.Value = 1;
+data2.Panel.Button1.Comp.Radiobutton.yt.Value = 1;
 
 % binary image
 bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);

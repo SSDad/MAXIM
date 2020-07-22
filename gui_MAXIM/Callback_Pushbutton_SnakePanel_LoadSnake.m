@@ -4,6 +4,7 @@ global hFig hFig2
 
 % hFig = ancestor(src, 'Figure');
 data = guidata(hFig);
+data2 = guidata(hFig2);
 
 ffn_snakes = data.FileInfo.ffn_snakes;
 
@@ -68,6 +69,10 @@ if exist(ffn_points, 'file')
     guidata(hFig, data);    
     
     % point plot
+    data2.Panel.Button1.Comp.Radiobutton.xd.Value = 1;
+    data2.Panel.Button1.Comp.Radiobutton.yd.Value = 1;
+    guidata(hFig2, data2);
+    
     updatePlotPoint;
     hFig2.Visible = 'on';
 

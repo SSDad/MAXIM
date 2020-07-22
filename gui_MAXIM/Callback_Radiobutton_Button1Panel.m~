@@ -1,0 +1,41 @@
+function Callback_Radiobutton_Button1Panel(src, evnt)
+
+global hFig hFig2
+data = guidata(hFig);
+data2 = guidata(hFig2);
+
+%% clear plot
+hPlotObj = data2.Panel.View.Comp.hPlotObj;
+
+hPlotObj.PlotPointTC.All.XData = [];
+hPlotObj.PlotPointTC.All.YData = [];
+
+hPlotObj.PlotPointTC1.All.XData = [];
+hPlotObj.PlotPointTC1.All.YData = [];
+% hPlotObj.PlotPointTC1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');
+
+% points on diaphragm
+hPlotObj.PlotPoint.All.XData = [];
+hPlotObj.PlotPoint.All.YData = [];
+hPlotObj.PlotPoint.Current.XData = [];
+hPlotObj.PlotPoint.All.YData = [];
+
+hPlotObj.PlotPoint1.All.XData = [];
+hPlotObj.PlotPoint1.All.YData = [];
+% hPlotObj.PlotPoint1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');                            
+
+
+
+%%
+data2.Panel.Button1.Comp.Radiobutton.yd.Value;
+
+
+% hAxis = data.Panel.Tumor.Comp.hAxis.Tumor;
+% hPlotObj = data.Panel.Tumor.Comp.hPlotObj;
+% 
+% if data.Panel.Button.Comp.Radiobutton.bwSum.Value
+% %     updateTumorOverlay(data_main);
+%     hPlotObj.Tumor.bwSum.Visible = 'on';
+% else
+%     hPlotObj.Tumor.bwSum.Visible = 'off';
+% end

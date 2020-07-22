@@ -1,54 +1,85 @@
 function updatePlotPoint
 
 global hFig hFig2
-
 data = guidata(hFig);
-Point = data.Point;
-
-xi = Point.Data.xi;
-yi = Point.Data.yi;
-ixm = Point.Data.ixm;
-NP = Point.Data.NP;
-iSlice = Point.Data.iSlice;
-
-xx = (1:size(yi, 1))';
-yy = mean(yi(:, ixm-NP:ixm+NP), 2);
-
 data2 = guidata(hFig2);
 
+%% clear plot
 hPlotObj = data2.Panel.View.Comp.hPlotObj;
 
-% y
-hPlotObj.PlotPoint.All.XData = xx;
-hPlotObj.PlotPoint.All.YData = yy;
-hPlotObj.PlotPoint.Current.XData =xx(iSlice);
-hPlotObj.PlotPoint.Current.YData = yy(iSlice);
+hPlotObj.PlotPointTC.All.XData = [];
+hPlotObj.PlotPointTC.All.YData = [];
 
-x0 = 0;
-y0 = min(yy);
-w = length(xx);
-h = range(yy);
-hPlotObj.Rect.Position = [x0 y0 w, h];
+hPlotObj.PlotPointTC1.All.XData = [];
+hPlotObj.PlotPointTC1.All.YData = [];
+% hPlotObj.PlotPointTC1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');
 
-y1 = max(yy);
-n0 = 0;
-n1 = 0;
+% points on diaphragm
+hPlotObj.PlotPoint.All.XData = [];
+hPlotObj.PlotPoint.All.YData = [];
+hPlotObj.PlotPoint.Current.XData = [];
+hPlotObj.PlotPoint.Current.YData = [];
 
-updatePlotPointRectText(hPlotObj.Text, y0, y1, w, n0, n1)
+hPlotObj.PlotPoint1.All.XData = [];
+hPlotObj.PlotPoint1.All.YData = [];
+% hPlotObj.PlotPoint1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');                            
 
-data.Point.Data.xx = xx;
-data.Point.Data.yy = yy;
-guidata(hFig, data)
+%%
+Point = data.Point;
+
+if ~data2.Panel.Button1.Comp.Radiobutton.yd.Value
+
+    xi = Point.Data.xi;
+    yi = Point.Data.yi;
+    ixm = Point.Data.ixm;
+    NP = Point.Data.NP;
+    iSlice = Point.Data.iSlice;
+
+    xx = (1:size(yi, 1))';
+    yy = mean(yi(:, ixm-NP:ixm+NP), 2);
+
+
+    hPlotObj = data2.Panel.View.Comp.hPlotObj;
+
+    % y
+    hPlotObj.PlotPoint.All.XData = xx;
+    hPlotObj.PlotPoint.All.YData = yy;
+    hPlotObj.PlotPoint.Current.XData =xx(iSlice);
+    hPlotObj.PlotPoint.Current.YData = yy(iSlice);
+
+    x0 = 0;
+    y0 = min(yy);
+    w = length(xx);
+    h = range(yy);
+    hPlotObj.Rect.Position = [x0 y0 w, h];
+
+    y1 = max(yy);
+    n0 = 0;
+    n1 = 0;
+
+    updatePlotPointRectText(hPlotObj.Text, y0, y1, w, n0, n1)
+
+    data.Point.Data.xx = xx;
+    data.Point.Data.yy = yy;
+    guidata(hFig, data)
+
+end
 
 % x
-xd = data.Point.Data.xi(data.Point.Data.ixm);
-xxd = repmat(xd, length(data.Point.Data.xx), 1);
-for n =1:length(yyd)
-    if isnan(yyd(n))
-        xxd(n) = nan;
+if ~data2.Panel.Button1.Comp.Radiobutton.xd.Value
+    xd = data.Point.Data.xi(data.Point.Data.ixm);
+    xxd = repmat(xd, length(xx), 1);
+    for n =1:length(yy)
+        if isnan(yy(n))
+            xxd(n) = nan;
+        end
     end
+    hPlotObj.PlotPoint1.All.XData = xx;
+    hPlotObj.PlotPoint1.All.YData = xxd;
 end
-hPlotObj.PlotPoint1.All.YData = ;
+
+% data2.Panel.Button1.Comp.Radiobutton.xd.Value = 1;
+% data2.Panel.Button1.Comp.Radiobutton.yd.Value = 1;
 
 
 % % [x1 y1

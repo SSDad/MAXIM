@@ -50,17 +50,18 @@ hPlotObj.PlotPointTC.Current = line(hA, 'XData', [], 'YData', [],  'Marker', '.'
 hPlotObj.PlotPoint.All = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 16, 'Color', 'g', 'LineStyle', '-');
 hPlotObj.PlotPoint.Current = line(hA, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');
 
-hPlotObj.Rect = images.roi.Rectangle(hA, 'Position',[0, 0, 0, 0], 'Color', 'm', 'LineWidth', .5, 'FaceAlpha', 0.15);
+% rect
+hPlotObj.Rect = images.roi.Rectangle(hA, 'Position',[0, 0, 0, 0], 'Color', 'm', 'LineWidth', .5, 'FaceAlpha', 0.15, 'Visible', 'off');
 addlistener(hPlotObj.Rect, 'MovingROI', @Callback_Rect_PlotPoint);
 
 FS = 10;
-hPlotObj.Text.UL = text(hA, 0, 0, '', 'Color', FC, 'FontSize', FS);
-hPlotObj.Text.LL = text(hA, 0, 0, '', 'Color', FC, 'FontSize', FS);
-hPlotObj.Text.Gap = text(hA, 0, 0, '', 'Color', FC, 'FontSize', FS);
+hPlotObj.Text.UL = text(hA, 0, 0, '', 'Color', FC, 'FontSize', FS, 'Visible', 'off');
+hPlotObj.Text.LL = text(hA, 0, 0, '', 'Color', FC, 'FontSize', FS, 'Visible', 'off');
+hPlotObj.Text.Gap = text(hA, 0, 0, '', 'Color', FC, 'FontSize', FS, 'Visible', 'off');
 
-hPlotObj.Text.UP = text(hA, 0, 0, '', 'Color', 'c', 'FontSize', FS);
-hPlotObj.Text.LP = text(hA, 0, 0, '', 'Color', 'c', 'FontSize', FS);
-hPlotObj.Text.MP = text(hA, 0, 0, '', 'Color', 'c', 'FontSize', FS);
+hPlotObj.Text.UP = text(hA, 0, 0, '', 'Color', 'c', 'FontSize', FS, 'Visible', 'off');
+hPlotObj.Text.LP = text(hA, 0, 0, '', 'Color', 'c', 'FontSize', FS, 'Visible', 'off');
+hPlotObj.Text.MP = text(hA, 0, 0, '', 'Color', 'c', 'FontSize', FS, 'Visible', 'off');
 
 %%
 Comp.hPlotObj = hPlotObj;
