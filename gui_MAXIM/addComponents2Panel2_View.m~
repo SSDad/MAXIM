@@ -23,9 +23,9 @@ Comp.hAxis.PlotPoint1 = axes('Parent',     hPanel, ...
                             
 %% x coordinate                            
 hA1 = Comp.hAxis.PlotPoint1;
-hA1.YDir = 'normal';
+hA1.YDir = 'reverse';
 hA1.YAxisLocation = 'right';
-hA1.YLabel.String = 'X';
+hA1.YLabel = 'X';
 hold(hA1, 'on')
 
 % points - tumor center
@@ -33,13 +33,13 @@ hPlotObj.PlotPointTC1.All = line(hA1, 'XData', [], 'YData', [],  'Marker', '.', 
 hPlotObj.PlotPointTC1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');
 
 % points on diaphragm
-hPlotObj.PlotPoint1.All = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 8, 'Color', 'y', 'LineStyle', '-');
+hPlotObj.PlotPoint1.All = line(hA1, 'XData', [], 'YData', [],  'Marker', 'o',  'MarkerSize', 16, 'Color', 'y', 'LineStyle', '-');
 hPlotObj.PlotPoint1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');                            
 
 %% y coordinate                            
 hA = Comp.hAxis.PlotPoint;
 hA.YDir = 'reverse';
-hA.YLabel.String = 'Y';
+hAY.Label = 'Y';
 hold(hA, 'on')
 
 % points - tumor center

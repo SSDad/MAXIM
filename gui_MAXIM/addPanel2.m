@@ -2,7 +2,7 @@ function Panel = addPanel2(hFig)
 
 w1 = 0.5;
 w2 = 1-w1;
-h1 = 0.25;
+h1 = 0.3;
 h2 = 1-h1;
 
 %% View

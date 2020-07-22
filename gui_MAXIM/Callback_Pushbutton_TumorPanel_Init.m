@@ -41,9 +41,14 @@ data.Tumor.cent = cent;
 data.Panel.View.Comp.hPlotObj.TumorCent = line(data.Panel.View.Comp.hAxis.Image,...
     'XData', cent.x(1), 'YData', cent.y(1), 'Marker', '.',  'MarkerSize', 16, 'Color', 'c', 'LineStyle', 'none');
 
+% plot points
 data2.Panel.View.Comp.hPlotObj.PlotPointTC.All.XData = 1:nSlice;
 data2.Panel.View.Comp.hPlotObj.PlotPointTC.All.YData = cent.y;
 
+data2.Panel.View.Comp.hPlotObj.PlotPointTC1.All.XData = 1:nSlice;
+data2.Panel.View.Comp.hPlotObj.PlotPointTC1.All.YData = cent.x;
+
+linkaxes([data2.Panel.View.Comp.hAxis.PlotPoint data2.Panel.View.Comp.hAxis.PlotPoint1], 'x');
 
 % binary image
 bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);

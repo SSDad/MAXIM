@@ -42,14 +42,13 @@ guidata(hFig, data)
 
 % x
 xd = data.Point.Data.xi(data.Point.Data.ixm);
-xxd = repmat(xd, length(xx), 1);
-for n =1:length(yy)
-    if isnan(yy(n))
+xxd = repmat(xd, length(data.Point.Data.xx), 1);
+for n =1:length(yyd)
+    if isnan(yyd(n))
         xxd(n) = nan;
     end
 end
-hPlotObj.PlotPoint1.All.XData = xx;
-hPlotObj.PlotPoint1.All.YData = xxd;
+hPlotObj.PlotPoint1.All.YData = ;
 
 
 % % [x1 y1
