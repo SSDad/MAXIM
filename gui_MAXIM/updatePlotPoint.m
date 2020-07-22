@@ -25,48 +25,9 @@ hPlotObj.PlotPoint1.All.YData = [];
 % hPlotObj.PlotPoint1.Current = line(hA1, 'XData', [], 'YData', [],  'Marker', '.',  'MarkerSize', 24, 'Color', 'r', 'LineStyle', 'none');                            
 
 %%
-Point = data.Point;
-
-if data2.Panel.Button1.Comp.Radiobutton.yd.Value
-
-    xi = Point.Data.xi;
-    yi = Point.Data.yi;
-    ixm = Point.Data.ixm;
-    NP = Point.Data.NP;
-    iSlice = Point.Data.iSlice;
-
-    xx = (1:size(yi, 1))';
-    yy = mean(yi(:, ixm-NP:ixm+NP), 2);
-
-    hPlotObj = data2.Panel.View.Comp.hPlotObj;
-
-    % y
-    hPlotObj.PlotPoint.All.XData = xx;
-    hPlotObj.PlotPoint.All.YData = yy;
-    hPlotObj.PlotPoint.Current.XData =xx(iSlice);
-    hPlotObj.PlotPoint.Current.YData = yy(iSlice);
-
-    x0 = 0;
-    y0 = min(yy);
-    w = length(xx);
-    h = range(yy);
-    hPlotObj.Rect.Position = [x0 y0 w, h];
-
-    y1 = max(yy);
-    n0 = 0;
-    n1 = 0;
-
-    updatePlotPointRectText(hPlotObj.Text, y0, y1, w, n0, n1)
-
-    data.Point.Data.xx = xx;
-    data.Point.Data.yy = yy;
-    guidata(hFig, data)
-
-end
-
 % x
 if data2.Panel.Button1.Comp.Radiobutton.xd.Value
-
+    Point = data.Point;
     xi = Point.Data.xi;
     yi = Point.Data.yi;
     ixm = Point.Data.ixm;
@@ -103,6 +64,43 @@ if data2.Panel.Button1.Comp.Radiobutton.xt.Value
 end
 % data2.Panel.Button1.Comp.Radiobutton.xd.Value = 1;
 % data2.Panel.Button1.Comp.Radiobutton.yd.Value = 1;
+if data2.Panel.Button1.Comp.Radiobutton.yd.Value
+    Point = data.Point;
+    xi = Point.Data.xi;
+    yi = Point.Data.yi;
+    ixm = Point.Data.ixm;
+    NP = Point.Data.NP;
+    iSlice = Point.Data.iSlice;
+
+    xx = (1:size(yi, 1))';
+    yy = mean(yi(:, ixm-NP:ixm+NP), 2);
+
+    hPlotObj = data2.Panel.View.Comp.hPlotObj;
+
+    % y
+    hPlotObj.PlotPoint.All.XData = xx;
+    hPlotObj.PlotPoint.All.YData = yy;
+    hPlotObj.PlotPoint.Current.XData =xx(iSlice);
+    hPlotObj.PlotPoint.Current.YData = yy(iSlice);
+
+    x0 = 0;
+    y0 = min(yy);
+    w = length(xx);
+    h = range(yy);
+    hPlotObj.Rect.Position = [x0 y0 w, h];
+
+    y1 = max(yy);
+    n0 = 0;
+    n1 = 0;
+
+    updatePlotPointRectText(hPlotObj.Text, y0, y1, w, n0, n1)
+
+    data.Point.Data.xx = xx;
+    data.Point.Data.yy = yy;
+    guidata(hFig, data)
+
+    axes(data2.Panel.View.Comp.hAxis.PlotPoint)
+end
 
 
 % % [x1 y1
