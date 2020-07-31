@@ -80,6 +80,8 @@ ymax = 0;
 for n = 1:data.Image.nImages
     hPlotObj.Tumor.TrackContour(n) = line(hPlotObj.Tumor.hgTrackContour, ...
         'XData',  [], 'YData',  [],  'Color', 'b', 'LineStyle', '-', 'LineWidth', 1);
+    hPlotObj.Tumor.GatedContour(n) = line(hPlotObj.Tumor.hgGatedContour, ...
+        'XData', [], 'YData', [],  'Color', 'g', 'LineStyle', '-', 'LineWidth', 1);
     if ~isempty(CC_TC{n})
         hPlotObj.Tumor.TrackContour(n).XData = CC_TC{n}(:, 1);
         xmin = min(min(CC_TC{n}(:, 1)), xmin);
@@ -88,14 +90,20 @@ for n = 1:data.Image.nImages
         hPlotObj.Tumor.TrackContour(n).YData = CC_TC{n}(:, 2);
         ymin = min(min(CC_TC{n}(:, 2)), ymin);
         ymax = max(max(CC_TC{n}(:, 2)), ymax);
+    else
+        hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
+        xmin = min(min(CC_GC{n}(:, 1)), xmin);
+        xmax = max(max(CC_GC{n}(:, 1)), xmax);
+
+        hPlotObj.Tumor.GatedContour(n).YData = CC_GC{n}(:, 2);
+        ymin = min(min(CC_GC{n}(:, 2)), ymin);
+        ymax = max(max(CC_GC{n}(:, 2)), ymax);
     end
     
-    hPlotObj.Tumor.GatedContour(n) = line(hPlotObj.Tumor.hgGatedContour, ...
-        'XData', [], 'YData', [],  'Color', 'g', 'LineStyle', '-', 'LineWidth', 1);
-    if ~isempty(CC_GC{n})
-        hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
-        hPlotObj.Tumor.GatedContour(n).YData = CC_GC{n}(:, 2);
-    end
+%     if ~isempty(CC_GC{n})
+%         hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
+%         hPlotObj.Tumor.GatedContour(n).YData = CC_GC{n}(:, 2);
+%     end
     
     hPlotObj.Tumor.Points(n) = line(hPlotObj.Tumor.hgPoints, 'XData', [], 'YData', [],...
         'Marker', '.',  'MarkerSize', 12, 'Color', 'c', 'LineStyle', 'none');
