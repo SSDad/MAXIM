@@ -90,7 +90,7 @@ for n = 1:data.Image.nImages
         hPlotObj.Tumor.TrackContour(n).YData = CC_TC{n}(:, 2);
         ymin = min(min(CC_TC{n}(:, 2)), ymin);
         ymax = max(max(CC_TC{n}(:, 2)), ymax);
-    else
+    elseif ~isempty(CC_GC{n})
         hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
         xmin = min(min(CC_GC{n}(:, 1)), xmin);
         xmax = max(max(CC_GC{n}(:, 1)), xmax);
