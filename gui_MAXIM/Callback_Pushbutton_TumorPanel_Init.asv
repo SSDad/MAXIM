@@ -15,28 +15,25 @@ nSlice = length(CC_GC);
 dataPath = data.FileInfo.DataPath;
 matFile = data.FileInfo.MatFile;
 [~, fn1, ~] = fileparts(matFile);
-ffn = fullfile(dataPath, [fn1, '_TumorContourPoints.csv']);
+ffn = fullfile(dataPath, [fn1, '_TumorContour.csv']);
 
-if ~exist(ffn, 'file')
-
-    CPM = [];
-    for iSlice = 1:nSlice
-        gC = CC_GC{iSlice};
-        tC = CC_TC{iSlice};
-        if ~isempty(gC)
-            nP = size(gC, 1);
-            junk = [iSlice*ones(nP, 1) gC];
-            CPM = [CPM; junk];
-        elseif ~isempty(tC)
-            nP = size(tC, 1);
-            junk = [iSlice*ones(nP, 1) tC];
-            CPM = [CPM; junk];
-        end
+CPM = [];
+for iSlice = 1:nSlice
+    gC = CC_GC{iSlice};
+    tC = CC_TC{iSlice};
+    if ~isempty(gC)
+        nP = size(gC, 1);
+        junk = [iSlice*once(nP, 1) gC];
+        CPM = [CPM; junk];
+    elseif ~isempty(tC)
+        cent.x(iSlice) = mean(tC(:,1));
+        cent.y(iSlice) = mean(tC(:,2));
     end
-    T = array2table(CPM, 'VariableNames',{'Slice #', 'Xt', 'Yt'});
-    writetable(T, ffn);
-
 end
+A = [data.Point.Data.xx xxd yyd  data.Tumor.cent.x data.Tumor.cent.y];
+T = array2table(A, 'VariableNames',{'Slice #', 'Xd', 'Yd', 'Xt', 'Yt'});
+writetable(T, data.FileInfo.ffn_PointData);
+
 
 % tumor center
 [~, fn1, ~] = fileparts(matFile);

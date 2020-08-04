@@ -62,13 +62,13 @@ if matFile ~=0
     Image.dy = Image.dx;
 
     % save image info.
-    ImgInfoD2.FoV = Image.FoV;
-    ImgInfoD2.x0 = 0;
-    ImgInfoD2.y0 = 0;
+    ImgInfo.FoV = Image.FoV;
+    ImgInfo.x0 = 0;
+    ImgInfo.y0 = 0;
     
     [~, fn1, ~] = fileparts(matFile);
     ffn_ImgInfo = fullfile(dataPath, [fn1, '_ImgInfo.mat']);
-    save(ffn_ImgInfo, 'ImgInfoD2');
+    save(ffn_ImgInfo, 'ImgInfo');
     
     
     data.Image = Image;
@@ -87,9 +87,6 @@ if matFile ~=0
         data.Panel.LoadImage.Comp.Pushbutton.LoadSnake.Enable = 'on';
     end
     
-    ffn_snakePoints = fullfile(dataPath, [fn1, '_SnakePoints.csv']);
-    data.FileInfo.ffn_snakePoints = ffn_snakePoints;
-
     % ffn_points
     ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
     data.FileInfo.ffn_points = ffn_points;

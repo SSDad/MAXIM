@@ -8,7 +8,7 @@ ffn_snakes = data.FileInfo.ffn_snakes;
 Snakes = data.Snake.Snakes;
 save(ffn_snakes, 'Snakes');
 
-% save snake as csv
+% save snake as sav
 ffn_snakePoints = data.FileInfo.ffn_snakePoints;
 if ~exist(ffn_snakePoints, 'file')
     nSlice = length(Snakes);
