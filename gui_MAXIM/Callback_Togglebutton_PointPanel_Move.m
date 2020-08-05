@@ -1,8 +1,14 @@
 function Callback_Togglebutton_PointPanel_Move(src, evnt)
 
-hFig = ancestor(src, 'Figure');
+global hFig
+% hFig = ancestor(src, 'Figure');
+data = guidata(hFig);
 str = src.String;
 if strcmp(str, 'Move Points')
+    
+    axes(data.Panel.View.Comp.hAxis.Image)
+    data.ActiveAxis.MovePoints = 1;
+    
     set(hFig, 'keypressfcn', @fh_kpfcn);
 
     src.String = 'Done';
@@ -15,8 +21,9 @@ else
     src.ForegroundColor = 'c';
     src.BackgroundColor = [1 1 1]*0.25;
 
+    data.ActiveAxis.MovePoints = 0;
 end
-
+guidata(hFig, data);
 
 % data = guidata(hFig);
 % 

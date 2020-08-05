@@ -1,7 +1,9 @@
 function Callback_Pushbutton_PointPanel_Init(src, evnt)
 
-hFig = ancestor(src, 'Figure');
+global hFig hFig2
+
 data = guidata(hFig);
+data2 = guidata(hFig2);
 
 if ~data.Point.InitDone
     dataPath = data.FileInfo.DataPath;
@@ -85,8 +87,13 @@ end
 
 data.Point.Data.iSlice = iSlice;
 
+%% show on point plot
+data2.Panel.Button1.Comp.Radiobutton.xd.Value = 1;
+data2.Panel.Button1.Comp.Radiobutton.yd.Value = 1;
+
 %% save
 guidata(hFig, data);
+guidata(hFig2, data2);
 
 % point plot
 updatePlotPoint;

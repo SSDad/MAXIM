@@ -98,8 +98,10 @@ if data2.Panel.Button1.Comp.Radiobutton.yd.Value
     data.Point.Data.xx = xx;
     data.Point.Data.yy = yy;
     guidata(hFig, data)
-
-    axes(data2.Panel.View.Comp.hAxis.PlotPoint)
+    
+    if ~data.ActiveAxis.MovePoints
+        axes(data2.Panel.View.Comp.hAxis.PlotPoint)
+    end
 end
 
 
