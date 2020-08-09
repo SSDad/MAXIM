@@ -37,14 +37,14 @@ data.Panel.Point.Comp.Pushbutton.Init.Enable = 'on';
 
 guidata(hFig, data);
 
-% point on snake
-% dataPath = data.FileInfo.DataPath;
-% matFile = data.FileInfo.MatFile;
-% [~, fn1, ~] = fileparts(matFile);
-% ffn_PointOnSnake = fullfile(dataPath, [fn1, '_Point.mat']);
-ffn_PointOnSnake = data.FileInfo.ffn_PointOnSnake;
-if exist(ffn_PointOnSnake, 'file')
-    load(ffn_PointOnSnake);
+% points
+dataPath = data.FileInfo.DataPath;
+matFile = data.FileInfo.MatFile;
+[~, fn1, ~] = fileparts(matFile);
+ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
+
+if exist(ffn_points, 'file')
+    load(ffn_points);
     data.Point.Data = Point;
     data.Point.InitDone = true;
     

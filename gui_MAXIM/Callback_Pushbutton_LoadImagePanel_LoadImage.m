@@ -87,12 +87,12 @@ if matFile ~=0
         data.Panel.LoadImage.Comp.Pushbutton.LoadSnake.Enable = 'on';
     end
     
-    ffn_snakePoints = fullfile(dataPath, [fn1, '_SnakePoints.csv']);
-    data.FileInfo.ffn_snakePoints = ffn_snakePoints;
+    ffn_SnakePoints = fullfile(dataPath, [fn1, '_SnakePoints.csv']);
+    data.FileInfo.ffn_snakePoints = ffn_SnakePoints;
 
     % ffn_points
-    ffn_points = fullfile(dataPath, [fn1, '_Point.mat']);
-    data.FileInfo.ffn_points = ffn_points;
+    ffn_PointOnSnake = fullfile(dataPath, [fn1, '_PointOnSnake.mat']);
+    data.FileInfo.ffn_PointOnSnake = ffn_PointOnSnake;
 
     % ffn_measureData
     ffn_measureData = fullfile(dataPath, [fn1, '_measureData.mat']);

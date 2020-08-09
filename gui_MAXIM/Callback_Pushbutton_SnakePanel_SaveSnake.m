@@ -29,9 +29,9 @@ end
 
 if data.Point.InitDone
     Point = data.Point.Data;
-    ffn_points = data.FileInfo.ffn_points;
-    save(ffn_points, 'Point');
-    msg = ['Snakes have been saved in ', ffn_snakes, ' and Points have been saved in ', ffn_points]; 
+    ffn_PointOnSnake = data.FileInfo.ffn_PointOnSnake;
+    save(ffn_PointOnSnake, 'Point');
+    msg = ['Snakes have been saved in ', ffn_snakes, ' and Points have been saved in ', ffn_PointOnSnake]; 
 else
     msg = ['Snakes have been saved in ', ffn_snakes]; 
 end
