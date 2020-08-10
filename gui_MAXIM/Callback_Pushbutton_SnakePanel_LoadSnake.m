@@ -48,7 +48,7 @@ if exist(ffn_PointOnSnake, 'file')
     data.Point.Data = Point;
     data.Point.InitDone = true;
     
-    % show on snakei
+    % show on snake
     xi = data.Point.Data.xi;
     yi = data.Point.Data.yi;
     ixm = data.Point.Data.ixm;

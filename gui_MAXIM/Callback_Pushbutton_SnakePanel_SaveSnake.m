@@ -9,20 +9,56 @@ Snakes = data.Snake.Snakes;
 save(ffn_snakes, 'Snakes');
 
 % save snake as csv
+x0 = data.Image.x0;
+y0 = data.Image.y0;
+dx = data.Image.dx;
+dy = data.Image.dy;
+
 ffn_snakePoints = data.FileInfo.ffn_snakePoints;
-if ~exist(ffn_snakePoints, 'file')
+ffn_snakePointsMatrix = data.FileInfo.ffn_snakePointsMatrix;
+if exist(ffn_snakePoints, 'file')
     nSlice = length(Snakes);
-    CPM = [];
+    CP = [];  % Contour Points
+    iSlice = 1;
+    gC = Snakes{iSlice};
+    if ~isempty(gC)
+        gC(:, 1) = (gC(:, 1)-1)*dx+x0;
+        gC(:, 2) = (gC(:, 2)-1)*dy+y0;
+        nP = size(gC, 1);
+        junk = [iSlice*ones(nP, 1) gC];
+        CP = [CP; junk];
+        xc = gC(:, 1);
+    end
+
+    for iSlice = 2:nSlice
+        gC = Snakes{iSlice};
+        if ~isempty(gC)
+            gC(:, 1) = (gC(:, 1)-1)*dx+x0;
+            gC(:, 2) = (gC(:, 2)-1)*dy+y0;
+            nP = size(gC, 1);
+            junk = [iSlice*ones(nP, 1) gC];
+            CP = [CP; junk];
+            
+            xc = intersect(gC(:, 1), xc); % for matrix
+        end
+    end
+    T = array2table(CP, 'VariableNames',{'Slice #', 'Xd', 'Yd'});
+    writetable(T, ffn_snakePoints);
+
+    % matrix
+    CPM = [0 xc'];
     for iSlice = 1:nSlice
         gC = Snakes{iSlice};
         if ~isempty(gC)
-            nP = size(gC, 1);
-            junk = [iSlice*ones(nP, 1) gC];
-            CPM = [CPM; junk];
+            gC(:, 1) = (gC(:, 1)-1)*dx+x0;
+            gC(:, 2) = (gC(:, 2)-1)*dy+y0;
+            [~, ia, ib] = intersect(gC(:, 1), xc); % for matrix
+            yc = gC(ia, 2)';
+            CPM = [CPM; [iSlice yc]];
         end
     end
-    T = array2table(CPM, 'VariableNames',{'Slice #', 'Xd', 'Yd'});
-    writetable(T, ffn_snakePoints);
+    T2 = array2table(CPM);
+    writetable(T2, ffn_snakePointsMatrix, 'WriteVariableNames', 0);
 
 end
 

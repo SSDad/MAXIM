@@ -90,6 +90,9 @@ if matFile ~=0
     ffn_SnakePoints = fullfile(dataPath, [fn1, '_SnakePoints.csv']);
     data.FileInfo.ffn_snakePoints = ffn_SnakePoints;
 
+    ffn_SnakePointsMatrix = fullfile(dataPath, [fn1, '_SnakePointsMatrix.csv']);
+    data.FileInfo.ffn_snakePointsMatrix = ffn_SnakePointsMatrix;
+
     % ffn_points
     ffn_PointOnSnake = fullfile(dataPath, [fn1, '_PointOnSnake.mat']);
     data.FileInfo.ffn_PointOnSnake = ffn_PointOnSnake;
