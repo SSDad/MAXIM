@@ -148,6 +148,9 @@ end
 
         data.Panel.Point.Comp.Popup.Neighbour.Enable = 'on';
         data.Panel.Point.Comp.Pushbutton.Init.Enable = 'on';
+
+        data.Panel.Point.Comp.Radiobutton.Tumor.Enable = 'on';
+        data.Panel.Point.Comp.Radiobutton.Dome.Enable = 'on';
     end
 
     guidata(hFig, data);

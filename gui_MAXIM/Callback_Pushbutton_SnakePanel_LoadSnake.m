@@ -35,6 +35,9 @@ data.Panel.Snake.Comp.Pushbutton.SaveSnake.Enable = 'on';
 data.Panel.Point.Comp.Popup.Neighbour.Enable = 'on';
 data.Panel.Point.Comp.Pushbutton.Init.Enable = 'on';
 
+data.Panel.Point.Comp.Radiobutton.Tumor.Enable = 'on';
+data.Panel.Point.Comp.Radiobutton.Dome.Enable = 'on';
+
 guidata(hFig, data);
 
 % point on snake

@@ -37,12 +37,13 @@ if ~data.Point.InitDone
 
         hWB = waitbar(0, 'Initializing points on Diaphragm...');
 
+        xtc = mean(data.Tumor.cent.x); %tumor center x
         for iSlice = 1:nImages
             C = data.Snake.Snakes{iSlice};
             if ~isempty(C)
                 [xm(iSlice), yi(iSlice, :)] = fun_PointOnCurve2(C, dx, dy, x0, y0, xi, yi(iSlice, :));
                 if data.Panel.Point.Comp.Radiobutton.Tumor.Value
-                    xm(iSlice) = data.Tumor.cent.x(iSlice);
+                    xm(iSlice) = xtc;
                 end
             end
             waitbar(iSlice/nImages, hWB, 'Finding points on Diaphragm...');
