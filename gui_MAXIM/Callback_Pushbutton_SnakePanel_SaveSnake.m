@@ -16,6 +16,7 @@ dy = data.Image.dy;
 
 ffn_snakePoints = data.FileInfo.ffn_snakePoints;
 ffn_snakePointsMatrix = data.FileInfo.ffn_snakePointsMatrix;
+ffn_snakePointsMatrix2 = data.FileInfo.ffn_snakePointsMatrix2;
 if exist(ffn_snakePoints, 'file')
     nSlice = length(Snakes);
     CP = [];  % Contour Points
@@ -57,8 +58,28 @@ if exist(ffn_snakePoints, 'file')
             CPM = [CPM; [iSlice yc]];
         end
     end
-    T2 = array2table(CPM);
-    writetable(T2, ffn_snakePointsMatrix, 'WriteVariableNames', 0);
+    TT = array2table(CPM);
+    writetable(TT, ffn_snakePointsMatrix, 'WriteVariableNames', 0);
+    
+    % matrix2
+    sSlices = CPM(2:end, 1);
+    xt = data.Tumor.cent.x(sSlices);
+    yt = data.Tumor.cent.y(sSlices);
+    CPM2 = [sSlices xt yt];
+    varNames = {'Slice#', 'xt', 'yt'};
+    
+    nSS = length(sSlices);
+    for iX = 1:length(xc)
+        xd = repmat(xc(iX), nSS, 1);
+        CPM2 = [CPM2 xd CPM(2:end, iX+1)];
+        
+        xname = ['x', num2str(iX)];
+        yname = ['y', num2str(iX)];
+        
+        varNames = [varNames, {xname, yname}];
+    end
+    TT2 = array2table(CPM2, 'VariableNames', varNames);
+    writetable(TT2, ffn_snakePointsMatrix2);
 
 end
 
