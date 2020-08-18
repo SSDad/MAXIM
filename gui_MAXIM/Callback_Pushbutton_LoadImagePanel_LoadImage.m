@@ -40,13 +40,13 @@ if matFile ~=0
 
     %% load image info
     Image.Images = imgWrite;
-    nImages = length(imgWrite);
+    nSlices = length(imgWrite);
     [mImgSize, nImgSize, ~] = size(imgWrite{1});
     Image.mImgSize = mImgSize;
     Image.nImgSize = nImgSize;
-    Image.nImages = nImages;
+    Image.nSlices = nSlices;
 
-    Image.indSS = 1:nImages;
+    Image.indSS = 1:nSlices;
     Image.SliderValue = 1;
     Image.FreeHandSlice = [];
 
@@ -84,7 +84,7 @@ if matFile ~=0
     ffn_snakes = fullfile(dataPath, [fn1, '_Snake.mat']);
     data.FileInfo.ffn_snakes = ffn_snakes;
     if exist(ffn_snakes, 'file')
-        data.Panel.LoadImage.Comp.Pushbutton.LoadSnake.Enable = 'on';
+        data.Panel.Snake.Comp.Pushbutton.LoadSnake.Enable = 'on';
     end
     
     ffn_SnakePoints = fullfile(dataPath, [fn1, '_SnakePoints.csv']);
@@ -106,22 +106,26 @@ if matFile ~=0
     data.FileInfo.ffn_measureDataFig = ffn_measureDataFig;
     data.FileInfo.ffn_PointData = fullfile(dataPath, [fn1, '_PointData.csv']);
     
-    data.Snake.Snakes = cell(nImages, 1);
+    data.Snake.Snakes = cell(nSlices, 1);
+    data.Body.Contours = cell(nSlices, 1);
+    data.Body.Abs = cell(nSlices, 1);
     
     % enable buttons
     data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'on';
     data.Panel.Snake.Comp.Pushbutton.StartSlice.Enable = 'on';
     data.Panel.Snake.Comp.Pushbutton.EndSlice.Enable = 'on';
     data.Panel.Snake.Comp.Edit.StartSlice.String = '1';
-    data.Panel.Snake.Comp.Edit.EndSlice.String = num2str(nImages);
+    data.Panel.Snake.Comp.Edit.EndSlice.String = num2str(nSlices);
     data.Panel.Snake.Comp.Edit.StartSlice.ForegroundColor = 'r';
     data.Panel.Snake.Comp.Edit.EndSlice.ForegroundColor = 'r';
+
+    data.Panel.Body.Comp.Pushbutton.Contour.Enable = 'on';
 
     waitbar(1/3, hWB, 'Initializing View...');
 
     % CT images
     sV = 1;
-    nImages = data.Image.nImages;
+    nSlices = data.Image.nSlices;
 
     I = rot90(Image.Images{sV}, 3);
     [M, N, ~] = size(I);
@@ -160,16 +164,23 @@ if matFile ~=0
             'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', 'none',...
             'Marker', '.', 'MarkerSize', 16);
 
+    % body
+    hPlotObj.Body = line(hA,...
+        'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', '-', 'LineWidth', 0.5);
+
+    hPlotObj.Ab = line(hA,...
+        'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', '-', 'LineWidth', 3);
+
     data.Panel.View.Comp.hPlotObj = hPlotObj;
 
     % slider
     hSS = data.Panel.SliceSlider.Comp.hSlider.Slice;
     hSS.Min = 1;
-    hSS.Max = nImages;
+    hSS.Max = nSlices;
     hSS.Value = sV;
-    hSS.SliderStep = [1 10]/(nImages-1);
+    hSS.SliderStep = [1 10]/(nSlices-1);
 
-    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(nImages)];
+    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(nSlices)];
 
     waitbar(1, hWB, 'All slices are loaded!');
     pause(2);
@@ -188,6 +199,8 @@ if matFile ~=0
     data.Snake.SlitherDone = false;
     data.Point.InitDone = false;
     data.Tumor.InitDone = false;
+    
+    data.Body.ContourDone = false;
 
     guidata(hFig, data);
     

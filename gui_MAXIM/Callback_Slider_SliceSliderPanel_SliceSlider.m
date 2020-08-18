@@ -35,7 +35,7 @@ hPlotObj.Image.CData = I;
 data.Panel.View.Comp.hPlotObj.TumorCent.XData = data.Tumor.cent.x(iSlice);
 data.Panel.View.Comp.hPlotObj.TumorCent.YData = data.Tumor.cent.y(iSlice);
 
-data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(data.Image.nImages)];
+data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(data.Image.nSlices)];
 
 % hist
 yc = histcounts(I, max(I(:))+1);
@@ -93,6 +93,23 @@ if data.Snake.SlitherDone
         data2.Panel.View.Comp.hPlotObj.PlotPoint.Current.YData = mean(yi(iSlice, ixm-NP:ixm+NP));
     end
 
+end
+
+if data.Body.ContourDone
+    bC = data.Body.Contours{iSlice};
+    abC2 = data.Body.Abs{iSlice};
+    hPlotObj = data.Panel.View.Comp.hPlotObj;
+    if isempty(CB)
+        hPlotObj.Body.XData = [];
+        hPlotObj.Body.YData = [];
+        hPlotObj.Ab.XData = [];
+        hPlotObj.Ab.YData = [];
+    else
+        hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
+        hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
+        hPlotObj.Ab.YData = (abC2(:, 1)-1)*dy+y0;
+        hPlotObj.Ab.XData = (abC2(:, 2)-1)*dx+x0;
+    end
 end
 
 data.Point.Data.iSlice = iSlice;

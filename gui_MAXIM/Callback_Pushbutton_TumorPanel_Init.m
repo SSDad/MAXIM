@@ -101,7 +101,7 @@ xmin = inf;
 xmax = 0;
 ymin = inf;
 ymax = 0;
-for n = 1:data.Image.nImages
+for n = 1:data.Image.nSlices
     hPlotObj.Tumor.TrackContour(n) = line(hPlotObj.Tumor.hgTrackContour, ...
         'XData',  [], 'YData',  [],  'Color', 'b', 'LineStyle', '-', 'LineWidth', 1);
     hPlotObj.Tumor.GatedContour(n) = line(hPlotObj.Tumor.hgGatedContour, ...
