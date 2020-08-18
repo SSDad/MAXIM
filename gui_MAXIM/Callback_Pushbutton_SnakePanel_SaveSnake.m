@@ -17,7 +17,7 @@ dy = data.Image.dy;
 ffn_snakePoints = data.FileInfo.ffn_snakePoints;
 ffn_snakePointsMatrix = data.FileInfo.ffn_snakePointsMatrix;
 ffn_snakePointsMatrix2 = data.FileInfo.ffn_snakePointsMatrix2;
-if exist(ffn_snakePoints, 'file')
+if ~exist(ffn_snakePoints, 'file')
     nSlice = length(Snakes);
     CP = [];  % Contour Points
     iSlice = 1;
