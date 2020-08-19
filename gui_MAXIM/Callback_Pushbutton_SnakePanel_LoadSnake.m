@@ -45,6 +45,8 @@ guidata(hFig, data);
 % matFile = data.FileInfo.MatFile;
 % [~, fn1, ~] = fileparts(matFile);
 % ffn_PointOnSnake = fullfile(dataPath, [fn1, '_Point.mat']);
+
+pause(0.1);
 ffn_PointOnSnake = data.FileInfo.ffn_PointOnSnake;
 if exist(ffn_PointOnSnake, 'file')
     load(ffn_PointOnSnake);

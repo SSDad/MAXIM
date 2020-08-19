@@ -73,7 +73,6 @@ if data.Snake.SlitherDone
 
     if data.Point.InitDone
         % points on contour
-        iSlice = iSlice;
         xi = data.Point.Data.xi;
         yi = data.Point.Data.yi;
         ixm = data.Point.Data.ixm;
@@ -105,8 +104,8 @@ if data.Body.ContourDone
         hPlotObj.Ab.XData = [];
         hPlotObj.Ab.YData = [];
     else
-        hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
-        hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
+%         hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
+%         hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
         hPlotObj.Ab.YData = (abC2(:, 1)-1)*dy+y0;
         hPlotObj.Ab.XData = (abC2(:, 2)-1)*dx+x0;
     end

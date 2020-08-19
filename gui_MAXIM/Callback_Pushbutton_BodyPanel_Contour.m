@@ -1,7 +1,8 @@
 function Callback_Pushbutton_BodyPanel_Contour(src, evnt)
 
-hFig = ancestor(src, 'Figure');
+global hFig hFig2
 data = guidata(hFig);
+data2 = guidata(hFig2);
 
 x0 = data.Image.x0;
 y0 = data.Image.y0;
@@ -72,8 +73,8 @@ for iSlice = 1:nSlices
         hSnake.YData = [];
         hSnake.XData = [];
     else
-        hBody.YData = (bC(:, 1)-1)*dy+y0;
-        hBody.XData = (bC(:, 2)-1)*dx+x0;
+%        hBody.YData = (bC(:, 1)-1)*dy+y0;
+%        hBody.XData = (bC(:, 2)-1)*dx+x0;
         hAb.YData = (abC2(:, 1)-1)*dy+y0;
         hAb.XData = (abC2(:, 2)-1)*dx+x0;
         hSnake.YData = (sC(:, 2)-1)*dy+y0;
@@ -81,7 +82,32 @@ for iSlice = 1:nSlices
     end
     data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
     data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nSlices)];
-        
+    
+    %tumor center
+    data.Panel.View.Comp.hPlotObj.TumorCent.XData = data.Tumor.cent.x(iSlice);
+    data.Panel.View.Comp.hPlotObj.TumorCent.YData = data.Tumor.cent.y(iSlice);
+
+    
+    if data.Point.InitDone
+        % points on contour
+        xi = data.Point.Data.xi;
+        yi = data.Point.Data.yi;
+        ixm = data.Point.Data.ixm;
+        NP = data.Point.Data.NP;
+
+        hPlotObj = data.Panel.View.Comp.hPlotObj;
+        hPlotObj.Point.XData = xi(ixm);
+        hPlotObj.Point.YData = yi(iSlice, ixm);
+        hPlotObj.LeftPoints.XData = xi(ixm-NP:ixm-1);
+        hPlotObj.LeftPoints.YData = yi(iSlice, ixm-NP:ixm-1);
+        hPlotObj.RightPoints.XData = xi(ixm+1:ixm+NP);
+        hPlotObj.RightPoints.YData = yi(iSlice, ixm+1:ixm+NP);
+
+        % point of current slice on points plot
+        data2.Panel.View.Comp.hPlotObj.PlotPoint.Current.XData = iSlice;
+        data2.Panel.View.Comp.hPlotObj.PlotPoint.Current.YData = mean(yi(iSlice, ixm-NP:ixm+NP));
+    end
+
     pause(0.1);
 end
 
