@@ -171,10 +171,7 @@ if matFile ~=0
 
     hPlotObj.Ab = line(hA,...
         'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', '-', 'LineWidth', 3);
-    pos = [x0 y0+yWL(2)*2/3
-            xWL(2) y0+yWL(2)*2/3];
-    hPlotObj.AbLine1 = images.roi.Line(hA, 'Color', 'g', 'Position', pos, 'LineWidth', 0.5,...
-        'Tag', 'L1', 'InteractionsAllowed', 'Translate');
+    hPlotObj.AbLine1 = images.roi.Line(hA, 'Color', 'g', 'Position', pos , 'Tag', 'L1');
     addlistener(hPlotObj.AbLine1, 'MovingROI', @Callback_Line_AbL1);
 
     data.Panel.View.Comp.hPlotObj = hPlotObj;
