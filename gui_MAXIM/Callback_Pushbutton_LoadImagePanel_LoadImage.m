@@ -17,7 +17,8 @@ else
         save(fn_info, 'dataPath');
     else
         load(fn_info);
-        [matFile, ~] = uigetfile([dataPath, '*.mat']);
+        [matFile, dataPath] = uigetfile([dataPath, '*.mat']);
+        save(fn_info, 'dataPath');
     end
 end
 
@@ -109,6 +110,11 @@ if matFile ~=0
     data.Snake.Snakes = cell(nSlices, 1);
     data.Body.Contours = cell(nSlices, 1);
     data.Body.Abs = cell(nSlices, 1);
+
+    % ffn_AbsContour
+    ffn_AbsContour = fullfile(dataPath, [fn1, '_AbsContour.mat']);
+    data.FileInfo.ffn_AbsContour = ffn_AbsContour;
+
     
     % enable buttons
     data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'on';
@@ -171,12 +177,18 @@ if matFile ~=0
 
     hPlotObj.Ab = line(hA,...
         'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', '-', 'LineWidth', 3);
-    pos = [x0 y0+yWL(2)*2/3
-            xWL(2) y0+yWL(2)*2/3];
-    hPlotObj.AbLine1 = images.roi.Line(hA, 'Color', 'g', 'Position', pos, 'LineWidth', 0.5,...
-        'Tag', 'L1', 'InteractionsAllowed', 'Translate');
-    addlistener(hPlotObj.AbLine1, 'MovingROI', @Callback_Line_AbL1);
 
+%     pos = [x0 y0+yWL(2)*2/3
+%             xWL(2) y0+yWL(2)*2/3];
+%     hPlotObj.AbLine1 = images.roi.Line(hA, 'Color', 'g', 'Position', pos, 'LineWidth', 0.5,...
+%         'Tag', 'L1', 'InteractionsAllowed', 'Translate');
+%    addlistener(hPlotObj.AbLine1, 'MovingROI', @Callback_Line_AbL1);
+
+    pos = [x0 y0+yWL(2)*2/3 xWL(2) yWL(2)/3];
+    hPlotObj.AbRect = images.roi.Rectangle(hA, 'Position', pos, 'Color', 'g',...
+        'LineWidth', .5, 'FaceAlpha', 0.1, 'Tag', 'AbRec', 'Visible', 'off');
+  %  addlistener(hPlotObj.AbRect, 'MovingROI', @Callback_AbRec);
+    
     data.Panel.View.Comp.hPlotObj = hPlotObj;
 
     % slider

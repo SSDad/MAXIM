@@ -1,6 +1,5 @@
 function Callback_Pushbutton_BodyPanel_Contour(src, evnt)
 
-global AbBoundLim
 global hFig hFig2
 data = guidata(hFig);
 data2 = guidata(hFig2);
@@ -17,7 +16,6 @@ hBody = data.Panel.View.Comp.hPlotObj.Body;
 hAb = data.Panel.View.Comp.hPlotObj.Ab;
 hSnake = data.Panel.View.Comp.hPlotObj.Snake;
 
-mBound = round((AbBoundLim-y0)/dy);
 for iSlice = 1:nSlices
     bC = []; % body Contour
     abC2 = []; % abdomen Contour
@@ -38,20 +36,19 @@ for iSlice = 1:nSlices
             end
             [~, idx] = max(nP);
         end
-        bC = bd{idx}; %Boundary Contour
+        bC = bd{idx};
         data.Body.Contours{iSlice} = bC; % 1 - row, 2 - column
         
         % ab
-%         % lower than left end of diaphram and on left of diaphram
+        % lower than left end of diaphram and on left of diaphram
         sC = data.Snake.Snakes{iSlice}; % diaphragm Contour, 1 - column, 2 - row
-%        [n1, idx] = min(sC(:, 1));
-%         m1 = sC(idx, 2);
-%         m2 = size(J, 1);
-   
-        ind1 = bC(:, 1) > mBound(1) & bC(:, 1) < mBound(2);
+        [n1, idx] = min(sC(:, 1));
+        m1 = sC(idx, 2);
+        m2 = size(J, 1);
+        
+        ind1 = bC(:, 1) > m1 & bC(:, 1) < m2 - 10;
         abC1 = bC(ind1, :);
         
-        n1 = mean(abC1(:, 2));
         ind2 =  abC1(:, 2) < n1;
         abC2 = abC1(ind2, :);
         
@@ -62,7 +59,7 @@ for iSlice = 1:nSlices
         if idx > 5
             abC2 = flip(abC2);
         end
-        data.Body.AbsContour{iSlice} = abC2; % 1 - row, 2 - column
+        data.Body.Abs{iSlice} = abC2; % 1 - row, 2 - column
 
     end
     
@@ -80,10 +77,8 @@ for iSlice = 1:nSlices
 %        hBody.XData = (bC(:, 2)-1)*dx+x0;
         hAb.YData = (abC2(:, 1)-1)*dy+y0;
         hAb.XData = (abC2(:, 2)-1)*dx+x0;
-        if ~isempty(sC)
-            hSnake.YData = (sC(:, 2)-1)*dy+y0;
-            hSnake.XData = (sC(:, 1)-1)*dx+x0;
-        end
+        hSnake.YData = (sC(:, 2)-1)*dy+y0;
+        hSnake.XData = (sC(:, 1)-1)*dx+x0;
     end
     data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
     data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nSlices)];
@@ -117,6 +112,5 @@ for iSlice = 1:nSlices
 end
 
 data.Body.ContourDone = 1;
-data.Panel.Body.Comp.Pushbutton.SaveContour.Enable = 'on';
 
 guidata(hFig, data)

@@ -17,7 +17,8 @@ else
         save(fn_info, 'dataPath');
     else
         load(fn_info);
-        [matFile, ~] = uigetfile([dataPath, '*.mat']);
+        [matFile, dataPath] = uigetfile([dataPath, '*.mat']);
+        save(fn_info, 'dataPath');
     end
 end
 
@@ -171,9 +172,16 @@ if matFile ~=0
 
     hPlotObj.Ab = line(hA,...
         'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', '-', 'LineWidth', 3);
-    hPlotObj.AbLine1 = images.roi.Line(hA, 'Color', 'g', 'Position', pos , 'Tag', 'L1');
+
+    pos = [x0 y0+yWL(2)*2/3
+            xWL(2) y0+yWL(2)*2/3];
+    hPlotObj.AbLine1 = images.roi.Line(hA, 'Color', 'g', 'Position', pos, 'LineWidth', 0.5,...
+        'Tag', 'L1', 'InteractionsAllowed', 'Translate');
+
+    hPlotObj.AbRect = images.roi.Rectangle(hA, 'Position', [0, 0, 0, 0], 'Color', 'm', 'LineWidth', .5, 'FaceAlpha', 0.15);
     addlistener(hPlotObj.AbLine1, 'MovingROI', @Callback_Line_AbL1);
 
+    
     data.Panel.View.Comp.hPlotObj = hPlotObj;
 
     % slider

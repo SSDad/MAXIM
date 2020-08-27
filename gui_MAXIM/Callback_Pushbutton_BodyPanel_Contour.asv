@@ -62,7 +62,7 @@ for iSlice = 1:nSlices
         if idx > 5
             abC2 = flip(abC2);
         end
-        data.Body.AbsContour{iSlice} = abC2; % 1 - row, 2 - column
+        data.Body.Abs{iSlice} = abC2; % 1 - row, 2 - column
 
     end
     
@@ -80,10 +80,9 @@ for iSlice = 1:nSlices
 %        hBody.XData = (bC(:, 2)-1)*dx+x0;
         hAb.YData = (abC2(:, 1)-1)*dy+y0;
         hAb.XData = (abC2(:, 2)-1)*dx+x0;
-        if ~isempty(sC)
-            hSnake.YData = (sC(:, 2)-1)*dy+y0;
-            hSnake.XData = (sC(:, 1)-1)*dx+x0;
-        end
+        
+        hSnake.YData = (sC(:, 2)-1)*dy+y0;
+        hSnake.XData = (sC(:, 1)-1)*dx+x0;
     end
     data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
     data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nSlices)];
@@ -117,6 +116,5 @@ for iSlice = 1:nSlices
 end
 
 data.Body.ContourDone = 1;
-data.Panel.Body.Comp.Pushbutton.SaveContour.Enable = 'on';
 
 guidata(hFig, data)
