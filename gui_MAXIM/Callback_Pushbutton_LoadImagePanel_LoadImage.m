@@ -17,7 +17,8 @@ else
         save(fn_info, 'dataPath');
     else
         load(fn_info);
-        [matFile, ~] = uigetfile([dataPath, '*.mat']);
+        [matFile, dataPath] = uigetfile([dataPath, '*.mat']);
+        save(fn_info, 'dataPath');
     end
 end
 
