@@ -17,7 +17,8 @@ dy = data.Image.dy;
 ffn_snakePoints = data.FileInfo.ffn_snakePoints;
 ffn_snakePointsMatrix = data.FileInfo.ffn_snakePointsMatrix;
 ffn_snakePointsMatrix2 = data.FileInfo.ffn_snakePointsMatrix2;
-if ~exist(ffn_snakePoints, 'file')
+
+% if ~exist(ffn_snakePoints, 'file')
     nSlice = length(Snakes);
     CP = [];  % Contour Points
     iSlice = 1;
@@ -81,7 +82,7 @@ if ~exist(ffn_snakePoints, 'file')
     TT2 = array2table(CPM2, 'VariableNames', varNames);
     writetable(TT2, ffn_snakePointsMatrix2);
 
-end
+% end
 
 
 if data.Point.InitDone
@@ -92,4 +93,18 @@ if data.Point.InitDone
 else
     msg = ['Snakes have been saved in ', ffn_snakes]; 
 end
-msgbox(msg);
+
+msg = {'Snake matrix data have been saved in:';  ffn_snakePointsMatrix2};
+hMB = msgbox('');
+pos = hMB.Position;
+w = pos(3);
+h = pos(4);
+hMB.Position = [pos(1)-w*2.5 pos(2)-h/2 w*6 h*2];
+hT = findall(hMB, 'Type', 'Text');
+hT.String = msg;
+hT.FontSize = 14;
+hPB = findall(hMB, 'Style', 'pushbutton');
+hPB.FontSize = 14;
+hPB.Visible = 'off';
+
+
