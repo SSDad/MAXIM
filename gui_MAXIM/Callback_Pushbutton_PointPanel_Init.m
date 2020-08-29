@@ -29,7 +29,7 @@ if ~data.Point.InitDone
         dy = data.Image.dy;
         mI = data.Image.mImgSize;
         nI = data.Image.nImgSize;
-        nImages = data.Image.nImages;
+        nImages = data.Image.nSlices;
 
         xi = x0:dx:x0+dx*(nI-1);
         yi = nan(nImages, nI);

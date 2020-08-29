@@ -7,3 +7,6 @@ data = guidata(hFig);
 AbsContour = data.Body.AbsContour;
 ffn_AbsContour = data.FileInfo.ffn_AbsContour;
 save(ffn_AbsContour, 'AbsContour');
+
+msg = {'Abdomen data have been saved in:'; ffn_AbsContour};
+fun_messageBox(msg);
