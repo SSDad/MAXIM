@@ -96,7 +96,7 @@ end
 
 if data.Body.ContourDone
     bC = data.Body.Contours{iSlice};
-    abC2 = data.Body.Abs{iSlice};
+    abC2 = data.Body.AbsContour{iSlice};
     hPlotObj = data.Panel.View.Comp.hPlotObj;
     if isempty(CB)
         hPlotObj.Body.XData = [];

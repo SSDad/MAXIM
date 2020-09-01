@@ -23,4 +23,13 @@ else
     data.Panel.Snake.hPanel.Visible = 'off';
     data.Panel.Point.hPanel.Visible = 'off';
     data.Panel.Body.hPanel.Visible = 'on';
+    
+    % check previously saved contours
+%     [~, fn1, ~] = fileparts(matFile);
+%     ffn_snakes = fullfile(dataPath, [fn1, '_Snake.mat']);
+%     data.FileInfo.ffn_AbsContour = ffn_Abs;
+    if exist(data.FileInfo.ffn_AbsContour, 'file')
+        data.Panel.Body.Comp.Pushbutton.LoadContour.Enable = 'on';
+    end
+
 end
