@@ -6,7 +6,7 @@ data2 = guidata(hFig2);
 
 hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
 
-for n = 1:data.Image.nImages
+for n = 1:data.Image.nSlices
     hPlotObj.Tumor.GatedContour(n).Visible = 'off';
     hPlotObj.Tumor.TrackContour(n).Visible = 'off';
 end

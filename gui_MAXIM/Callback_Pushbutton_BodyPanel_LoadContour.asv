@@ -1,4 +1,4 @@
-function Callback_Pushbutton_SnakePanel_LoadSnake(src, evnt)
+function Callback_Pushbutton_BodyPanel_LoadContour(src, evnt)
 
 global hFig hFig2
 
@@ -6,13 +6,15 @@ global hFig hFig2
 data = guidata(hFig);
 data2 = guidata(hFig2);
 
-ffn_snakes = data.FileInfo.ffn_snakes;
+ffn_AbsContour = data.FileInfo.ffn_AbsContour;
+load(ffn_AbsContour);
+data.Body.AbsContour = AbsContour;
 
-load(ffn_snakes);
-data.Snake.Snakes = Snakes;
-data.Snake.SlitherDone = true;
+% show contour
+iSlice = data.Panel.SliceSlider.Comp.hSlider.Slice.Value;
 
-% show snake
+
+
 x0 = data.Image.x0;
 y0 = data.Image.y0;
 dx = data.Image.dx;
@@ -80,7 +82,7 @@ if exist(ffn_PointOnSnake, 'file')
     guidata(hFig2, data2);
     
     updatePlotPoint;
-%     hFig2.Visible = 'on';
+    hFig2.Visible = 'on';
 
 end
 

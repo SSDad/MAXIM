@@ -226,4 +226,4 @@ data2.Panel.Button.Comp.Radiobutton.vProfile.Value = 0;
 data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
 guidata(hFig2, data2);
 
-hFig2.Visible = 'on';
+%hFig2.Visible = 'on';
