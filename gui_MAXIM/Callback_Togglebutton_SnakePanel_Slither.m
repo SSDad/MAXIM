@@ -11,52 +11,53 @@ endSlice = str2double(data.Panel.Snake.Comp.Edit.EndSlice.String);
 bV = src.Value;
 % iSlice = round(data_main.hSlider.snake.Value);
 
-if bV
+if bV  % slither
     src.String = 'Stop';
     src.ForegroundColor = 'r';
     src.BackgroundColor = [1 1 1]*0.25;
     
-x0 = data.Image.x0;
-y0 = data.Image.y0;
-dx = data.Image.dx;
-dy = data.Image.dy;
+    x0 = data.Image.x0;
+    y0 = data.Image.y0;
+    dx = data.Image.dx;
+    dy = data.Image.dy;
 
-L = data.Snake.FreeHand.L;
-II = data.Image.Images;
+    L = data.Snake.FreeHand.L;
+    II = data.Image.Images;
 
-sV = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
-J = rot90(rgb2gray(II{sV}), 3);
-[mJ, nJ] = size(J);
-cAF = L.Position;
+    sV = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
+    J = rot90(rgb2gray(II{sV}), 3);
+    [mJ, nJ] = size(J);
+    cAF = L.Position;
 
-% convert to ij
-cAF(:, 1) = (cAF(:, 1)-data.Image.x0)/data.Image.dx+1;
-cAF(:, 2) = (cAF(:, 2)-data.Image.y0)/data.Image.dy+1;
+    % convert to ij
+    cAF(:, 1) = (cAF(:, 1)-data.Image.x0)/data.Image.dx+1;
+    cAF(:, 2) = (cAF(:, 2)-data.Image.y0)/data.Image.dy+1;
 
-% snakes
-nImages = length(II);
+    % snakes
+    nImages = endSlice - startSlice + 1;
 
-L.Visible = 'off';
+    L.Visible = 'off';
 
-xMarg = 10;
-yMarg = 10;
-    
-%% rect
-xmin = round(min(cAF(:, 1)));
-xmax = round(max(cAF(:, 1)));
-ymin = round(min(cAF(:, 2)));
-ymax = round(max(cAF(:, 2)));
+    xMarg = 10;
+    yMarg = 10;
 
-y1 = ymin-yMarg;
-y2 = ymax-yMarg;
-x1 = xmin-xMarg;
-x2 = xmax+xMarg;
+    %% rect
+    xmin = round(min(cAF(:, 1)));
+    xmax = round(max(cAF(:, 1)));
+    ymin = round(min(cAF(:, 2)));
+    ymax = round(max(cAF(:, 2)));
 
-T = J(y1:y2, x1:x2);
+    y1 = ymin-yMarg;
+    y2 = ymax-yMarg;
+    x1 = xmin-xMarg;
+    x2 = xmax+xMarg;
 
-%% template match
-hPlotObj = data.Panel.View.Comp.hPlotObj;
-mMid = round(mJ/2);
+    T = J(y1:y2, x1:x2);
+
+    %% template match
+    hPlotObj = data.Panel.View.Comp.hPlotObj;
+    mMid = round(mJ/2);
+
 for iSlice = startSlice:endSlice
     
     if stopSlither
