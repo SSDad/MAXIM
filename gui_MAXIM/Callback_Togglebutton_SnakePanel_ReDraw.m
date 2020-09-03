@@ -66,11 +66,17 @@ else % Done
     data.Snake.Snakes{iSlice} = [];
     C = reContL.Position;
     % convert to ij
-    C(:, 1) = (C(:, 1)-x0)/dx+1;
-    C(:, 2) = (C(:, 2)-y0)/dy+1;
-    C(:, 1) = sgolayfilt(C(:, 1), 3, 75);
+    jj = (C(:, 1)-x0)/dx+1;
+    ii = (C(:, 2)-y0)/dy+1;
+    jj = sgolayfilt(jj, 3, 75);
+    
+    jj2 = ceil(jj(1)):floor(jj(end));
+    ii2 = interp1(jj, ii, jj2);
  
+    C = [jj2' ii2'];
+    
     data.Snake.Snakes{iSlice} = C;
+    
     % show
     data.Panel.View.Comp.hPlotObj.Snake.YData = (C(:, 2)-1)*dy+y0;
     data.Panel.View.Comp.hPlotObj.Snake.XData = (C(:, 1)-1)*dx+x0;
