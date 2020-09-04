@@ -1,5 +1,7 @@
 function Callback_Togglebutton_SnakePanel_Slither(src, evnt)
 
+bDiag = true;
+
 global stopSlither 
 
 hFig = ancestor(src, 'Figure');
@@ -24,14 +26,14 @@ if bV  % slither
     L = data.Snake.FreeHand.L;
     II = data.Image.Images;
 
-    sV = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
-    J = rot90(rgb2gray(II{sV}), 3);
-    [mJ, nJ] = size(J);
+    cSlice = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
+    cJ = rot90(rgb2gray(II{cSlice}), 3);
+    [mJ, nJ] = size(cJ);
     cAF = L.Position;
 
     % convert to ij
-    cAF(:, 1) = (cAF(:, 1)-data.Image.x0)/data.Image.dx+1;
-    cAF(:, 2) = (cAF(:, 2)-data.Image.y0)/data.Image.dy+1;
+    cAF(:, 1) = (cAF(:, 1)-x0)/dx+1;
+    cAF(:, 2) = (cAF(:, 2)-y0)/dy+1;
 
     % snakes
     nImages = endSlice - startSlice + 1;
@@ -40,7 +42,7 @@ if bV  % slither
 
     xMarg = 10;
     yMarg = 10;
-
+    
     %% rect
     xmin = round(min(cAF(:, 1)));
     xmax = round(max(cAF(:, 1)));
@@ -52,13 +54,16 @@ if bV  % slither
     x1 = xmin-xMarg;
     x2 = xmax+xMarg;
 
-    T = J(y1:y2, x1:x2);
+    cT = cJ(y1:y2, x1:x2);
 
     %% template match
     hPlotObj = data.Panel.View.Comp.hPlotObj;
     mMid = round(mJ/2);
-
-for iSlice = startSlice:endSlice
+    
+    C = cAF;
+    T = cT;
+    iSlice = 1;
+for iSliceT = cSlice:endSlice
     
     if stopSlither
         break;
@@ -70,21 +75,45 @@ for iSlice = startSlice:endSlice
         J = rot90(J, 3);
 
         J2 = J(mMid:end, :);
-
+%         J2 = J;
+    
         % template match
         nXC = normxcorr2(T, J2);
         [ypeak, xpeak] = find(nXC==max(nXC(:)));
         yoffSet = ypeak-size(T,1);
-        yoffSet = yoffSet+mMid;
+        yoffSet = yoffSet+mMid -1;
         xoffSet = xpeak-size(T,2);
 
-        C(:, 1) = cAF(:, 1)+xoffSet-x1;
-        C(:, 2) = cAF(:, 2)+yoffSet-y1;
-
+        C(:, 1) = C(:, 1)+xoffSet-x1+1;
+        C(:, 2) = C(:, 2)+yoffSet-y1+1;
+        
         % snake on cropped
         Rect = [xoffSet+1, yoffSet+1, size(T,2), nJ-yoffSet];
         [sC] = fun_findDiaphragm(J, Rect, C);
-    
+
+        % update template
+        C = sC;
+        xmin = round(min(C(:, 1)));
+        xmax = round(max(C(:, 1)));
+        ymin = round(min(C(:, 2)));
+        ymax = round(max(C(:, 2)));
+
+        y1 = ymin-yMarg;
+        y2 = ymax-yMarg;
+        x1 = xmin-xMarg;
+        x2 = xmax+xMarg;
+
+        T = J(y1:y2, x1:x2);
+        
+        if bDiag
+            figure(99); clf
+            imshow(J, []);
+            hold on
+            plot(C(:, 1), C(:, 2), 'r')
+            rectangle('Position', Rect, 'EdgeColor', 'g')
+            axis on
+        end
+        
     else
         sC = [];
     end    

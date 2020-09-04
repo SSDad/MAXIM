@@ -3,8 +3,8 @@ function [sC] =  fun_findDiaphragm(J, Rect, C)
 % clear cC sC
 
 JC = imcrop(J, Rect);
-cC(:, 1) = C(:, 1)-Rect(1);
-cC(:, 2) = C(:, 2)-Rect(2);
+cC(:, 1) = C(:, 1)-Rect(1)+1;
+cC(:, 2) = C(:, 2)-Rect(2)+1 ;
 cC(:, 2) = sgolayfilt(cC(:, 2), 3, 75);
 
 % figure
@@ -43,8 +43,8 @@ end
 
 sC = fliplr(B{idx});
 
-sC(:, 1) = sC(:, 1)+Rect(1);
-sC(:, 2) = sC(:, 2)+Rect(2);
+sC(:, 1) = sC(:, 1)+Rect(1)-1;
+sC(:, 2) = sC(:, 2)+Rect(2)-1;
 
 % cut (side first)
 % cent = mean(sC);
