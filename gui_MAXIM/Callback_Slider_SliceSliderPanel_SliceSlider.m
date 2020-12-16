@@ -98,16 +98,18 @@ if data.Body.ContourDone
     bC = data.Body.Contours{iSlice};
     abC2 = data.Body.AbsContour{iSlice};
     hPlotObj = data.Panel.View.Comp.hPlotObj;
-    if isempty(CB)
-        hPlotObj.Body.XData = [];
-        hPlotObj.Body.YData = [];
-        hPlotObj.Ab.XData = [];
-        hPlotObj.Ab.YData = [];
-    else
-%         hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
-%         hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
-        hPlotObj.Ab.YData = (abC2(:, 1)-1)*dy+y0;
-        hPlotObj.Ab.XData = (abC2(:, 2)-1)*dx+x0;
+    if data.Snake.SlitherDone 
+        if isempty(CB)
+            hPlotObj.Body.XData = [];
+            hPlotObj.Body.YData = [];
+            hPlotObj.Ab.XData = [];
+            hPlotObj.Ab.YData = [];
+        else
+    %         hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
+    %         hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
+            hPlotObj.Ab.YData = (abC2(:, 1)-1)*dy+y0;
+            hPlotObj.Ab.XData = (abC2(:, 2)-1)*dx+x0;
+        end
     end
 end
 

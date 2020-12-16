@@ -115,6 +115,7 @@ if matFile ~=0
     ffn_AbsContour = fullfile(dataPath, [fn1, '_AbsContour.mat']);
     data.FileInfo.ffn_AbsContour = ffn_AbsContour;
 
+    data.FileInfo.ffn_csv_AbsContour = fullfile(dataPath, [fn1, '_AbsContourMatrix2.csv']);
     
     % enable buttons
     data.Panel.Snake.Comp.Pushbutton.FreeHand.Enable = 'on';
@@ -187,8 +188,16 @@ if matFile ~=0
     pos = [x0 y0+yWL(2)*2/3 xWL(2) yWL(2)/3];
     hPlotObj.AbRect = images.roi.Rectangle(hA, 'Position', pos, 'Color', 'g',...
         'LineWidth', .5, 'FaceAlpha', 0.1, 'Tag', 'AbRec', 'Visible', 'off');
-  %  addlistener(hPlotObj.AbRect, 'MovingROI', @Callback_AbRec);
+    addlistener(hPlotObj.AbRect, 'MovingROI', @Callback_AbRect);
     
+    x1 = pos(1);
+    x2 = x1+pos(3);
+    y1 = pos(2)+pos(4)/2;
+    y2 = y1;
+    hPlotObj.AbRectCLine = images.roi.Line(hA, 'Position',[x1 y1; x2 y2], 'Color', 'c',...
+        'LineWidth', 1, 'Tag', 'AbRecCLine', 'Visible', 'off');
+    addlistener(hPlotObj.AbRectCLine, 'MovingROI', @Callback_AbRectCLine);
+  
     data.Panel.View.Comp.hPlotObj = hPlotObj;
 
     % slider

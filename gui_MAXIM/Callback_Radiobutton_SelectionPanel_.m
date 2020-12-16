@@ -19,10 +19,17 @@ if data.Panel.Selection.Comp.Radiobutton.Diaphragm.Value
     data.Panel.Body.hPanel.Visible = 'off';
     data.Panel.Snake.hPanel.Visible = 'on';
     data.Panel.Point.hPanel.Visible = 'on';
+
+    data.Panel.View.Comp.hPlotObj.AbRect.Visible = 'off';
+    data.Panel.View.Comp.hPlotObj.AbRectCLine.Visible = 'off';
 else
     data.Panel.Snake.hPanel.Visible = 'off';
     data.Panel.Point.hPanel.Visible = 'off';
     data.Panel.Body.hPanel.Visible = 'on';
+    
+%     data.Panel.View.Comp.hPlotObj.AbRect.Visible = 'on';
+%     data.Panel.View.Comp.hPlotObj.AbRectCLine.Visible = 'on';
+
     
     % check previously saved contours
 %     [~, fn1, ~] = fileparts(matFile);
