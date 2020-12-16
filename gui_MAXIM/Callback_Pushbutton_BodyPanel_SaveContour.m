@@ -18,7 +18,7 @@ dx = data.Image.dx;
 dy = data.Image.dy;
 
 nSlice = length(AbsContour);
-nP = size(AbsContour{1}, 1);
+nP = max(cellfun(@length, AbsContour));
 CPM2 = [];  % Contour Points Matrix2
 
 varNames = {'Slice#'};
@@ -31,18 +31,17 @@ end
 for iSlice = 1:nSlice
     junk = nan(1, nP*2);
     gC = AbsContour{iSlice};
-%     if ~isempty(gC)
-        junk(1:2:end-1) = (gC(:, 2)'-1)*dx+x0;
-        junk(2:2:end) = (gC(:, 1)-1)'*dy+y0;
+    if ~isempty(gC)
+        junk(1:2:length(gC)*2-1) = (gC(:, 2)'-1)*dx+x0;
+        junk(2:2:length(gC)*2) = (gC(:, 1)-1)'*dy+y0;
         CPM2 = [CPM2; [iSlice junk]];
-%     end
+    end
 end
 TT2 = array2table(CPM2, 'VariableNames', varNames);
 writetable(TT2, ffn_csv);
 
 msg = {'Abdomen data have been saved in:'; ffn_csv};
 fun_messageBox(msg);
-
 
 % 
 %     iSlice = 1;
