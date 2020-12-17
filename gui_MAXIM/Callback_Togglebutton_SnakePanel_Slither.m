@@ -1,5 +1,7 @@
 function Callback_Togglebutton_SnakePanel_Slither(src, evnt)
 
+bPlot = 0;
+
 global stopSlither 
 
 hFig = ancestor(src, 'Figure');
@@ -48,7 +50,7 @@ ymin = round(min(cAF(:, 2)));
 ymax = round(max(cAF(:, 2)));
 
 y1 = ymin-yMarg;
-y2 = ymax-yMarg;
+y2 = ymax+yMarg;
 x1 = xmin-xMarg;
 x2 = xmax+xMarg;
 
@@ -56,7 +58,13 @@ T = J(y1:y2, x1:x2);
 
 %% template match
 hPlotObj = data.Panel.View.Comp.hPlotObj;
-mMid = round(mJ/2);
+
+% tumor/diaphram vertical center
+mTC = round((data.Tumor.cent.refy-y0)/dy)+1;
+mDP = mean(cAF(:, 2));
+mBuffer = round(mJ/10);
+
+% mMid = round(mJ/2);
 for iSlice = startSlice:endSlice
     
     if stopSlither
@@ -68,20 +76,49 @@ for iSlice = startSlice:endSlice
         J =  rgb2gray(II{iSlice});
         J = rot90(J, 3);
 
-        J2 = J(mMid:end, :);
+        if mTC < mDP
+            mCut = mTC-mBuffer;
+            J2 = J(mCut:end, :);
+        else
+            mCut = mTC+mBuffer;
+            J2 = J(1:mCut, :);
+        end
 
         % template match
         nXC = normxcorr2(T, J2);
         [ypeak, xpeak] = find(nXC==max(nXC(:)));
         yoffSet = ypeak-size(T,1);
-        yoffSet = yoffSet+mMid;
+        if mTC < mDP
+            yoffSet = yoffSet+mCut;
+        end
         xoffSet = xpeak-size(T,2);
 
         C(:, 1) = cAF(:, 1)+xoffSet-x1;
         C(:, 2) = cAF(:, 2)+yoffSet-y1;
-
+                
         % snake on cropped
-        Rect = [xoffSet+1, yoffSet+1, size(T,2), nJ-yoffSet];
+        if mTC < mDP
+            Rect = [xoffSet+1, yoffSet+1, size(T,2), nJ-yoffSet];
+        else
+            Rect = [xoffSet+1, yoffSet+1, size(T,2), size(T,1)];
+        end
+        
+        if bPlot
+            figure(101), clf
+            imshow(J, []); 
+            axis on;
+            hold on
+            line(cAF(:, 1), cAF(:, 2), 'Color', 'g')
+            line(C(:, 1), C(:, 2), 'Color', 'r')
+            rectangle('Position', Rect, 'EdgeColor', 'c');
+
+            figure(102), clf
+            imshow(J2, []); 
+            axis on;
+            hold on
+    % %         line(C(:, 1), C(:, 2), 'Color', 'g')
+        end
+        
         [sC] = fun_findDiaphragm(J, Rect, C);
     
     else

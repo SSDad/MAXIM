@@ -26,7 +26,7 @@ hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
 %     hPlotObj.Tumor.Points(n).XData = xi(ixm);
 %     hPlotObj.Tumor.Points(n).YData = yy(indSS(n));
 % end
-for n = 1:data.Image.nImages
+for n = 1:data.Image.nSlices
     hPlotObj.Tumor.Points(n).XData = xi(ixm);
     hPlotObj.Tumor.Points(n).YData = yy(n);
 end

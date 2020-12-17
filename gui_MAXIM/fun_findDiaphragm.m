@@ -2,14 +2,23 @@ function [sC] =  fun_findDiaphragm(J, Rect, C)
 
 % clear cC sC
 
+bPlot = 0;
+
 JC = imcrop(J, Rect);
 cC(:, 1) = C(:, 1)-Rect(1);
 cC(:, 2) = C(:, 2)-Rect(2);
 cC(:, 2) = sgolayfilt(cC(:, 2), 3, 75);
 
-% figure
-% imshow(JC); hold on
-% line('XData', cC(:, 1), 'YData', cC(:, 2), 'Color', 'c');
+if bPlot
+    figure(101), clf
+    imshow(J, []); hold on
+    rectangle('Position', Rect, 'EdgeColor', 'c');
+    line('XData', C(:, 1), 'YData', C(:, 2), 'Color', 'g');
+
+    figure(102), clf
+    imshow(JC); hold on
+    line('XData', cC(:, 1), 'YData', cC(:, 2), 'Color', 'r');
+end
 
 [mJC, nJC] = size(JC);
 if cC(1, 1) < cC(end, 1)
@@ -29,6 +38,11 @@ end
 sC(:,1) = [cC(:, 1); xx1; xx2; xx3];
 sC(:,2) = [cC(:, 2); yy1; yy2; yy3];
 
+if bPlot
+    figure(102)
+    line('XData', sC(:, 1), 'YData', sC(:, 2), 'Color', 'g', 'LineWidth', 2);
+end    
+
 mask = poly2mask(sC(:, 1), sC(:, 2), mJC, nJC);
 bw = activecontour(JC, mask, 50, 'Chan-Vese', 'SmoothFactor', 2);
 
@@ -42,7 +56,10 @@ end
 [~, idx] = max(nP);
 
 sC = fliplr(B{idx});
-
+if bPlot
+    figure(102)
+    line('XData', sC(:, 1), 'YData', sC(:, 2), 'Color', 'r', 'LineWidth', 2);
+end    
 sC(:, 1) = sC(:, 1)+Rect(1);
 sC(:, 2) = sC(:, 2)+Rect(2);
 
@@ -69,6 +86,11 @@ end
 % smooth
 % sC(:, 1) = sgolayfilt(sC(:, 1), 3, 75);
 sC(:, 2) = sgolayfilt(sC(:, 2), 3, 75);
+
+if bPlot
+    figure(101)
+    line('XData', sC(:, 1), 'YData', sC(:, 2), 'Color', 'r', 'LineWidth', 2);
+end    
 
 
 
