@@ -232,6 +232,6 @@ if matFile ~=0
     guidata(hFig, data);
     
     % tumor profile
-    Callback_Pushbutton_TumorPanel_Init;
+%     Callback_Pushbutton_TumorPanel_Init;
     
 end

@@ -1,8 +1,8 @@
 function Panel = addPanel(hFig)
 
-h_LoadImage = 0.2;
+h_LoadImage = 0.25;
 h_Selection = 0.05;
-h_Snake = 0.4;
+h_Snake = 0.35;
 h_Point = 0.3;
 h_About = 1-h_LoadImage-h_Snake-h_Point-h_Selection;
 

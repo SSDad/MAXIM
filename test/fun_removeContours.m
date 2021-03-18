@@ -1,7 +1,7 @@
 function [img_gray] = fun_removeContours(img)
 
 vMax = 1;
-if strcmp(class(img), 'uint8')
+if isa(img, 'uint8')
     vMax = 2^8-1;
 end
 
