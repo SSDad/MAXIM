@@ -5,10 +5,15 @@ data = guidata(hFig);
 
 imgs = data.Image.Images;
 
-hWB = waitbar(0, 'Removing contours...');
-nImg = length(imgs);
-for n = 1:nImg
-    I = fun_removeContours(imgs{n});
-    waitbar(n/nImg, hWB, 'Removing contours...');
+colormap(data.Panel.View.Comp.hAxis.Image, gray);
+for iSlice = 1:data.Image.nSlices
+    I = fun_removeContours(imgs{iSlice});
+    II{iSlice} = rot90(I, 3);
+
+    data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
+    data.Panel.View.Comp.hPlotObj.Image.CData = II{iSlice};
 end
-close(hWB)
+data.Image.Images = II;
+data.Image.bContourRemoved = 1;
+
+guidata(hFig, data);

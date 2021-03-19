@@ -17,7 +17,11 @@ iSlice = round(get(src, 'Value'));
 % end    
 % src.Value = iSlice;
 
-I = rot90(data.Image.Images{iSlice}, 3);
+if data.Image.bContourRemoved
+    I = data.Image.Images{iSlice};
+else
+    I = rot90(data.Image.Images{iSlice}, 3);
+end
 
 % contrast limit
 maxI = max(I(:));
@@ -31,9 +35,9 @@ I(I>cL2) = cL2;
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 hPlotObj.Image.CData = I;
 
-%tumor center
-data.Panel.View.Comp.hPlotObj.TumorCent.XData = data.Tumor.cent.x(iSlice);
-data.Panel.View.Comp.hPlotObj.TumorCent.YData = data.Tumor.cent.y(iSlice);
+% %tumor center
+% data.Panel.View.Comp.hPlotObj.TumorCent.XData = data.Tumor.cent.x(iSlice);
+% data.Panel.View.Comp.hPlotObj.TumorCent.YData = data.Tumor.cent.y(iSlice);
 
 data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(data.Image.nSlices)];
 

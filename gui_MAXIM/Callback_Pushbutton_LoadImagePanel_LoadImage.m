@@ -46,6 +46,7 @@ if matFile ~=0
     Image.mImgSize = mImgSize;
     Image.nImgSize = nImgSize;
     Image.nSlices = nSlices;
+    Image.bContourRemoved = 0;
 
     Image.indSS = 1:nSlices;
     Image.SliderValue = 1;
