@@ -17,8 +17,12 @@ iSlice = round(get(src, 'Value'));
 % end    
 % src.Value = iSlice;
 
+Image = data.Image;
+CLR = 'rgb';
 if data.Image.bContourRemoved
     I = data.Image.Images{iSlice};
+    set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', Image.eContXY{iSlice}(:, 1),...
+        'YData', Image.eContXY{iSlice}(:, 2), 'Color', CLR(Image.indC(iSlice)));
 else
     I = rot90(data.Image.Images{iSlice}, 3);
 end

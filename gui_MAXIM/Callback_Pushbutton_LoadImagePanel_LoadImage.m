@@ -154,6 +154,10 @@ if matFile ~=0
     hPlotObj.Image = imshow(I, RA, 'parent', hA);
     axis(data.Panel.View.Comp.hAxis.Image, 'tight', 'equal')
 
+    % contour
+    hPlotObj.RGBContour = line(hA,...
+        'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1);
+
     % snake
     hPlotObj.Snake = line(hA,...
         'XData', [], 'YData', [], 'Color', 'm', 'LineStyle', '-', 'LineWidth', 3);
