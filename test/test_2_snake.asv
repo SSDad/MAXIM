@@ -9,8 +9,6 @@ ffn = fullfile(testImagePath, testImageName);
 
 load(ffn)
 
-    N = 467;
-    M = 466;
 if bPlot
     close all
     hF = figure(11);
@@ -19,6 +17,8 @@ if bPlot
         hF.Position(1:2) = hF.Position(1:2) + MP(2, 1:2);
     end
     
+    N = 467;
+    M = 466;
     x0 = 0;
     y0 = 0;
     dx = 350/N;
@@ -60,12 +60,12 @@ for n = 2%1:length(imgWrite)
 
     % snake
     mask = poly2mask(C(:, 1), C(:, 2), M, N);
-%     ID = double(I);
+    ID = double(I);
     
 %     bw = fun_localAC_MS(ID, mask,...
 %             snakeParam.rad, snakeParam.alpha, snakeParam.nIter, snakeParam.epsilon);
         
-    bw = activecontour(I, mask, 100, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
+    bw = activecontour(ID, mask);
 
     B = bwboundaries(bw);
     nP = zeros(length(B), 1);
@@ -75,7 +75,7 @@ for n = 2%1:length(imgWrite)
     [~, idx] = max(nP);
 
     S = fliplr(B{idx});
-%     S = B{idx};
+    S = fliplr(B{idx});
 
     if bPlot
         C(:, 1) = (C(:, 1)-1)*dx + x0;
@@ -85,9 +85,7 @@ for n = 2%1:length(imgWrite)
         imshow(I, RA,  'Parent', hA(2));
         line(hA(2), 'XData', C(:, 1), 'YData', C(:, 2), 'Color', CLR(idxC), 'LineStyle', '-', 'Marker', '.', 'MarkerSize', 4)
 
-        S(:, 1) = (S(:, 1)-1)*dx + x0;
-        S(:, 2) = (S(:, 2)-1)*dy + y0;
-        line(hA(2), 'XData', S(:, 1), 'YData', S(:, 2), 'Color', 'm', 'LineStyle', '-', 'Marker', '.', 'MarkerSize', 4)
+        line(hA(2), 'XData', S(:, 1), 'YData', S(:, 2), 'Color', 'c', 'LineStyle', '-', 'Marker', '.', 'MarkerSize', 4)
         
         linkaxes(hA)
         axis(hA, 'on', 'equal', 'tight')
