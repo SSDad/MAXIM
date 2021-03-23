@@ -40,17 +40,17 @@ end
 
 CLR = 'rgb';
 tic
-for n = 2%:length(imgWrite)
+for n = 2%1:length(imgWrite)
     
     J = rot90(imgWrite{n}, 3);
 %     I = fun_eraseContours(imgWrite{n});
     
     I = fun_removeContours(J);
     [C, idxC] = fun_extractContour(J);
-    C(:, 1) = (C(:, 1)-1)*dx + x0;
-    C(:, 2) = (C(:, 2)-1)*dy + y0;
 
     if bPlot
+        C(:, 1) = (C(:, 1)-1)*dx + x0;
+        C(:, 2) = (C(:, 2)-1)*dy + y0;
         imshow(J, RA, 'Parent', hA(1));
         line(hA(1), 'XData', C(:, 1), 'YData', C(:, 2), 'Color', 'm', 'LineStyle', '-', 'Marker', 'o', 'MarkerSize', 2)
         imshow(I, RA,  'Parent', hA(2));

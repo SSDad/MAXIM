@@ -1,6 +1,6 @@
 clearvars
 
-bPlot = 1;
+bPlot = 0;
 
 junk = fileparts(pwd);
 % testImagePath = fullfile(junk, 'gui_MAXIM', 'testImages');
@@ -23,10 +23,12 @@ end
 
 CLR = 'rgb';
 tic
-for n = 2%:length(imgWrite)
+for n = 2%1:length(imgWrite)
     
     J = imgWrite{n};
-    I = fun_eraseContours(J);
+    
+%     I = fun_eraseContours_2(J);
+    I = fun_removeContours(J);
    
      if bPlot
         imshow(J, 'Parent', hA(1));
