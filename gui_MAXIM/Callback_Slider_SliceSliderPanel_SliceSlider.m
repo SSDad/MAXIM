@@ -23,6 +23,19 @@ if data.Image.bContourRemoved
     I = data.Image.Images{iSlice};
     set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', Image.eContXY{iSlice}(:, 1),...
         'YData', Image.eContXY{iSlice}(:, 2), 'Color', CLR(Image.indC(iSlice)));
+    set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(Image.eContXY{iSlice}(:, 1)),...
+        'YData', mean(Image.eContXY{iSlice}(:, 2)), 'Color', CLR(Image.indC(iSlice)));
+
+    if Image.indC(iSlice) == 1
+        set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', [], 'YData', []);
+        set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', [], 'YData', []);
+    else
+        set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', Image.snakeContXY{iSlice}(:, 1),...
+            'YData', Image.snakeContXY{iSlice}(:, 2));
+        set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', mean(Image.snakeContXY{iSlice}(:, 1)),...
+            'YData', mean(Image.snakeContXY{iSlice}(:, 2)));
+end
+    
 else
     I = rot90(data.Image.Images{iSlice}, 3);
 end
