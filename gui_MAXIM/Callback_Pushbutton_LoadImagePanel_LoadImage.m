@@ -22,39 +22,54 @@ else
     end
 end
 
+
 if matFile ~=0
     hWB = waitbar(0, 'Loading Images...');
-
+    
+    [~, fn1, ~] = fileparts(matFile);
+    ffn_GrayImage = fullfile(dataPath, [fn1, '_GrayImage.mat']);
+    ffn_TCont = fullfile(dataPath, [fn1, '_TumorContour.mat']);
+    ffn_TCent = fullfile(dataPath, [fn1, '_TumorCenter.mat']);
     ffn = fullfile(dataPath, matFile);
-    load(ffn)
+    if ~exist(ffn_GrayImage, 'file')  % first time load
+        load(ffn)
+        %%%%%%%%%%%%%%%%%%%%%%%
+        % tumor
+        data.Tumor.gatedContour = gatedContour;
+        data.Tumor.trackContour = trackContour;
+        data.Tumor.refContour = refContour;
+        data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
+        %%%%%%%%%%%%%%%%%%%%%%%
 
-    %%%%%%%%%%%%%%%%%%%%%%%
-    % tumor
-    data.Tumor.gatedContour = gatedContour;
-    data.Tumor.trackContour = trackContour;
-    data.Tumor.refContour = refContour;
-    data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
-    %%%%%%%%%%%%%%%%%%%%%%%
+        data.FileInfo.DataPath = dataPath;
+        data.FileInfo.MatFile = matFile;
 
-    data.FileInfo.DataPath = dataPath;
-    data.FileInfo.MatFile = matFile;
+        Image.Images = imgWrite;
+        nSlices = length(imgWrite);
+        [mImgSize, nImgSize, ~] = size(imgWrite{1});
+        Image.bContourRemoved = false;
+        
+        data.Panel.LoadImage.Comp.Pushbutton.RemoveContour.Enable = 'on';
+    else
+        load(ffn_GrayImage);
+        Image.Images = grII;
+        nSlices = length(grII);
+        [mImgSize, nImgSize] = size(grII{1});
 
-    %% load image info
-    Image.Images = imgWrite;
-    nSlices = length(imgWrite);
-    [mImgSize, nImgSize, ~] = size(imgWrite{1});
+        Image.bContourRemoved = true;
+    end
+    
     Image.mImgSize = mImgSize;
     Image.nImgSize = nImgSize;
     Image.nSlices = nSlices;
-    Image.bContourRemoved = 0;
 
     Image.indSS = 1:nSlices;
     Image.SliderValue = 1;
     Image.FreeHandSlice = [];
 
-    Image.GatedContour = gatedContour;
-    Image.TrackContour = trackContour;
-    Image.RefContour = refContour;
+%     Image.GatedContour = gatedContour;
+%     Image.TrackContour = trackContour;
+%     Image.RefContour = refContour;
     % image info
     Image.x0 = 0;
     Image.y0 = 0;
@@ -71,7 +86,6 @@ if matFile ~=0
     [~, fn1, ~] = fileparts(matFile);
     ffn_ImgInfo = fullfile(dataPath, [fn1, '_ImgInfo.mat']);
     save(ffn_ImgInfo, 'ImgInfoD2');
-    
     
     data.Image = Image;
 
@@ -133,11 +147,25 @@ if matFile ~=0
     waitbar(1/3, hWB, 'Initializing View...');
 
     % CT images
-    sV = 1;
-    nSlices = data.Image.nSlices;
+    iSlice = 1;
 
-    I = rot90(Image.Images{sV}, 3);
-    [M, N, ~] = size(I);
+    if Image.bContourRemoved
+        I = data.Image.Images{iSlice};
+        [M, N] = size(I);
+
+        load(ffn_TCent);
+        data.Tumor.cent = cent;
+        
+        load(ffn_TCont);
+        data.Tumor.eCont = eCont;
+        data.Tumor.indC = indC;
+        data.Tumor.eContXY = eContXY;
+        data.Tumor.snakeCont = snakeCont;
+        data.Tumor.snakeContXY = snakeContXY;
+    else
+        I = rot90(Image.Images{iSlice}, 3);
+        [M, N, ~] = size(I);
+    end
 
     x0 = Image.x0;
     y0 = Image.y0;
@@ -155,16 +183,35 @@ if matFile ~=0
     axis(data.Panel.View.Comp.hAxis.Image, 'tight', 'equal')
 
     % extracted contour
-    hPlotObj.RGBContour = line(hA,...
-        'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1);
-    hPlotObj.RGBContourCenter = line(hA,...
-        'XData', [], 'YData', [], 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16);
+    if Image.bContourRemoved
+        hPlotObj.SnakeContour = line(hA,...
+            'XData', snakeContXY{iSlice}(:, 1), 'YData',  snakeContXY{iSlice}(:, 2), 'LineStyle', '-', 'LineWidth', 1, 'Color', 'm');
+        hPlotObj.SnakeContourCenter = line(hA,...
+            'XData', cent.x(iSlice), 'YData', cent.y(iSlice), 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', 'm');
 
-    hPlotObj.SnakeContour = line(hA,...
-        'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1, 'Color', 'm');
-    hPlotObj.SnakeContourCenter = line(hA,...
-        'XData', [], 'YData', [], 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', 'm');
+%         set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
+%         set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
+        hPlotObj.RGBContour = line(hA,...
+            'XData', eContXY{iSlice}(:, 1), 'YData', eContXY{iSlice}(:, 2), 'LineStyle', '-', 'LineWidth', 1);
+        hPlotObj.RGBContourCenter = line(hA,...
+            'XData',  mean(eContXY{iSlice}(:, 1)), 'YData', mean(eContXY{iSlice}(:, 2)), 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16);
+%         set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', eContXY{iSlice}(:, 1),...
+%             'YData', eContXY{iSlice}(:, 2), 'Color', CLR(indC(iSlice)));
+%         set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(eContXY{iSlice}(:, 1)),...
+%             'YData', mean(eContXY{iSlice}(:, 2)), 'Color', CLR(indC(iSlice)));
+%         drawnow
+    else
+        hPlotObj.RGBContour = line(hA,...
+            'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1);
+        hPlotObj.RGBContourCenter = line(hA,...
+            'XData', [], 'YData', [], 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16);
 
+        hPlotObj.SnakeContour = line(hA,...
+            'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1, 'Color', 'm');
+        hPlotObj.SnakeContourCenter = line(hA,...
+            'XData', [], 'YData', [], 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', 'm');
+    end
+    
     % snake
     hPlotObj.Snake = line(hA,...
         'XData', [], 'YData', [], 'Color', 'm', 'LineStyle', '-', 'LineWidth', 3);
@@ -216,10 +263,10 @@ if matFile ~=0
     hSS = data.Panel.SliceSlider.Comp.hSlider.Slice;
     hSS.Min = 1;
     hSS.Max = nSlices;
-    hSS.Value = sV;
+    hSS.Value = iSlice;
     hSS.SliderStep = [1 10]/(nSlices-1);
 
-    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(sV), ' / ', num2str(nSlices)];
+    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nSlices)];
 
     waitbar(1, hWB, 'All slices are loaded!');
     pause(2);
@@ -244,6 +291,7 @@ if matFile ~=0
     guidata(hFig, data);
     
     % tumor profile
+%     initTumorProfile;
 %     Callback_Pushbutton_TumorPanel_Init;
     
 end
