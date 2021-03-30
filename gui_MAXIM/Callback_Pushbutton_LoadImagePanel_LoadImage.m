@@ -24,6 +24,9 @@ end
 
 
 if matFile ~=0
+    data.FileInfo.DataPath = dataPath;
+    data.FileInfo.MatFile = matFile;
+    
     hWB = waitbar(0, 'Loading Images...');
     
     [~, fn1, ~] = fileparts(matFile);
@@ -40,9 +43,6 @@ if matFile ~=0
         data.Tumor.refContour = refContour;
         data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
         %%%%%%%%%%%%%%%%%%%%%%%
-
-        data.FileInfo.DataPath = dataPath;
-        data.FileInfo.MatFile = matFile;
 
         Image.Images = imgWrite;
         nSlices = length(imgWrite);
