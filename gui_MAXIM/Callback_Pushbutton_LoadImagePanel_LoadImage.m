@@ -55,7 +55,18 @@ if matFile ~=0
         Image.Images = grII;
         nSlices = length(grII);
         [mImgSize, nImgSize] = size(grII{1});
+        
+        load(ffn_TCont);
+        load(ffn_TCent);
+        data.Tumor.cent = cent;
+        data.Tumor.eCont = eCont;
+        data.Tumor.indC = indC;
+        data.Tumor.eContXY = eContXY;
+        data.Tumor.snakeCont = snakeCont;
+        data.Tumor.snakeContXY = snakeContXY;
 
+        data.Image.bContourRemoved = 1;
+        
         Image.bContourRemoved = true;
     end
     

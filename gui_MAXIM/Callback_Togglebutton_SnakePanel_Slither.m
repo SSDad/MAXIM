@@ -27,7 +27,8 @@ L = data.Snake.FreeHand.L;
 II = data.Image.Images;
 
 sV = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
-J = rot90(rgb2gray(II{sV}), 3);
+% J = rot90(rgb2gray(II{sV}), 3);
+J = II{sV};
 [mJ, nJ] = size(J);
 cAF = L.Position;
 
@@ -36,7 +37,7 @@ cAF(:, 1) = (cAF(:, 1)-data.Image.x0)/data.Image.dx+1;
 cAF(:, 2) = (cAF(:, 2)-data.Image.y0)/data.Image.dy+1;
 
 % snakes
-nImages = length(II);
+nSlices = length(II);
 
 L.Visible = 'off';
 
@@ -60,10 +61,12 @@ T = J(y1:y2, x1:x2);
 hPlotObj = data.Panel.View.Comp.hPlotObj;
 
 % tumor/diaphram vertical center
-mTC = round((data.Tumor.cent.refy-y0)/dy)+1;
+mTC = round((mean(data.Tumor.cent.y, 'omitnan')-y0)/dy)+1;
 mDP = mean(cAF(:, 2));
 mBuffer = round(mJ/10);
 
+CLR = 'rgb';
+Tumor = data.Tumor;
 % mMid = round(mJ/2);
 for iSlice = startSlice:endSlice
     
@@ -71,10 +74,11 @@ for iSlice = startSlice:endSlice
         break;
     end
     
-    if data.Tumor.bInd_GC(iSlice) || data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
+%     if data.Tumor.bInd_GC(iSlice) || data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
+    if data.Tumor.indC(iSlice) > 1 % gating or tracking contour on image
     
-        J =  rgb2gray(II{iSlice});
-        J = rot90(J, 3);
+%         J =  rgb2gray(II{iSlice});
+        J = II{iSlice};
 
         if mTC < mDP
             mCut = mTC-mBuffer;
@@ -90,7 +94,7 @@ for iSlice = startSlice:endSlice
         yoffSet = ypeak-size(T,1);
         if mTC < mDP
             yoffSet = yoffSet+mCut;
-        end
+         end
         xoffSet = xpeak-size(T,2);
 
         C(:, 1) = cAF(:, 1)+xoffSet-x1;
@@ -127,9 +131,27 @@ for iSlice = startSlice:endSlice
 
     data.Snake.Snakes{iSlice} = sC;
    
+    % tumor snake
+    set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', Tumor.eContXY{iSlice}(:, 1),...
+        'YData', Tumor.eContXY{iSlice}(:, 2), 'Color', CLR(Tumor.indC(iSlice)));
+    set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(Tumor.eContXY{iSlice}(:, 1)),...
+        'YData', mean(Tumor.eContXY{iSlice}(:, 2)), 'Color', CLR(Tumor.indC(iSlice)));
+
+    if Tumor.indC(iSlice) == 1
+        set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', [], 'YData', []);
+        set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', [], 'YData', []);
+    else
+        set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', Tumor.snakeContXY{iSlice}(:, 1),...
+            'YData', Tumor.snakeContXY{iSlice}(:, 2));
+        set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', mean(Tumor.snakeContXY{iSlice}(:, 1)),...
+            'YData', mean(Tumor.snakeContXY{iSlice}(:, 2)));
+    end
+
+    
     % snake on gui
     data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
-    hPlotObj.Image.CData = rot90(data.Image.Images{iSlice}, 3);
+%     hPlotObj.Image.CData = rot90(data.Image.Images{iSlice}, 3);
+    hPlotObj.Image.CData = J;
     if isempty(sC)
         hPlotObj.Snake.YData = [];
         hPlotObj.Snake.XData = [];
@@ -137,7 +159,7 @@ for iSlice = startSlice:endSlice
         hPlotObj.Snake.YData = (sC(:, 2)-1)*dy+y0;
         hPlotObj.Snake.XData = (sC(:, 1)-1)*dx+x0;
     end
-    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nImages)];
+    data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nSlices)];
     
     % points
     if data.Point.InitDone && ~isempty(sC)

@@ -11,22 +11,12 @@ y0 = Image.y0;
 dx = Image.dx;
 dy = Image.dy;
 
-% gatedContour = Image.GatedContour;
-% trackContour = Image.TrackContour;
-%
-
 dataPath = data.FileInfo.DataPath;
 matFile = data.FileInfo.MatFile;
 [~, fn1, ~] = fileparts(matFile);
 ffn_GrayImage = fullfile(dataPath, [fn1, '_GrayImage.mat']);
 ffn_TCont = fullfile(dataPath, [fn1, '_TumorContour.mat']);
 ffn_TCent = fullfile(dataPath, [fn1, '_TumorCenter.mat']);
-
-if exist(ffn_GrayImage)
-    load(ffn_GrayImage);
-    load(ffn_TCont);
-    load(ffn_TCent);
-else
 
 cent.x = nan(nSlices, 1);
 cent.y = nan(nSlices, 1);
@@ -98,10 +88,11 @@ close(hWB);
 % cent.refx = mean(CC_RC{1}(:,1));
 % cent.refy = mean(CC_RC{1}(:,2));
 %
-end
 
 % update first slice
 iSlice = 1;
+iSlice = data.Panel.SliceSlider.Comp.hSlider.Slice.Value;
+CLR = 'rgb';
 data.Panel.View.Comp.hPlotObj.Image.CData = grII{iSlice};
 set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
 set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
