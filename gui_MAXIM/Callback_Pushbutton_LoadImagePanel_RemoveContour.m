@@ -113,4 +113,6 @@ data.Image.Images = grII;
 data.Image.bContourRemoved = 1;
 data.Panel.LoadImage.Comp.Pushbutton.RemoveContour.Enable = 'off';
 
+initTumorProfile;
+
 guidata(hFig, data);

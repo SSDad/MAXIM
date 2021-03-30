@@ -200,17 +200,10 @@ if matFile ~=0
         hPlotObj.SnakeContourCenter = line(hA,...
             'XData', cent.x(iSlice), 'YData', cent.y(iSlice), 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', 'm');
 
-%         set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
-%         set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
         hPlotObj.RGBContour = line(hA,...
             'XData', eContXY{iSlice}(:, 1), 'YData', eContXY{iSlice}(:, 2), 'LineStyle', '-', 'LineWidth', 1);
         hPlotObj.RGBContourCenter = line(hA,...
             'XData',  mean(eContXY{iSlice}(:, 1)), 'YData', mean(eContXY{iSlice}(:, 2)), 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16);
-%         set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', eContXY{iSlice}(:, 1),...
-%             'YData', eContXY{iSlice}(:, 2), 'Color', CLR(indC(iSlice)));
-%         set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(eContXY{iSlice}(:, 1)),...
-%             'YData', mean(eContXY{iSlice}(:, 2)), 'Color', CLR(indC(iSlice)));
-%         drawnow
     else
         hPlotObj.RGBContour = line(hA,...
             'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1);
@@ -302,7 +295,9 @@ if matFile ~=0
     guidata(hFig, data);
     
     % tumor profile
-%     initTumorProfile;
+    if data.Image.bContourRemoved
+        initTumorProfile;
+    end
 %     Callback_Pushbutton_TumorPanel_Init;
     
 end
