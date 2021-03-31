@@ -21,9 +21,11 @@ mBound = round((AbBoundLim-y0)/dy);
 for iSlice = 1:nSlices
     bC = []; % body Contour
     abC2 = []; % abdomen Contour
-    if data.Tumor.bInd_GC(iSlice) || data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
+%     if data.Tumor.bInd_GC(iSlice) || data.Tumor.bInd_TC(iSlice) % gating or tracking contour on image
+    if data.Tumor.indC(iSlice) > 1 % gating or tracking contour on image
     
-        J = rot90(rgb2gray(II{iSlice}), 3);
+%         J = rot90(rgb2gray(II{iSlice}), 3);
+        J = II{iSlice};
         [mJ, nJ] = size(J);
 
         BW = im2bw(J, 0.2);

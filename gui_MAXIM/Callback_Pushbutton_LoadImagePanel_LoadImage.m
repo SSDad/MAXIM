@@ -78,16 +78,18 @@ if matFile ~=0
     Image.SliderValue = 1;
     Image.FreeHandSlice = [];
 
-%     Image.GatedContour = gatedContour;
-%     Image.TrackContour = trackContour;
-%     Image.RefContour = refContour;
     % image info
     Image.x0 = 0;
     Image.y0 = 0;
 
     Image.FoV = str2num(data.Panel.LoadImage.Comp.hEdit.ImageInfo(1).String);
-    Image.dx = Image.FoV/nImgSize;
-    Image.dy = Image.dx;
+    if mImgSize > nImgSize
+        Image.dy = Image.FoV/mImgSize;
+        Image.dx = Image.dy;
+    else
+        Image.dx = Image.FoV/nImgSize;
+        Image.dy = Image.dx;
+    end
 
     % save image info.
     ImgInfoD2.FoV = Image.FoV;
@@ -99,12 +101,6 @@ if matFile ~=0
     save(ffn_ImgInfo, 'ImgInfoD2');
     
     data.Image = Image;
-
-    data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).String = num2str(nImgSize);
-    data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).ForegroundColor = 'c';
-
-    data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).String = num2str(Image.dx);
-    data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).ForegroundColor = 'c';
 
     % check previously saved snakes
     [~, fn1, ~] = fileparts(matFile);
@@ -162,7 +158,6 @@ if matFile ~=0
 
     if Image.bContourRemoved
         I = data.Image.Images{iSlice};
-        [M, N] = size(I);
 
         load(ffn_TCent);
         data.Tumor.cent = cent;
@@ -175,18 +170,27 @@ if matFile ~=0
         data.Tumor.snakeContXY = snakeContXY;
     else
         I = rot90(Image.Images{iSlice}, 3);
-        [M, N, ~] = size(I);
+        
+        [mImgSize, nImgSize] = deal(nImgSize, mImgSize);
+        [Image.dx, Image.dy] = deal(Image.dy, Image.dx);
     end
+        
+    % Image Info
+    data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).String = [num2str(mImgSize), 'x', num2str(nImgSize)];
+    data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).ForegroundColor = 'c';
 
+    data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).String = num2str(Image.dx);
+    data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).ForegroundColor = 'c';
+    
     x0 = Image.x0;
     y0 = Image.y0;
     dx = Image.dx;
     dy = Image.dy;
     xWL(1) = x0-dx/2;
-    xWL(2) = xWL(1)+dx*N;
+    xWL(2) = xWL(1)+dx*nImgSize;
     yWL(1) = y0-dy/2;
-    yWL(2) = yWL(1)+dy*M;
-    RA = imref2d([M N], xWL, yWL);
+    yWL(2) = yWL(1)+dy*mImgSize;
+    RA = imref2d([mImgSize nImgSize], xWL, yWL);
     data.Image.RA = RA;
 
     hA = data.Panel.View.Comp.hAxis.Image;
