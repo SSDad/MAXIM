@@ -199,15 +199,18 @@ if matFile ~=0
 
     % extracted contour
     if Image.bContourRemoved
-        hPlotObj.SnakeContour = line(hA,...
-            'XData', snakeContXY{iSlice}(:, 1), 'YData',  snakeContXY{iSlice}(:, 2), 'LineStyle', '-', 'LineWidth', 1, 'Color', 'm');
-        hPlotObj.SnakeContourCenter = line(hA,...
-            'XData', cent.x(iSlice), 'YData', cent.y(iSlice), 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', 'm');
+        hPlotObj.SnakeContour = line(hA, 'XData', [], 'YData',  [], 'LineStyle', '-', 'LineWidth', 1, 'Color', 'm');
+        hPlotObj.SnakeContourCenter = line(hA, 'XData', [], 'YData', [], 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', 'm');
+        if ~isempty(snakeContXY{iSlice})
+            set(hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData',  snakeContXY{iSlice}(:, 2));
+            set(hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
+        end
 
-        hPlotObj.RGBContour = line(hA,...
-            'XData', eContXY{iSlice}(:, 1), 'YData', eContXY{iSlice}(:, 2), 'LineStyle', '-', 'LineWidth', 1);
-        hPlotObj.RGBContourCenter = line(hA,...
-            'XData',  mean(eContXY{iSlice}(:, 1)), 'YData', mean(eContXY{iSlice}(:, 2)), 'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16);
+        CLR = 'rgb';
+        hPlotObj.RGBContour = line(hA, 'XData', eContXY{iSlice}(:, 1), 'YData', eContXY{iSlice}(:, 2),...
+            'LineStyle', '-', 'LineWidth', 1, 'Color', CLR(indC(iSlice)));
+        hPlotObj.RGBContourCenter = line(hA, 'XData',  mean(eContXY{iSlice}(:, 1)), 'YData', mean(eContXY{iSlice}(:, 2)),...
+            'LineStyle', 'none', 'Marker', '.', 'MarkerSize', 16, 'Color', CLR(indC(iSlice)));
     else
         hPlotObj.RGBContour = line(hA,...
             'XData', [], 'YData', [], 'LineStyle', '-', 'LineWidth', 1);

@@ -94,8 +94,11 @@ iSlice = 1;
 iSlice = data.Panel.SliceSlider.Comp.hSlider.Slice.Value;
 CLR = 'rgb';
 data.Panel.View.Comp.hPlotObj.Image.CData = grII{iSlice};
-set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
-set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
+
+if ~isempty(snakeContXY{iSlice})
+    set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
+    set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
+end
 set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', eContXY{iSlice}(:, 1),...
     'YData', eContXY{iSlice}(:, 2), 'Color', CLR(indC(iSlice)));
 set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(eContXY{iSlice}(:, 1)),...
