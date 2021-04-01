@@ -280,7 +280,7 @@ if matFile ~=0
     data.Panel.SliceSlider.Comp.hText.nImages.String = [num2str(iSlice), ' / ', num2str(nSlices)];
 
     waitbar(1, hWB, 'All slices are loaded!');
-    pause(2);
+    pause(1);
     close(hWB);
 
     % contrast

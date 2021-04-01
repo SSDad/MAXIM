@@ -115,24 +115,23 @@ if data.Snake.SlitherDone
 
 end
 
-% if data.Body.ContourDone
-if data.Panel.Selection.Comp.Radiobutton.Body.Value    
+if data.Body.ContourDone
     bC = data.Body.Contours{iSlice};
-    abC2 = data.Body.AbsContours{iSlice};
+    abC2 = data.Body.AbsContour{iSlice};
     hPlotObj = data.Panel.View.Comp.hPlotObj;
-%     if data.Body.ContourDone 
-        if isempty(abC2)
+    if data.Snake.SlitherDone 
+        if isempty(abC)
             hPlotObj.Body.XData = [];
             hPlotObj.Body.YData = [];
             hPlotObj.Ab.XData = [];
             hPlotObj.Ab.YData = [];
         else
-%             hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
-%             hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
+    %         hPlotObj.Body.YData = (bC(:, 1)-1)*dy+y0;
+    %         hPlotObj.Body.XData = (bC(:, 2)-1)*dx+x0;
             hPlotObj.Ab.YData = (abC2(:, 1)-1)*dy+y0;
             hPlotObj.Ab.XData = (abC2(:, 2)-1)*dx+x0;
         end
-%     end
+    end
 end
 
 data.Point.Data.iSlice = iSlice;
