@@ -6,11 +6,19 @@ data = guidata(hFig);
 data2 = guidata(hFig2);
 
 hAxis = data2.Panel.Tumor.Comp.hAxis;                         
+axis(hAxis.Tumor, 'tight', 'equal')
 
 nSlices = data.Image.nSlices;
-
-% plot points
 cent = data.Tumor.cent;
+snakeCont = data.Tumor.snakeCont;
+snakeContXY = data.Tumor.snakeContXY;
+snakeContLimM = data.Tumor.snakeContLimM;
+snakeContLimN = data.Tumor.snakeContLimN;
+
+refCont = data.Tumor.refCont;
+refContXY = data.Tumor.refContXY;
+
+%% tumor center points
 data2.Panel.View.Comp.hPlotObj.PlotPointTC.All.XData = 1:nSlices;
 data2.Panel.View.Comp.hPlotObj.PlotPointTC.All.YData = cent.y;
 
@@ -21,85 +29,92 @@ linkaxes([data2.Panel.View.Comp.hAxis.PlotPoint data2.Panel.View.Comp.hAxis.Plot
 data2.Panel.Button1.Comp.Radiobutton.xt.Value = 1;
 data2.Panel.Button1.Comp.Radiobutton.yt.Value = 1;
 
-% % tumor contour with 1x1 pixel size
-% [mask_GC, mask_TC, CC_GC, CC_TC, CC_RC, bInd_GC, bInd_TC] = getTumorContour(hFig);
-% 
-% % binary image
-% bwSum = sum(mask_GC, 3)+sum(mask_TC, 3);
-% data2.Panel.Tumor.Comp.hPlotObj.Tumor.bwSum = imshow(bwSum, data.Image.RA, 'parent',  hAxis.Tumor);
-% if any(bwSum(:))
-%       hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
-% end
-% % linkaxes([hAxis.snake hAxis.Tumor]);
-% 
-% data.Tumor.mask_GC = mask_GC;
-% data.Tumor.mask_TC = mask_TC;
-% data.Tumor.CC_GC = CC_GC;
-% data.Tumor.CC_TC = CC_TC;
-% data.Tumor.RC_TC = CC_RC;
-% data.Tumor.bInd_GC = bInd_GC;
-% data.Tumor.bInd_TC = bInd_TC;
-% 
-% % contour
-% hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
-% hPlotObj.Tumor.hgTrackContour = hggroup(hAxis.Tumor);
+%% tumor mask
+    x0 = data.Image.x0;
+    y0 = data.Image.y0;
+    dx = data.Image.dx;
+    dy = data.Image.dy;
+    
+    M = diff(snakeContLimM)+1;
+    N = diff(snakeContLimN)+1;
+    
+    xmin = (snakeContLimN(1)-1)*dx - x0;
+    ymin = (snakeContLimM(1)-1)*dy - y0;
+    xmax = (snakeContLimN(2)-1)*dx - x0;
+    ymax = (snakeContLimM(2)-1)*dy - y0;
+    xWL(1) = xmin-dx/2;
+    xWL(2) = xWL(1)+dx*N;
+    yWL(1) = ymin-dy/2;
+    yWL(2) = yWL(1)+dy*M;
+    RA = imref2d([M N], xWL, yWL);
+%     data.Image.RA = RA;
+
+
+[tumorMask] = getTumorMask(snakeCont, snakeContLimM, snakeContLimN);
+bwSum = sum(tumorMask, 3);
+data2.Panel.Tumor.Comp.hPlotObj.Tumor.bwSum = imshow(bwSum, RA, 'parent',  hAxis.Tumor);
+if any(bwSum(:))
+      hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
+end
+
+%% contour
+data2.Panel.Tumor.Comp.hPlotObj.Tumor.hgContour = hggroup(hAxis.Tumor);
+hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
 % hPlotObj.Tumor.hgGatedContour = hggroup(hAxis.Tumor);
 % hPlotObj.Tumor.hgPoints = hggroup(hAxis.Tumor);
 % xmin = inf;
 % xmax = 0;
 % ymin = inf;
 % ymax = 0;
-% for n = 1:nSlices
-%     hPlotObj.Tumor.TrackContour(n) = line(hPlotObj.Tumor.hgTrackContour, ...
-%         'XData',  [], 'YData',  [],  'Color', 'b', 'LineStyle', '-', 'LineWidth', 1);
-%     hPlotObj.Tumor.GatedContour(n) = line(hPlotObj.Tumor.hgGatedContour, ...
-%         'XData', [], 'YData', [],  'Color', 'g', 'LineStyle', '-', 'LineWidth', 1);
-%     if ~isempty(CC_TC{n})
-%         hPlotObj.Tumor.TrackContour(n).XData = CC_TC{n}(:, 1);
-%         xmin = min(min(CC_TC{n}(:, 1)), xmin);
-%         xmax = max(max(CC_TC{n}(:, 1)), xmax);
-% 
-%         hPlotObj.Tumor.TrackContour(n).YData = CC_TC{n}(:, 2);
-%         ymin = min(min(CC_TC{n}(:, 2)), ymin);
-%         ymax = max(max(CC_TC{n}(:, 2)), ymax);
-%     elseif ~isempty(CC_GC{n})
+for iSlice = 1:nSlices
+    hPlotObj.Tumor.Contour(iSlice) = line(hPlotObj.Tumor.hgContour, ...
+        'XData',  [], 'YData',  [],  'Color', 'g', 'LineStyle', '-', 'LineWidth', 1);
+    if ~isempty(snakeContXY{iSlice})
+        set(hPlotObj.Tumor.Contour(iSlice), 'XData', snakeContXY{iSlice}(:, 1),  'YData', snakeContXY{iSlice}(:, 2));
+ %         xmin = min(min(CC_TC{iSlice}(:, 1)), xmin);
+%         xmax = max(max(CC_TC{iSlice}(:, 1)), xmax);
+
+    end
+    
+%     if ~isempty(CC_GC{n})
 %         hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
-%         xmin = min(min(CC_GC{n}(:, 1)), xmin);
-%         xmax = max(max(CC_GC{n}(:, 1)), xmax);
-% 
 %         hPlotObj.Tumor.GatedContour(n).YData = CC_GC{n}(:, 2);
-%         ymin = min(min(CC_GC{n}(:, 2)), ymin);
-%         ymax = max(max(CC_GC{n}(:, 2)), ymax);
 %     end
-%     
-% %     if ~isempty(CC_GC{n})
-% %         hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
-% %         hPlotObj.Tumor.GatedContour(n).YData = CC_GC{n}(:, 2);
-% %     end
-%     
-%     hPlotObj.Tumor.Points(n) = line(hPlotObj.Tumor.hgPoints, 'XData', [], 'YData', [],...
+    
+%     hPlotObj.Tumor.Points(iSlice) = line(hPlotObj.Tumor.hgPoints, 'XData', [], 'YData', [],...
 %         'Marker', '.',  'MarkerSize', 12, 'Color', 'c', 'LineStyle', 'none');
-% end
+end
 % 
 % data.Tumor.xyrangeCC = [xmin xmax ymin ymax];
 % 
 % n = 1;
-% hPlotObj.Tumor.RefContour(n) = line(hAxis.Tumor, ...
-%     'XData', [], 'YData', [],  'Color', 'r', 'LineStyle', '-', 'LineWidth', 1);
+hPlotObj.Tumor.RefContour = line(hAxis.Tumor, 'XData', refContXY(:, 1), 'YData', refContXY(:, 2),...
+    'Color', 'r', 'LineStyle', '-', 'LineWidth', 1);
 % if ~isempty(CC_RC{n})
 %     hPlotObj.Tumor.RefContour(n).XData = CC_RC{n}(:, 1);
 %     hPlotObj.Tumor.RefContour(n).YData = CC_RC{n}(:, 2);
 % end
 % 
-% % profile
-% marg = 0.2;
-% xL = xmax-xmin;
-% yM = (ymin+ymax)/2;
-% pos = [xmin-xL*marg  yM
-%           xmax+xL*marg yM];
-%       
-% hPlotObj.Tumor.ProfileLine = images.roi.Line(hAxis.Tumor, 'Color', 'c', 'Position', pos , 'Tag', 'PL');
-% addlistener(hPlotObj.Tumor.ProfileLine, 'MovingROI', @Callback_Line_Profile);
+
+%% profile
+xmin = min(xmin, min(refContXY(:,1)));
+ymin = min(ymin, min(refContXY(:,2)));
+xmax = max(xmax, max(refContXY(:,1)));
+ymax = max(ymax, max(refContXY(:,2)));
+
+marg = 0.1;
+xL = xmax-xmin;
+yL = ymax-ymin;
+yM = (ymin+ymax)/2;
+pos = [xmin-xL*marg  yM
+          xmax+xL*marg yM];
+      
+hPlotObj.Tumor.ProfileLine = images.roi.Line(hAxis.Tumor, 'Color', 'c', 'Position', pos , 'Tag', 'PL');
+addlistener(hPlotObj.Tumor.ProfileLine, 'MovingROI', @Callback_Line_Profile);
+
+hAxis.Tumor.XLim = [xmin-xL*marg*2 xmax+xL*marg*2];
+hAxis.Tumor.YLim = [ymin-yL*marg*2 ymax+yL*marg*2];
+
 % 
 % data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
 % guidata(hFig2, data2);

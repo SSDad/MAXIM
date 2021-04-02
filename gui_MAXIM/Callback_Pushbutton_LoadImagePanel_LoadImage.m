@@ -37,11 +37,12 @@ if matFile ~=0
     if ~exist(ffn_GrayImage, 'file')  % first time load
         load(ffn)
         %%%%%%%%%%%%%%%%%%%%%%%
-        % tumor
-        data.Tumor.gatedContour = gatedContour;
-        data.Tumor.trackContour = trackContour;
+        % tumor ref contour
+%         data.Tumor.gatedContour = gatedContour;
+%         data.Tumor.trackContour = trackContour;
         data.Tumor.refContour = refContour;
-        data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
+        
+%         data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
         %%%%%%%%%%%%%%%%%%%%%%%
 
         Image.Images = imgWrite;
@@ -63,7 +64,11 @@ if matFile ~=0
         data.Tumor.indC = indC;
         data.Tumor.eContXY = eContXY;
         data.Tumor.snakeCont = snakeCont;
+        data.Tumor.snakeContLimM = snakeContLimM;
+        data.Tumor.snakeContLimN = snakeContLimN;
         data.Tumor.snakeContXY = snakeContXY;
+        data.Tumor.refCont = refCont;
+        data.Tumor.refContXY = refContXY;
 
         data.Image.bContourRemoved = 1;
         

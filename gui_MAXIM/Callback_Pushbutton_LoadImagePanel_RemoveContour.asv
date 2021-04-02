@@ -11,18 +11,16 @@ y0 = Image.y0;
 dx = Image.dx;
 dy = Image.dy;
 
-% gatedContour = Image.GatedContour;
-% trackContour = Image.TrackContour;
-%
-
 dataPath = data.FileInfo.DataPath;
 matFile = data.FileInfo.MatFile;
 [~, fn1, ~] = fileparts(matFile);
+ffn_GrayImage = fullfile(dataPath, [fn1, '_GrayImage.mat']);
+ffn_TCont = fullfile(dataPath, [fn1, '_TumorContour.mat']);
 ffn_TCent = fullfile(dataPath, [fn1, '_TumorCenter.mat']);
+
 cent.x = nan(nSlices, 1);
 cent.y = nan(nSlices, 1);
 
-ffn_TCont = fullfile(dataPath, [fn1, '_TumorContour.mat']);
 ffn_TCP_csv = fullfile(dataPath, [fn1, '_TumorContourPoints.csv']);
 CPM = []; % tumor Contour Point Matrix
 
@@ -30,12 +28,17 @@ imgs = data.Image.Images;
 colormap(data.Panel.View.Comp.hAxis.Image, gray);
 CLR = 'rgb';
 
+snakeContLimM = [inf 0];
+snakeContLimN = [inf 0];
+snakeContXYLimX = [inf 0];
+snakeContXYLimY = [inf 0];
+
 wbStr = 'Removing RBG contours...';
 hWB = waitbar(0, wbStr); 
 for iSlice = 1:nSlices
     
     J = rot90(imgs{iSlice}, 3);
-    II{iSlice} = fun_removeContours(J);
+    grII{iSlice} = fun_removeContours(J);
 %     data.Panel.SliceSlider.Comp.hSlider.Slice.Value = iSlice;
     
     [C, idxC] = fun_extractContour(J);
@@ -49,7 +52,7 @@ for iSlice = 1:nSlices
 %     set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', [], 'YData', []);
     if idxC > 1
         mask = poly2mask(C(:, 1), C(:, 2), Image.nImgSize, Image.mImgSize);
-        bw = activecontour(II{iSlice}, mask, 20, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
+        bw = activecontour(grII{iSlice}, mask, 20, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
 
         B = bwboundaries(bw);
         nP = zeros(length(B), 1);
@@ -59,6 +62,9 @@ for iSlice = 1:nSlices
         [~, idx] = max(nP);
         S = fliplr(B{idx});
         snakeCont{iSlice} = S;
+        
+        snakeContLimN(1) = min(snakeContLimN(1), min(S(:, 1)));
+        snakeContLimN(2) = max(snakeContLimN(2), max(S(:, 1)));
 
         S(:, 1) = (S(:, 1)-1)*dx + x0;
         S(:, 2) = (S(:, 2)-1)*dy + y0;
@@ -76,35 +82,45 @@ for iSlice = 1:nSlices
     C(:, 1) = (C(:, 1)-1)*dx + x0;
     C(:, 2) = (C(:, 2)-1)*dy + y0;
     eContXY{iSlice} = C;
-
-    if iSlice == 1
-        set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', C(:, 1), 'YData', C(:, 2), 'Color', CLR(idxC));
-        set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(C(:, 1)), 'YData', mean(C(:, 2)), 'Color', CLR(idxC));
-        drawnow
-    end
     
     waitbar(iSlice/nSlices, hWB, wbStr);
 end
 
-iSlice = 1;
-data.Panel.View.Comp.hPlotObj.Image.CData = II{iSlice};
-set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
-set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSli), 'YData', mean(S(:, 2)));
+%% ref contour
+contRC = data.Tumor.refContour;
+iP = round(size(contRC, 1)/2);
+[Xout, Yout] = fun_points2contour(contRC(:, 1), contRC(:,2), iP, 'ccw');
+refCont = [data.Image.nImgSize-Yout'+1 Xout'];
+refContXY(:, 1) = (refCont(:, 1)-1)*dx + x0;
+refContXY(:, 2) = (refCont(:, 2)-1)*dy + y0;
 
-
-
-save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC');
+% save data
+save(ffn_GrayImage, 'grII');
+save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC', 'refCont*');
 save(ffn_TCent, 'cent') % save Tumor Center
-
-% save contour as csv
 T = array2table(CPM, 'VariableNames',{'Slice #', 'Xt', 'Yt'});
 writetable(T, ffn_TCP_csv);
-
 close(hWB);
 % %% tumor center
 % cent.refx = mean(CC_RC{1}(:,1));
 % cent.refy = mean(CC_RC{1}(:,2));
 %
+
+% update first slice
+iSlice = 1;
+iSlice = data.Panel.SliceSlider.Comp.hSlider.Slice.Value;
+CLR = 'rgb';
+data.Panel.View.Comp.hPlotObj.Image.CData = grII{iSlice};
+
+if ~isempty(snakeContXY{iSlice})
+    set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', snakeContXY{iSlice}(:, 1), 'YData', snakeContXY{iSlice}(:, 2));
+    set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', cent.x(iSlice), 'YData', cent.y(iSlice));
+end
+set(data.Panel.View.Comp.hPlotObj.RGBContour, 'XData', eContXY{iSlice}(:, 1),...
+    'YData', eContXY{iSlice}(:, 2), 'Color', CLR(indC(iSlice)));
+set(data.Panel.View.Comp.hPlotObj.RGBContourCenter, 'XData', mean(eContXY{iSlice}(:, 1)),...
+    'YData', mean(eContXY{iSlice}(:, 2)), 'Color', CLR(indC(iSlice)));
+drawnow
 
 data.Tumor.cent = cent;
 data.Tumor.eCont = eCont;
@@ -112,8 +128,13 @@ data.Tumor.indC = indC;
 data.Tumor.eContXY = eContXY;
 data.Tumor.snakeCont = snakeCont;
 data.Tumor.snakeContXY = snakeContXY;
+data.Tumor.refCont = refCont;
+data.Tumor.refContXY = refContXY;
 
-data.Image.Images = II;
+data.Image.Images = grII;
 data.Image.bContourRemoved = 1;
+data.Panel.LoadImage.Comp.Pushbutton.RemoveContour.Enable = 'off';
 
 guidata(hFig, data);
+
+initTumorProfile;

@@ -83,10 +83,7 @@ if mean(junk1(:, 2)) > mean(junk2(:, 2))
 else
     sC = junk1;
 end
-% smooth
-% sC(:, 1) = sgolayfilt(sC(:, 1), 3, 75);
-sC(:, 2) = sgolayfilt(sC(:, 2), 3, 75);
-
+ 
 if bPlot
     figure(101)
     line('XData', sC(:, 1), 'YData', sC(:, 2), 'Color', 'r', 'LineWidth', 2);

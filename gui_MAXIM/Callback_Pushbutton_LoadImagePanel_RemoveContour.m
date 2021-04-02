@@ -28,6 +28,9 @@ imgs = data.Image.Images;
 colormap(data.Panel.View.Comp.hAxis.Image, gray);
 CLR = 'rgb';
 
+snakeContLimM = [inf 0];
+snakeContLimN = [inf 0];
+
 wbStr = 'Removing RBG contours...';
 hWB = waitbar(0, wbStr); 
 for iSlice = 1:nSlices
@@ -57,6 +60,11 @@ for iSlice = 1:nSlices
         [~, idx] = max(nP);
         S = fliplr(B{idx});
         snakeCont{iSlice} = S;
+        
+        snakeContLimN(1) = min(snakeContLimN(1), min(S(:, 1)));
+        snakeContLimN(2) = max(snakeContLimN(2), max(S(:, 1)));
+        snakeContLimM(1) = min(snakeContLimM(1), min(S(:, 2)));
+        snakeContLimM(2) = max(snakeContLimM(2), max(S(:, 2)));
 
         S(:, 1) = (S(:, 1)-1)*dx + x0;
         S(:, 2) = (S(:, 2)-1)*dy + y0;
@@ -77,9 +85,18 @@ for iSlice = 1:nSlices
     
     waitbar(iSlice/nSlices, hWB, wbStr);
 end
+
+%% ref contour
+contRC = data.Tumor.refContour;
+iP = round(size(contRC, 1)/2);
+[Xout, Yout] = fun_points2contour(contRC(:, 1), contRC(:,2), iP, 'ccw');
+refCont = [data.Image.nImgSize-Yout'+1 Xout'];
+refContXY(:, 1) = (refCont(:, 1)-1)*dx + x0;
+refContXY(:, 2) = (refCont(:, 2)-1)*dy + y0;
+
 % save data
 save(ffn_GrayImage, 'grII');
-save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC');
+save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC', 'refCont*');
 save(ffn_TCent, 'cent') % save Tumor Center
 T = array2table(CPM, 'VariableNames',{'Slice #', 'Xt', 'Yt'});
 writetable(T, ffn_TCP_csv);
@@ -110,7 +127,11 @@ data.Tumor.eCont = eCont;
 data.Tumor.indC = indC;
 data.Tumor.eContXY = eContXY;
 data.Tumor.snakeCont = snakeCont;
+data.Tumor.snakeContLimM = snakeContLimM;
+data.Tumor.snakeContLimN = snakeContLimN;
 data.Tumor.snakeContXY = snakeContXY;
+data.Tumor.refCont = refCont;
+data.Tumor.refContXY = refContXY;
 
 data.Image.Images = grII;
 data.Image.bContourRemoved = 1;
