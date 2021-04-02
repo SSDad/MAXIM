@@ -3,11 +3,11 @@ function Callback_Pushbutton_BodyPanel_SaveContour(src, evnt)
 global hFig
 
 data = guidata(hFig);
-AbsContour = data.Body.AbsContour;
+AbsContours = data.Body.AbsContours;
 
 %% .mat
 ffn_AbsContour = data.FileInfo.ffn_AbsContour;
-save(ffn_AbsContour, 'AbsContour');
+save(ffn_AbsContour, 'AbsContours');
 
 %% .csv
 ffn_csv = data.FileInfo.ffn_csv_AbsContour;
@@ -17,8 +17,8 @@ y0 = data.Image.y0;
 dx = data.Image.dx;
 dy = data.Image.dy;
 
-nSlice = length(AbsContour);
-nP = max(cellfun(@length, AbsContour));
+nSlice = length(AbsContours);
+nP = max(cellfun(@length, AbsContours));
 CPM2 = [];  % Contour Points Matrix2
 
 varNames = {'Slice#'};
@@ -30,7 +30,7 @@ end
 
 for iSlice = 1:nSlice
     junk = nan(1, nP*2);
-    gC = AbsContour{iSlice};
+    gC = AbsContours{iSlice};
     if ~isempty(gC)
         junk(1:2:length(gC)*2-1) = (gC(:, 2)'-1)*dx+x0;
         junk(2:2:length(gC)*2) = (gC(:, 1)-1)'*dy+y0;

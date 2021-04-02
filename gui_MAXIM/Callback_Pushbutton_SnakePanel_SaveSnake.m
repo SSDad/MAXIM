@@ -21,7 +21,8 @@ ffn_snakePointsMatrix2 = data.FileInfo.ffn_snakePointsMatrix2;
 % if ~exist(ffn_snakePoints, 'file')
     nSlice = length(Snakes);
     CP = [];  % Contour Points
-    iSlice = 1;
+    junk = find(data.Tumor.indC ~= 1);
+    iSlice = junk(1);
     gC = Snakes{iSlice};
     if ~isempty(gC)
         gC(:, 1) = (gC(:, 1)-1)*dx+x0;
