@@ -2,12 +2,16 @@ clearvars
 
 dataPath = 'X:\Lab\VR_VG_Pancreas_Ben\Cine\1';
 dataFileName = 'parsed_data_5183_pr001';
-
 dataFileName = 'parsed_data_5151_pr001';
+
+dataPath = 'X:\Lab\BugReport\jaeik';
+dataFileName = 'parsed_data_3628_pr001';
+
+testImagePath = 'H:\MAXIM\gui_MAXIM\testImages_lung';
+
 ffn_data = fullfile(dataPath, [dataFileName, '.mat']);
 
-testImagePath = 'H:\MAXIM\gui_MAXIM\testImages';
-nS = 50;
+nS = 100;
 testImageFileName = [dataFileName, '_extract_', num2str(nS)];
 ffn_testImage = fullfile(testImagePath, [testImageFileName, '.mat']);
 

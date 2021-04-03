@@ -22,9 +22,9 @@ end
 if idxC == 1
     r2 = polyA(2)/polyA(1);
     r3 = polyA(3)/polyA(1);
-    if r2>0.4
+    if r2>1/40
         idxC = 2;
-    elseif r3>0.4
+    elseif r3>1/40
         idxC = 3;
     end
 end

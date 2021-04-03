@@ -95,7 +95,7 @@ refContXY(:, 1) = (refCont(:, 1)-1)*dx + x0;
 refContXY(:, 2) = (refCont(:, 2)-1)*dy + y0;
 
 % save data
-save(ffn_GrayImage, 'grII');
+save(ffn_GrayImage, 'grII', '-v7.3');
 save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC', 'refCont*');
 save(ffn_TCent, 'cent') % save Tumor Center
 T = array2table(CPM, 'VariableNames',{'Slice #', 'Xt', 'Yt'});
