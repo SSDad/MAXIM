@@ -22,7 +22,6 @@ else
     end
 end
 
-
 if matFile ~=0
     data.FileInfo.DataPath = dataPath;
     data.FileInfo.MatFile = matFile;
@@ -47,10 +46,14 @@ if matFile ~=0
 
         Image.Images = imgWrite;
         nSlices = length(imgWrite);
-        [mImgSize, nImgSize, ~] = size(imgWrite{1});
+        [mImgSizeOrg, nImgSizeOrg, ~] = size(imgWrite{1});
         Image.bContourRemoved = false;
         
         data.Panel.LoadImage.Comp.Pushbutton.RemoveContour.Enable = 'on';
+
+        Image.mImgSizeOrg = mImgSizeOrg;
+        Image.nImgSizeOrg = nImgSizeOrg;
+
     else
         load(ffn_GrayImage);
         Image.Images = grII;
@@ -73,10 +76,9 @@ if matFile ~=0
         data.Image.bContourRemoved = 1;
         
         Image.bContourRemoved = true;
+        
     end
     
-    Image.mImgSize = mImgSize;
-    Image.nImgSize = nImgSize;
     Image.nSlices = nSlices;
 
     Image.indSS = 1:nSlices;
@@ -176,10 +178,13 @@ if matFile ~=0
     else
         I = rot90(Image.Images{iSlice}, 3);
         
-        [mImgSize, nImgSize] = deal(nImgSize, mImgSize);
+        [mImgSize, nImgSize] = deal(nImgSizeOrg, mImgSizeOrg);
         [Image.dx, Image.dy] = deal(Image.dy, Image.dx);
     end
-        
+    
+    data.Image.mImgSize = mImgSize;
+    data.Image.nImgSize = nImgSize;
+    
     % Image Info
     data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).String = [num2str(mImgSize), 'x', num2str(nImgSize)];
     data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).ForegroundColor = 'c';

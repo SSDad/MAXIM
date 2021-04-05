@@ -8,12 +8,16 @@ data2 = guidata(hFig2);
 % hPL = hPlotObj.Profile.PL;
 
 bwSum = data2.Panel.Tumor.Comp.hPlotObj.Tumor.bwSum.CData;
+
+bwSumA = zeros(data.Image.mImgSize, data.Image.nImgSize);
+bwSumA(data.Tumor.snakeContLimM(1):data.Tumor.snakeContLimM(2), ...
+    data.Tumor.snakeContLimN(1):data.Tumor.snakeContLimN(2)) = bwSum;
+
 pos = data2.Panel.Tumor.Comp.hPlotObj.Tumor.ProfileLine.Position; 
 
 xL = data.Image.RA.XWorldLimits;
 yL = data.Image.RA.YWorldLimits;
-[xProf, yProf, prof] = improfile(xL, yL, bwSum, pos(:, 1), pos(:, 2));
-
+[xProf, yProf, prof] = improfile(xL, yL, bwSumA, pos(:, 1), pos(:, 2));
 
 rr = ((xProf-xProf(1)).^2+(yProf-yProf(1)).^2).^0.5;
 
@@ -58,37 +62,39 @@ data.MeasureData.Profile.Down(1) = rr(xR2)-rr(xR1);
 
 
 % ref contour
-RC = data.Tumor.RC_TC{1};
+% RC = data.Tumor.RC_TC{1};
+RC = data.Tumor.refContXY;
+
 [xi, yi] = polyxpoly(pos(:, 1), pos(:, 2), RC(:, 1), RC(:, 2));
 
 xr = ((xi-xProf(1)).^2+(yi-yProf(1)).^2).^0.5;
 xr = sort(xr);
 
 if length(xr) == 2
-hPlotObj.Profile.RefLeft.XData = [xr(1) xr(1)];
-hPlotObj.Profile.RefLeft.YData = [0 maxV];
+    hPlotObj.Profile.RefLeft.XData = [xr(1) xr(1)];
+    hPlotObj.Profile.RefLeft.YData = [0 maxV];
 
-hPlotObj.Profile.RefRight.XData = [xr(2) xr(2)];
-hPlotObj.Profile.RefRight.YData = [0 maxV];
+    hPlotObj.Profile.RefRight.XData = [xr(2) xr(2)];
+    hPlotObj.Profile.RefRight.YData = [0 maxV];
 
-hPlotObj.Profile.RefTextLeft1.Position = [rr(xL1) maxV/2 0];
-hPlotObj.Profile.RefTextLeft1.String = num2str(abs(xr(1)-rr(xL1)), '%4.1f');
-data.MeasureData.Profile.Up(2) = xr(1)-rr(xL1);
-hPlotObj.Profile.RefTextLeft1.HorizontalAlignment = 'right';
+    hPlotObj.Profile.RefTextLeft1.Position = [rr(xL1) maxV/2 0];
+    hPlotObj.Profile.RefTextLeft1.String = num2str(abs(xr(1)-rr(xL1)), '%4.1f');
+    data.MeasureData.Profile.Up(2) = xr(1)-rr(xL1);
+    hPlotObj.Profile.RefTextLeft1.HorizontalAlignment = 'right';
 
-hPlotObj.Profile.RefTextLeft2.Position = [rr(xL2) maxV/2 0];
-hPlotObj.Profile.RefTextLeft2.String = num2str(abs(xr(1)-rr(xL2)), '%4.1f');
-data.MeasureData.Profile.Up(3) = xr(1)-rr(xL2);
-hPlotObj.Profile.RefTextLeft2.HorizontalAlignment = 'left';
+    hPlotObj.Profile.RefTextLeft2.Position = [rr(xL2) maxV/2 0];
+    hPlotObj.Profile.RefTextLeft2.String = num2str(abs(xr(1)-rr(xL2)), '%4.1f');
+    data.MeasureData.Profile.Up(3) = xr(1)-rr(xL2);
+    hPlotObj.Profile.RefTextLeft2.HorizontalAlignment = 'left';
 
-hPlotObj.Profile.RefTextRight1.Position = [rr(xR1) maxV/2 0];
-hPlotObj.Profile.RefTextRight1.String = num2str(abs(xr(2)-rr(xR1)), '%4.1f');
-data.MeasureData.Profile.Down(2) = xr(2)-rr(xR1);
-hPlotObj.Profile.RefTextRight1.HorizontalAlignment = 'right';
-hPlotObj.Profile.RefTextRight2.Position = [rr(xR2) maxV/2 0];
-hPlotObj.Profile.RefTextRight2.String = num2str(abs(xr(2)-rr(xR2)), '%4.1f');
-data.MeasureData.Profile.Down(3) = xr(2)-rr(xR2);
-hPlotObj.Profile.RefTextRight2.HorizontalAlignment = 'left';
+    hPlotObj.Profile.RefTextRight1.Position = [rr(xR1) maxV/2 0];
+    hPlotObj.Profile.RefTextRight1.String = num2str(abs(xr(2)-rr(xR1)), '%4.1f');
+    data.MeasureData.Profile.Down(2) = xr(2)-rr(xR1);
+    hPlotObj.Profile.RefTextRight1.HorizontalAlignment = 'right';
+    hPlotObj.Profile.RefTextRight2.Position = [rr(xR2) maxV/2 0];
+    hPlotObj.Profile.RefTextRight2.String = num2str(abs(xr(2)-rr(xR2)), '%4.1f');
+    data.MeasureData.Profile.Down(3) = xr(2)-rr(xR2);
+    hPlotObj.Profile.RefTextRight2.HorizontalAlignment = 'left';
 end
 
 guidata(hFig, data)

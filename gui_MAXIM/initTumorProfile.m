@@ -57,46 +57,20 @@ if any(bwSum(:))
       hAxis.Tumor.CLim = [min(bwSum(:)) max(bwSum(:))];
 end
 
-%% contour
+%% tumor contours
 data2.Panel.Tumor.Comp.hPlotObj.Tumor.hgContour = hggroup(hAxis.Tumor);
 hPlotObj = data2.Panel.Tumor.Comp.hPlotObj;
-% hPlotObj.Tumor.hgGatedContour = hggroup(hAxis.Tumor);
-% hPlotObj.Tumor.hgPoints = hggroup(hAxis.Tumor);
-% xmin = inf;
-% xmax = 0;
-% ymin = inf;
-% ymax = 0;
 for iSlice = 1:nSlices
     hPlotObj.Tumor.Contour(iSlice) = line(hPlotObj.Tumor.hgContour, ...
         'XData',  [], 'YData',  [],  'Color', 'g', 'LineStyle', '-', 'LineWidth', 1);
     if ~isempty(snakeContXY{iSlice})
         set(hPlotObj.Tumor.Contour(iSlice), 'XData', snakeContXY{iSlice}(:, 1),  'YData', snakeContXY{iSlice}(:, 2));
- %         xmin = min(min(CC_TC{iSlice}(:, 1)), xmin);
-%         xmax = max(max(CC_TC{iSlice}(:, 1)), xmax);
-
     end
-    
-%     if ~isempty(CC_GC{n})
-%         hPlotObj.Tumor.GatedContour(n).XData = CC_GC{n}(:, 1);
-%         hPlotObj.Tumor.GatedContour(n).YData = CC_GC{n}(:, 2);
-%     end
-    
-%     hPlotObj.Tumor.Points(iSlice) = line(hPlotObj.Tumor.hgPoints, 'XData', [], 'YData', [],...
-%         'Marker', '.',  'MarkerSize', 12, 'Color', 'c', 'LineStyle', 'none');
 end
-% 
-% data.Tumor.xyrangeCC = [xmin xmax ymin ymax];
-% 
-% n = 1;
 hPlotObj.Tumor.RefContour = line(hAxis.Tumor, 'XData', refContXY(:, 1), 'YData', refContXY(:, 2),...
     'Color', 'r', 'LineStyle', '-', 'LineWidth', 1);
-% if ~isempty(CC_RC{n})
-%     hPlotObj.Tumor.RefContour(n).XData = CC_RC{n}(:, 1);
-%     hPlotObj.Tumor.RefContour(n).YData = CC_RC{n}(:, 2);
-% end
-% 
 
-%% profile
+%% profile line
 xmin = min(xmin, min(refContXY(:,1)));
 ymin = min(ymin, min(refContXY(:,2)));
 xmax = max(xmax, max(refContXY(:,1)));
@@ -112,15 +86,17 @@ pos = [xmin-xL*marg  yM
 hPlotObj.Tumor.ProfileLine = images.roi.Line(hAxis.Tumor, 'Color', 'c', 'Position', pos , 'Tag', 'PL');
 addlistener(hPlotObj.Tumor.ProfileLine, 'MovingROI', @Callback_Line_Profile);
 
+%% axis limits
 hAxis.Tumor.XLim = [xmin-xL*marg*2 xmax+xL*marg*2];
 hAxis.Tumor.YLim = [ymin-yL*marg*2 ymax+yL*marg*2];
 
-% 
-% data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
-% guidata(hFig2, data2);
-% guidata(hFig, data);
-% 
-% updateTumorProfile;
+%% save data
+data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
+guidata(hFig2, data2);
+guidata(hFig, data);
+
+%% profile measurement
+updateTumorProfile;
 % 
 % % points
 % if data.Point.InitDone

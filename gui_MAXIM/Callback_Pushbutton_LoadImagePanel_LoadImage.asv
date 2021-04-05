@@ -47,7 +47,7 @@ if matFile ~=0
 
         Image.Images = imgWrite;
         nSlices = length(imgWrite);
-        [mImgSize, nImgSize, ~] = size(imgWrite{1});
+        [mImgSizeOrg, nImgSizeOrg, ~] = size(imgWrite{1});
         Image.bContourRemoved = false;
         
         data.Panel.LoadImage.Comp.Pushbutton.RemoveContour.Enable = 'on';
@@ -55,7 +55,7 @@ if matFile ~=0
         load(ffn_GrayImage);
         Image.Images = grII;
         nSlices = length(grII);
-        [mImgSize, nImgSize] = size(grII{1});
+        [mImgSizeOrg, nImgSizeOrg] = size(grII{1});
         
         load(ffn_TCont);
         load(ffn_TCent);
@@ -64,6 +64,8 @@ if matFile ~=0
         data.Tumor.indC = indC;
         data.Tumor.eContXY = eContXY;
         data.Tumor.snakeCont = snakeCont;
+        data.Tumor.snakeContLimM = snakeContLimM;
+        data.Tumor.snakeContLimN = snakeContLimN;
         data.Tumor.snakeContXY = snakeContXY;
         data.Tumor.refCont = refCont;
         data.Tumor.refContXY = refContXY;
@@ -73,8 +75,8 @@ if matFile ~=0
         Image.bContourRemoved = true;
     end
     
-    Image.mImgSize = mImgSize;
-    Image.nImgSize = nImgSize;
+%     Image.mImgSize = mImgSizeOrg;
+%     Image.nImgSize = nImgSizeOrg;
     Image.nSlices = nSlices;
 
     Image.indSS = 1:nSlices;
@@ -86,11 +88,11 @@ if matFile ~=0
     Image.y0 = 0;
 
     Image.FoV = str2num(data.Panel.LoadImage.Comp.hEdit.ImageInfo(1).String);
-    if mImgSize > nImgSize
-        Image.dy = Image.FoV/mImgSize;
+    if mImgSizeOrg > nImgSizeOrg
+        Image.dy = Image.FoV/mImgSizeOrg;
         Image.dx = Image.dy;
     else
-        Image.dx = Image.FoV/nImgSize;
+        Image.dx = Image.FoV/nImgSizeOrg;
         Image.dy = Image.dx;
     end
 
@@ -174,12 +176,12 @@ if matFile ~=0
     else
         I = rot90(Image.Images{iSlice}, 3);
         
-        [mImgSize, nImgSize] = deal(nImgSize, mImgSize);
+        [mImgSizeOrg, nImgSizeOrg] = deal(nImgSizeOrg, mImgSizeOrg);
         [Image.dx, Image.dy] = deal(Image.dy, Image.dx);
     end
         
     % Image Info
-    data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).String = [num2str(mImgSize), 'x', num2str(nImgSize)];
+    data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).String = [num2str(mImgSizeOrg), 'x', num2str(nImgSizeOrg)];
     data.Panel.LoadImage.Comp.hEdit.ImageInfo(2).ForegroundColor = 'c';
 
     data.Panel.LoadImage.Comp.hEdit.ImageInfo(3).String = num2str(Image.dx);
@@ -190,10 +192,10 @@ if matFile ~=0
     dx = Image.dx;
     dy = Image.dy;
     xWL(1) = x0-dx/2;
-    xWL(2) = xWL(1)+dx*nImgSize;
+    xWL(2) = xWL(1)+dx*nImgSizeOrg;
     yWL(1) = y0-dy/2;
-    yWL(2) = yWL(1)+dy*mImgSize;
-    RA = imref2d([mImgSize nImgSize], xWL, yWL);
+    yWL(2) = yWL(1)+dy*mImgSizeOrg;
+    RA = imref2d([mImgSizeOrg nImgSizeOrg], xWL, yWL);
     data.Image.RA = RA;
 
     hA = data.Panel.View.Comp.hAxis.Image;

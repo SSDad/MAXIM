@@ -49,7 +49,7 @@ for iSlice = 1:nSlices
 %     set(data.Panel.View.Comp.hPlotObj.SnakeContour, 'XData', [], 'YData', []);
 %     set(data.Panel.View.Comp.hPlotObj.SnakeContourCenter, 'XData', [], 'YData', []);
     if idxC > 1
-        mask = poly2mask(C(:, 1), C(:, 2), Image.nImgSize, Image.mImgSize);
+        mask = poly2mask(C(:, 1), C(:, 2), Image.mImgSize, Image.nImgSize);
         bw = activecontour(grII{iSlice}, mask, 20, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
 
         B = bwboundaries(bw);
@@ -90,7 +90,7 @@ end
 contRC = data.Tumor.refContour;
 iP = round(size(contRC, 1)/2);
 [Xout, Yout] = fun_points2contour(contRC(:, 1), contRC(:,2), iP, 'ccw');
-refCont = [data.Image.nImgSize-Yout'+1 Xout'];
+refCont = [data.Image.mImgSizeOrg-Yout'+1 Xout'];
 refContXY(:, 1) = (refCont(:, 1)-1)*dx + x0;
 refContXY(:, 2) = (refCont(:, 2)-1)*dy + y0;
 
