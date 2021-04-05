@@ -7,9 +7,9 @@ hPlotObj = data.Panel.Tumor.Comp.hPlotObj;
 
 if data.Panel.Button.Comp.Radiobutton.Contour.Value
 %     updateTumorOverlay(data_main);
-    hPlotObj.Tumor.hgTrackContour.Visible = 'on';
-    hPlotObj.Tumor.hgGatedContour.Visible = 'on';
+    hPlotObj.Tumor.hgContour.Visible = 'on';
+%     hPlotObj.Tumor.hgGatedContour.Visible = 'on';
 else
-    hPlotObj.Tumor.hgTrackContour.Visible = 'off';
-    hPlotObj.Tumor.hgGatedContour.Visible = 'off';
+    hPlotObj.Tumor.hgContour.Visible = 'off';
+%     hPlotObj.Tumor.hgGatedContour.Visible = 'off';
 end

@@ -76,6 +76,9 @@ ymin = min(ymin, min(refContXY(:,2)));
 xmax = max(xmax, max(refContXY(:,1)));
 ymax = max(ymax, max(refContXY(:,2)));
 
+xyrange = [xmin xmax ymin ymax];
+data.Tumor.xyrangeCC = xyrange;
+
 marg = 0.1;
 xL = xmax-xmin;
 yL = ymax-ymin;
@@ -157,11 +160,11 @@ updateTumorProfile;
 % %     end
 % % end
 % 
-% data2.Panel.Button.Comp.Radiobutton.bwSum.Value = 1;
-% data2.Panel.Button.Comp.Radiobutton.Contour.Value = 1;
-% data2.Panel.Button.Comp.Radiobutton.hProfile.Value = 1;
-% data2.Panel.Button.Comp.Radiobutton.vProfile.Value = 0;
-% 
+data2.Panel.Button.Comp.Radiobutton.bwSum.Value = 1;
+data2.Panel.Button.Comp.Radiobutton.Contour.Value = 1;
+data2.Panel.Button.Comp.Radiobutton.hProfile.Value = 1;
+data2.Panel.Button.Comp.Radiobutton.vProfile.Value = 0;
+ 
 % data2.Panel.Tumor.Comp.hPlotObj = hPlotObj;
 % guidata(hFig2, data2);
 % 

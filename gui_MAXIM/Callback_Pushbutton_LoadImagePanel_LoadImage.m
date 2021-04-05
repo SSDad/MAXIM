@@ -51,6 +51,8 @@ if matFile ~=0
         
         data.Panel.LoadImage.Comp.Pushbutton.RemoveContour.Enable = 'on';
 
+        mImgSize = mImgSizeOrg;
+        nImgSize = nImgSizeOrg;
         Image.mImgSizeOrg = mImgSizeOrg;
         Image.nImgSizeOrg = nImgSizeOrg;
 
