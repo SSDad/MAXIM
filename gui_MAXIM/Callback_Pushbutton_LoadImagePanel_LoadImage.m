@@ -255,11 +255,9 @@ if matFile ~=0
             'Marker', '.', 'MarkerSize', 16);
 
     % body
-    hPlotObj.Body = line(hA,...
-        'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', '-', 'LineWidth', 0.5);
+    hPlotObj.Body = line(hA, 'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', '-', 'LineWidth', 0.5);
 
-    hPlotObj.Ab = line(hA,...
-        'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', '-', 'LineWidth', 3);
+    hPlotObj.Ab = line(hA,  'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', '-', 'LineWidth', 3, 'Marker', '.');
 
 %     pos = [x0 y0+yWL(2)*2/3
 %             xWL(2) y0+yWL(2)*2/3];
