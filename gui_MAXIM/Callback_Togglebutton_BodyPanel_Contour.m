@@ -38,7 +38,7 @@ for iSlice = 1:nSlices
     abC2 = []; % abdomen Contour
     J = II{iSlice};
     if data.Tumor.indC(iSlice) > 1 % gating or tracking contour on image
-        BW = im2bw(J, 0.1);
+        BW = im2bw(J, 0.05);
         BW = imfill(BW, 8, 'holes');
 %         BW21 = bwareaopen(BW2, round(data.Image.mImgSize*data.Image.nImgSize/10));
 %         BW3 = bwconvhull(BW21);
@@ -80,6 +80,7 @@ for iSlice = 1:nSlices
         if idx > 5
             abC2 = flip(abC2);
         end
+        abC2(:, 2) = sgolayfilt(abC2(:, 2), 3, 75);
         data.Body.AbsContours{iSlice} = abC2; % 1 - row, 2 - column
 
     end
@@ -95,8 +96,8 @@ for iSlice = 1:nSlices
         hSnake.YData = [];
         hSnake.XData = [];
     else
-%        hBody.YData = (bC(:, 1)-1)*dy+y0;
-%        hBody.XData = (bC(:, 2)-1)*dx+x0;
+       hBody.YData = (bC(:, 1)-1)*dy+y0;
+       hBody.XData = (bC(:, 2)-1)*dx+x0;
         hAb.YData = (abC2(:, 1)-1)*dy+y0;
         hAb.XData = (abC2(:, 2)-1)*dx+x0;
         if ~isempty(sC)
