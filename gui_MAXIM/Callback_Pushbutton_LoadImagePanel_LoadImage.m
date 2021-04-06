@@ -257,7 +257,7 @@ if matFile ~=0
     % body
     hPlotObj.Body = line(hA, 'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', '-', 'LineWidth', 0.5);
 
-    hPlotObj.Ab = line(hA,  'XData', [], 'YData', [], 'Color', 'r', 'LineStyle', 'none', 'LineWidth', 3, 'Marker', '.');
+    hPlotObj.Ab = line(hA,  'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', 'none', 'LineWidth', 3, 'Marker', '.');
 
 %     pos = [x0 y0+yWL(2)*2/3
 %             xWL(2) y0+yWL(2)*2/3];
@@ -265,7 +265,7 @@ if matFile ~=0
 %         'Tag', 'L1', 'InteractionsAllowed', 'Translate');
 %    addlistener(hPlotObj.AbLine1, 'MovingROI', @Callback_Line_AbL1);
 
-    pos = [x0 y0+yWL(2)*2/3 xWL(2) yWL(2)/3];
+    pos = [x0 y0+yWL(2)/3 xWL(2) yWL(2)/3];
     hPlotObj.AbRect = images.roi.Rectangle(hA, 'Position', pos, 'Color', 'g',...
         'LineWidth', .5, 'FaceAlpha', 0.1, 'Tag', 'AbRec', 'Visible', 'off');
     addlistener(hPlotObj.AbRect, 'MovingROI', @Callback_AbRect);

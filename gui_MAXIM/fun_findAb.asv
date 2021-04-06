@@ -1,0 +1,59 @@
+function [Ab] = fun_findAb(J, mBound)
+
+bPlot = 0;
+
+%% crop
+[M, N] = size(J);
+if bPlot
+    figure(101), clf
+    imshow(J), hold on
+    rectangle('Position', rect, 'EdgeColor', 'g')
+end
+
+mm = mBound;
+rect = [1 mm(1) round(N/2) diff(mm)];
+JC = imcrop(J, rect); 
+if bPlot
+    figure(102), clf
+    imshow(JC)
+end
+
+%% snake
+[M, N] = size(JC);
+mask = zeros(M, N);
+mask (1:M, 2) = 1;
+bw = activecontour(JC, mask);
+if bPlot
+    figure(103)
+    imshow(bw)
+end
+
+B = bwboundaries(bw);
+xx = B{1}(:, 2);
+yy = B{1}(:, 1);
+% line('XData', xx, 'YData', yy, 'Color', 'g') 
+
+ind = xx == 1;
+xx(ind) = [];
+yy(ind) = [];
+
+% line('XData', xx, 'YData', yy, 'Color', 'c') 
+
+ind = yy == 1;
+xx(ind) = [];
+yy(ind) = [];
+
+% line('XData', xx, 'YData', yy, 'Color', 'g', 'LineWidth', 2) 
+
+ind = yy == M;
+xx(ind) = [];
+yy(ind) = [];
+
+yy = sgolayfilt(yy, 3, 75);
+
+line('XData', xx, 'YData', yy, 'Color', 'r', 'LineWidth', 3) 
+
+figure(101)
+
+yy = yy + mm(1) - 1;
+line('XData', xx, 'YData', yy, 'Color', 'r', 'LineWidth', 3) 
