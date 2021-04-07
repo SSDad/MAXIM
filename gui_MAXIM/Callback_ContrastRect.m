@@ -10,7 +10,8 @@ recPos = src.Position;
 Images = data.Image.Images;
 % sV = data_main.sliderValue;
 sV = round(data.Panel.SliceSlider.Comp.hSlider.Slice.Value);
-I = rot90(Images{sV}, 3);
+% I = rot90(Images{sV}, 3);
+I = Images{sV};
 
 contrastRectLim(1) = recPos(1);
 contrastRectLim(2) = contrastRectLim(1)+recPos(3);
