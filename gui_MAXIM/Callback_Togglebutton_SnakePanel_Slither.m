@@ -123,7 +123,12 @@ for iSlice = startSlice:endSlice
         [sC] = fun_findDiaphragm(J, Rect, C);
         % smooth
         % sC(:, 1) = sgolayfilt(sC(:, 1), 3, 75);
-        sC(:, 2) = sgolayfilt(sC(:, 2), 3, 75);
+        framelen = round(size(sC, 1)/4);
+        if mod(framelen, 2) == 0
+            framelen = framelen+1;
+        end
+        framelen = min(framelen, 25);
+        sC(:, 2) = sgolayfilt(sC(:, 2), 3, framelen);
 
     
     else

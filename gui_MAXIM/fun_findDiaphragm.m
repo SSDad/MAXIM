@@ -7,7 +7,13 @@ bPlot = 0;
 JC = imcrop(J, Rect);
 cC(:, 1) = C(:, 1)-Rect(1);
 cC(:, 2) = C(:, 2)-Rect(2);
-cC(:, 2) = sgolayfilt(cC(:, 2), 3, 75);
+
+framelen = round(size(cC, 1)/4);
+if mod(framelen, 2) == 0
+    framelen = framelen+1;
+end
+framelen = min(framelen, 25);
+cC(:, 2) = sgolayfilt(cC(:, 2), 3, framelen);
 
 if bPlot
     figure(101), clf
