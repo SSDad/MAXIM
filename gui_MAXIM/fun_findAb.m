@@ -21,9 +21,11 @@ end
 %% snake
 [M, N] = size(JC);
 mask = zeros(M, N);
-mask (1:M, 1:2) = 1;
-% bw = activecontour(JC, mask, 150, 'Chan-Vese', 'SmoothFactor', 2);
-bw = activecontour(JC, mask, 150, 'Chan-Vese', 'SmoothFactor', 0.4);
+
+bw = imbinarize(JC, 0.25);
+[~, col] = find(bw, 1);
+mask (1:M, 1:col-2) = 1;
+bw = activecontour(JC, mask, 100, 'Chan-Vese', 'SmoothFactor', 0.4);
 
 B = bwboundaries(bw);
 xx = B{1}(:, 2);
