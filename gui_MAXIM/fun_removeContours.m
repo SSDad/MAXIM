@@ -16,7 +16,11 @@ indRGB = find(maskRGB);
 
 for n = 1:length(indRGB)
     [r, c] = ind2sub([M N], indRGB(n));
-    J = img_gray(r-1:r+1, c-1:c+1);
+    r1 = max(r-1, 1);
+    r2 = min(r+1, M);
+    c1 = max(c-1, 1);
+    c2 = min(c+1, N);
+    J = img_gray(r1:r2, c1:c2);
     ind = J == vMax | J == 0;
     img_gray(indRGB(n)) = sum(J(~ind))/(9-sum(ind(:)));
 end

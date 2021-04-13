@@ -12,8 +12,8 @@ dataPath = 'D:\Zhen\Box Sync\BugReport_MAXIM\Anamaria\11_didnt generate the snak
 dataFileName = 'parsed_data_4675_pr001';
 testImagePath = 'D:\Zhen\Box Sync\BugReport_MAXIM\testImages_lung';
 
-ffn_data = fullfile(dataPath, [dataFileName, '.mat']);
 
+ffn_data = fullfile(dataPath, [dataFileName, '.mat']);
 nS = 100;
 testImageFileName = [dataFileName, '_extract_', num2str(nS)];
 ffn_testImage = fullfile(testImagePath, [testImageFileName, '.mat']);

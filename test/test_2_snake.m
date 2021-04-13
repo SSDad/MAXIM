@@ -1,16 +1,21 @@
 clearvars
 
 bPlot = 1;
-
 junk = fileparts(pwd);
+codePath = fullfile(junk, 'gui_MAXIM');
+addpath(codePath);
+
 testImagePath = fullfile(junk, 'gui_MAXIM', 'testImages');
 testImageName = 'parsed_data_813_pr002.mat';
 ffn = fullfile(testImagePath, testImageName);
 
-load(ffn)
+dataFileName = 'parsed_data_3799_pr003';
+iS = 2778;
+testImageFileName = [dataFileName, '_Slice_', num2str(iS)];
+load(testImageFileName)
 
-    N = 467;
-    M = 466;
+
+[N, M, ~] = size(imgWrite{1});
 if bPlot
     close all
     hF = figure(11);
@@ -50,23 +55,30 @@ snakeParam.alpha = 0.5; % LAC_3
 
 CLR = 'rgb';
 tic
-for n = 2%1:length(imgWrite)
+for n = 1%1:length(imgWrite)
     
     J = rot90(imgWrite{n}, 3);
 %     I = fun_eraseContours(imgWrite{n});
     I = fun_removeContours(J);
     [C, idxC] = fun_extractContour(J);
 
-
+    if bPlot
+        Cxy(:, 1) = (C(:, 1)-1)*dx + x0;
+        Cxy(:, 2) = (C(:, 2)-1)*dy + y0;
+        imshow(J, RA, 'Parent', hA(1));
+        line(hA(1), 'XData', Cxy(:, 1), 'YData', Cxy(:, 2), 'Color', 'm', 'LineStyle', '-', 'Marker', 'o', 'MarkerSize', 2)
+        imshow(I, RA,  'Parent', hA(2));
+        line(hA(2), 'XData', Cxy(:, 1), 'YData', Cxy(:, 2), 'Color', CLR(idxC), 'LineStyle', '-', 'Marker', '.', 'MarkerSize', 4)
+    end
+    
     % snake
     mask = poly2mask(C(:, 1), C(:, 2), M, N);
-%     ID = double(I);
     
 %     bw = fun_localAC_MS(ID, mask,...
 %             snakeParam.rad, snakeParam.alpha, snakeParam.nIter, snakeParam.epsilon);
-        
-    bw = activecontour(I, mask, 100, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
+%     bw = activecontour(I, mask, 100, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
 
+    bw = activecontour(I, mask, 20, 'Chan-Vese', 'SmoothFactor', 3, 'ContractionBias', 0.);
     B = bwboundaries(bw);
     nP = zeros(length(B), 1);
     for m = 1:length(B)
@@ -78,13 +90,6 @@ for n = 2%1:length(imgWrite)
 %     S = B{idx};
 
     if bPlot
-        C(:, 1) = (C(:, 1)-1)*dx + x0;
-        C(:, 2) = (C(:, 2)-1)*dy + y0;
-        imshow(J, RA, 'Parent', hA(1));
-        line(hA(1), 'XData', C(:, 1), 'YData', C(:, 2), 'Color', 'm', 'LineStyle', '-', 'Marker', 'o', 'MarkerSize', 2)
-        imshow(I, RA,  'Parent', hA(2));
-        line(hA(2), 'XData', C(:, 1), 'YData', C(:, 2), 'Color', CLR(idxC), 'LineStyle', '-', 'Marker', '.', 'MarkerSize', 4)
-
         S(:, 1) = (S(:, 1)-1)*dx + x0;
         S(:, 2) = (S(:, 2)-1)*dy + y0;
         line(hA(2), 'XData', S(:, 1), 'YData', S(:, 2), 'Color', 'm', 'LineStyle', '-', 'Marker', '.', 'MarkerSize', 4)

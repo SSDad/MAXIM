@@ -31,7 +31,7 @@ CLR = 'rgb';
 snakeContLimM = [inf 0];
 snakeContLimN = [inf 0];
 
-wbStr = 'Removing RBG contours...';
+wbStr = 'Removing RGB contours...';
 hWB = waitbar(0, wbStr); 
 for iSlice = 1:nSlices
     
@@ -83,7 +83,7 @@ for iSlice = 1:nSlices
     C(:, 2) = (C(:, 2)-1)*dy + y0;
     eContXY{iSlice} = C;
     
-    waitbar(iSlice/nSlices, hWB, wbStr);
+    waitbar(iSlice/nSlices, hWB, [wbStr, num2str(iSlice), '/', num2str(nSlices)]);
 end
 
 %% ref contour
@@ -95,6 +95,8 @@ refContXY(:, 1) = (refCont(:, 1)-1)*dx + x0;
 refContXY(:, 2) = (refCont(:, 2)-1)*dy + y0;
 
 % save data
+waitbar(1, hWB, 'Saving gray images and tumor snakes...');
+
 save(ffn_GrayImage, 'grII', '-v7.3');
 save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC', 'refCont*');
 save(ffn_TCent, 'cent') % save Tumor Center
