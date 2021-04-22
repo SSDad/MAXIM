@@ -8,7 +8,7 @@ CC = cell(nC, 1);
 polyA = zeros(nC, 2);
 bInd = false(nC, 1);
 
-hWB = waitbar(0, 'Processing tumor contours...');
+hWB = waitbar(0, 'Processing RGB tumor contours...');
 
 for iC = 1:nC
     C = cont{iC};
@@ -38,7 +38,7 @@ for iC = 1:nC
         mask(:,:,iC) = poly2mask(CC{iC}(:, 1), CC{iC}(:, 2), M, N);
         bwSum = bwSum+mask(:,:,iC);
     end
-    waitbar(iC/nC, hWB,  'Processing tumor contours...');
+    waitbar(iC/nC, hWB,  'Processing RGB tumor contours...');
 
 end
 close(hWB)

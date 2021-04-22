@@ -36,9 +36,9 @@ if matFile ~=0
     if ~exist(ffn_GrayImage, 'file')  % first time load
         load(ffn)
         %%%%%%%%%%%%%%%%%%%%%%%
-        % tumor ref contour
-%         data.Tumor.gatedContour = gatedContour;
-%         data.Tumor.trackContour = trackContour;
+        % tumor rgb contour
+        data.Tumor.gatedContour = gatedContour;
+        data.Tumor.trackContour = trackContour;
         data.Tumor.refContour = refContour;
         
 %         data.Panel.Tumor.Comp.Pushbutton.Init.Enable = 'on';
@@ -311,6 +311,9 @@ if matFile ~=0
 
     guidata(hFig, data);
     
+     % original contour
+     getRGBContourData;
+     
     % tumor profile
     if data.Image.bContourRemoved
         initTumorProfile;
