@@ -40,22 +40,22 @@ if ~exist(ffn, 'file')
     save(ffn, 'bwSum_*', 'mask_*', 'polyA_*', 'CC_*', 'M', 'N', 'nImages', 'bInd_*', '-v7.3');
 end
 
-% for n = 1:length(CC_GC)
-%     if ~isempty(CC_GC{n})
-%         CC_GC{n}(:, 1) = (CC_GC{n}(:, 1)-1)*data.Image.dx+data.Image.x0;
-%         CC_GC{n}(:, 2) = (CC_GC{n}(:, 2)-1)*data.Image.dy+data.Image.y0;
-%     end
-%     if ~isempty(CC_TC{n})
-%         CC_TC{n}(:, 1) = (CC_TC{n}(:, 1)-1)*data.Image.dx+data.Image.x0;
-%         CC_TC{n}(:, 2) = (CC_TC{n}(:, 2)-1)*data.Image.dy+data.Image.y0;
-%     end
-% end
-% 
-% n = 1;
-% if ~isempty(CC_RC{n})
-%         CC_RC{n}(:, 1) = (CC_RC{n}(:, 1)-1)*data.Image.dx+data.Image.x0;
-%         CC_RC{n}(:, 2) = (CC_RC{n}(:, 2)-1)*data.Image.dy+data.Image.y0;
-%  end
+for n = 1:length(CC_GC)
+    if ~isempty(CC_GC{n})
+        CC_GC{n}(:, 1) = (CC_GC{n}(:, 1)-1)*data.Image.dx+data.Image.x0;
+        CC_GC{n}(:, 2) = (CC_GC{n}(:, 2)-1)*data.Image.dy+data.Image.y0;
+    end
+    if ~isempty(CC_TC{n})
+        CC_TC{n}(:, 1) = (CC_TC{n}(:, 1)-1)*data.Image.dx+data.Image.x0;
+        CC_TC{n}(:, 2) = (CC_TC{n}(:, 2)-1)*data.Image.dy+data.Image.y0;
+    end
+end
+
+n = 1;
+if ~isempty(CC_RC{n})
+        CC_RC{n}(:, 1) = (CC_RC{n}(:, 1)-1)*data.Image.dx+data.Image.x0;
+        CC_RC{n}(:, 2) = (CC_RC{n}(:, 2)-1)*data.Image.dy+data.Image.y0;
+end
 %     
 % 
 
