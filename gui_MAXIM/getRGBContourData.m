@@ -17,7 +17,7 @@ ffn = fullfile(dataPath, [fn1, '_TumorContourPoints_RGB.csv']);
 
 if ~exist(ffn, 'file')
 
-    CPM = [];
+    CPM = [];  % Contour Point Matrix
     for iSlice = 1:nSlice
         gC = CC_GC{iSlice};
         tC = CC_TC{iSlice};
@@ -58,4 +58,12 @@ else
     cent.refx = mean(CC_RC{1}(:,1));
     cent.refy = mean(CC_RC{1}(:,2));
     save(ffn, 'cent')
+
+    % csv
+    CM = [(1:nSlice)' cent.x cent.y];
+   
+    ffn = fullfile(dataPath, [fn1, '_TumorCenterPoints_RGB.csv']);
+    T = array2table(CM, 'VariableNames',{'Slice #', 'Xc', 'Yc'});
+    writetable(T, ffn);
+
 end

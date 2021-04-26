@@ -17,6 +17,7 @@ matFile = data.FileInfo.MatFile;
 ffn_GrayImage = fullfile(dataPath, [fn1, '_GrayImage.mat']);
 ffn_TCont = fullfile(dataPath, [fn1, '_TumorContour.mat']);
 ffn_TCent = fullfile(dataPath, [fn1, '_TumorCenter.mat']);
+ffn_TCent_csv = fullfile(dataPath, [fn1, '_TumorCenterPoints.csv']);
 
 cent.x = nan(nSlices, 1);
 cent.y = nan(nSlices, 1);
@@ -97,11 +98,18 @@ refContXY(:, 2) = (refCont(:, 2)-1)*dy + y0;
 % save data
 waitbar(1, hWB, 'Saving gray images and tumor snakes...');
 
-save(ffn_GrayImage, 'grII', '-v7.3');
-save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC', 'refCont*');
+save(ffn_GrayImage, 'grII', '-v7.3');  % gray images
+save(ffn_TCont, 'eCont*', 'snakeCont*', 'indC', 'refCont*'); % tumor
+
 save(ffn_TCent, 'cent') % save Tumor Center
+CM = [(1:nSlices)' cent.x cent.y];   
+TCM = array2table(CM, 'VariableNames',{'Slice #', 'Xc', 'Yc'});
+writetable(TCM, ffn_TCent_csv);
+
+% Contour Points Matrix to csv
 T = array2table(CPM, 'VariableNames',{'Slice #', 'Xt', 'Yt'});
-writetable(T, ffn_TCP_csv);
+writetable(T, ffn_TCP_csv); 
+
 close(hWB);
 % %% tumor center
 % cent.refx = mean(CC_RC{1}(:,1));
