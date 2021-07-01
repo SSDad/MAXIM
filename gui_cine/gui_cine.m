@@ -20,13 +20,13 @@ hFig_cine = figure('MenuBar',            'none', ...
                     'CloseRequestFcn', @figCloseReq_cine, ...
                     'Visible',               'on');
 
-% addToolbar(hFig);
+addToolbar_cine(hFig_cine);
 %                 
 data_cine.Panel = addPanel_cine(hFig_cine);
 data_cine.Panel.LoadImage.Comp = addComponents2Panel_cine_LoadImage(data_cine.Panel.LoadImage.hPanel);
 % data.Panel.Selection.Comp = addComponents2Panel_Selection(data.Panel.Selection.hPanel);
 data_cine.Panel.View.Comp = addComponents2Panel_cine_View(data_cine.Panel.View.hPanel);
-% data.Panel.Snake.Comp = addComponents2Panel_Snake(data.Panel.Snake.hPanel);
+data_cine.Panel.Snake.Comp = addComponents2Panel_cine_Snake(data_cine.Panel.Snake.hPanel);
 % data.Panel.Body.Comp = addComponents2Panel_Body(data.Panel.Body.hPanel);
 data_cine.Panel.ContrastBar.Comp = addComponents2Panel_cine_ContrastBar(data_cine.Panel.ContrastBar.hPanel);
 data_cine.Panel.SliceSlider.Comp = addComponents2Panel_cine_SliceSlider(data_cine.Panel.SliceSlider.hPanel);

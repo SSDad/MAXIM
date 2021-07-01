@@ -1,6 +1,6 @@
 function Callback_cine_Slider_SliceSliderPanel_SliceSlider(src, evnt)
 
-global hFig_cine contrastRectLim
+global hFig_cine contrastRectLim_cine
 
 data_cine = guidata(hFig_cine);
 
@@ -17,8 +17,8 @@ I = data_cine.Image.Images(:,:,iSlice);
 maxI = max(I(:));
 minI = min(I(:));
 wI = maxI-minI;
-cL1 = minI+wI*contrastRectLim(1);
-cL2 = minI+wI*contrastRectLim(2);
+cL1 = minI+wI*contrastRectLim_cine(1);
+cL2 = minI+wI*contrastRectLim_cine(2);
 I(I<cL1) = cL1;
 I(I>cL2) = cL2;
 

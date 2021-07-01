@@ -48,8 +48,8 @@ end
     
     x0 = 0;
     y0 = 0;
-    dx = 1;
-    dy = 1;
+    dx = 0.1;
+    dy = 0.1;
     Image.x0 = x0;
     Image.y0 = y0;
     Image.dx = dx ;
@@ -69,12 +69,19 @@ end
     axis(data_cine.Panel.View.Comp.hAxis.Image, 'tight', 'equal')
 
     
-%     % snake
-%     hPlotObj.Snake = line(hA,...
-%         'XData', [], 'YData', [], 'Color', 'm', 'LineStyle', '-', 'LineWidth', 3);
+    % snake
+    hPlotObj.Snake = line(hA,...
+        'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', '-', 'LineWidth', 2);
 %     hPlotObj.SnakeMask = line(hA,...
 %         'XData', [], 'YData', [], 'Color', 'm', 'LineStyle', '-', 'LineWidth', 1);
-% 
+
+    pos = [0 0 0 0];
+    hPlotObj.SnakeRect = rectangle(hA, 'Position', pos, 'EdgeColor', 'b',...
+        'LineWidth', .1, 'Tag', 'SnakeRect', 'Visible', 'off');
+
+    hPlotObj.TMRect = rectangle(hA, 'Position', pos, 'EdgeColor', 'b',...
+        'LineWidth', .1, 'Tag', 'TMRect', 'Visible', 'off');
+
 %     % point on diaphragm
 %     hPlotObj.Point = line(hA,...
 %         'XData', [], 'YData', [], 'Color', 'g', 'LineStyle', 'none',...
