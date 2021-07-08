@@ -2,6 +2,7 @@ function Callback_cine_Togglebutton_SnakePanel_FreeHand(src, evnt)
 
 global hFig_cine
 global fhL
+global bFreeHand fhSlice
 % contrastRectLim
 
 data_cine = guidata(hFig_cine);
@@ -10,12 +11,15 @@ str = src.String;
 if strcmp(str, 'Free Hand')
     src.String = 'Done';
     src.ForegroundColor = 'g';
+
+    data_cine.Panel.View.Comp.hPlotObj.Snake.Visible = 'off';
     
     hA = data_cine.Panel.View.Comp.hAxis.Image;
 % uistack(hA, 'top');
 
     axis(hA);
-    fhL = images.roi.AssistedFreehand(hA, 'Image', data_cine.Panel.View.Comp.hPlotObj.Image);
+    fhL = images.roi.AssistedFreehand(hA, 'Image', data_cine.Panel.View.Comp.hPlotObj.Image, ...
+        'MarkerSize', 8);
 
     draw(fhL);
     
@@ -30,27 +34,18 @@ else % Done
     fhL.Visible = 'off';
     
     % snake box
-    x1 = min(xx); x2 = max(xx); xL = x2-x1;
-    y1 = min(yy); y2 = max(yy); yL = y2-y1;
-    xyL = min(xL, yL);
-    xR1 = max(x1 - xyL, data_cine.Image.x0);
-    xR2 = min(x2 + xyL, data_cine.Image.x0 + data_cine.Image.RA.ImageExtentInWorldX);
-    yR1 = max(y1 - xyL, data_cine.Image.y0);
-    yR2 = min(y2 + xyL, data_cine.Image.y0 + data_cine.Image.RA.ImageExtentInWorldY);
-    posSnakeRect = [xR1 yR1 xR2-xR1 yR2-yR1];
+    [posSnakeRect] = fun_surroundingRect([xx yy], 1, [data_cine.Image.x0 data_cine.Image.y0],...
+        [data_cine.Image.RA.ImageExtentInWorldX data_cine.Image.RA.ImageExtentInWorldY]);
+    
     set(data_cine.Panel.View.Comp.hPlotObj.SnakeRect, 'Position', posSnakeRect, 'Visible', 'on');
     
     % template match box
-    x1 = min(xx); x2 = max(xx); xL = (x2-x1)*2;
-    y1 = min(yy); y2 = max(yy); yL = (y2-y1)*2;
-    xyL = min(xL, yL);
-    xR1 = max(x1 - xyL, data_cine.Image.x0);
-    xR2 = min(x2 + xyL, data_cine.Image.x0 + data_cine.Image.RA.ImageExtentInWorldX);
-    yR1 = max(y1 - xyL, data_cine.Image.y0);
-    yR2 = min(y2 + xyL, data_cine.Image.y0 + data_cine.Image.RA.ImageExtentInWorldY);
-    posTMRect = [xR1 yR1 xR2-xR1 yR2-yR1];
+    [posTMRect] = fun_surroundingRect([xx yy], 2, [data_cine.Image.x0 data_cine.Image.y0],...
+        [data_cine.Image.RA.ImageExtentInWorldX data_cine.Image.RA.ImageExtentInWorldY]);
+
     set(data_cine.Panel.View.Comp.hPlotObj.TMRect, 'Position', posTMRect, 'Visible', 'on');
     
+    % snake
     xyInfo.x0 = data_cine.Image.x0;
     xyInfo.y0 = data_cine.Image.y0;
     xyInfo.dx = data_cine.Image.dx;
@@ -58,10 +53,19 @@ else % Done
     J = data_cine.Panel.View.Comp.hPlotObj.Image.CData;
     
     C =  [xx yy];
-    [sC] =  fun_findTumor(J, xyInfo, posSnakeRect, C);
+%     
+    sC = C;
 
-    set(data_cine.Panel.View.Comp.hPlotObj.Snake, 'XData', sC(:, 1), 'YData', sC(:, 2));
+    set(data_cine.Panel.View.Comp.hPlotObj.Snake, 'XData', sC(:, 1), 'YData', sC(:, 2), 'Visible', 'on');
 
+    fhSlice = round( data_cine.Panel.SliceSlider.Comp.hSlider.Slice.Value);
+    bFreeHand = 1;
+
+    data_cine.Snake(fhSlice).sC = sC;
+    data_cine.Snake(fhSlice).posTMRect = posTMRect;
+    data_cine.Snake(fhSlice).posSnakeRect = posSnakeRect;
+    
+    guidata(hFig_cine, data_cine);
 end
 
 

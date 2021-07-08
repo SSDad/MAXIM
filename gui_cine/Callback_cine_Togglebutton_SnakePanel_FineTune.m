@@ -33,7 +33,7 @@ else % Done
     sC =  fhL.Position;
 
     % sgolay
-    framelen = round(size(sC, 1)/4);
+    framelen = round(size(sC, 1)/3);
     if mod(framelen, 2) == 0
         framelen = framelen+1;
     end

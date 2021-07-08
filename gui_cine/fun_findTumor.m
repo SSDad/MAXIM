@@ -61,7 +61,7 @@ end
 % mask = poly2mask(sC(:, 1), sC(:, 2), mJC, nJC);
 
 mask = poly2mask(cC(:, 1), cC(:, 2), mJC, nJC);
-bw = activecontour(JC, mask, 10, 'Chan-Vese', 'SmoothFactor', 2, 'ContractionBias', -0.2);
+bw = activecontour(JC, mask, 5, 'Chan-Vese', 'SmoothFactor', 2, 'ContractionBias', -0.2);
 
 %% contour
 B = bwboundaries(bw);
@@ -83,7 +83,7 @@ sC(:, 1) = sC(:, 1)+Rect(1);
 sC(:, 2) = sC(:, 2)+Rect(2);
 
 % sgolay
-framelen = round(size(sC, 1)/4);
+framelen = round(size(sC, 1)/3);
 if mod(framelen, 2) == 0
     framelen = framelen+1;
 end

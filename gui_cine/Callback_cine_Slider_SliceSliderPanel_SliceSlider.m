@@ -1,6 +1,7 @@
 function Callback_cine_Slider_SliceSliderPanel_SliceSlider(src, evnt)
 
 global hFig_cine contrastRectLim_cine
+global bFreeHand fhSlice
 
 data_cine = guidata(hFig_cine);
 
@@ -39,6 +40,17 @@ xc = 1:length(yc);
 xc = xc/max(xc);
 data_cine.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.XData = xc;
 data_cine.Panel.ContrastBar.Comp.Panel.Constrast.hPlotObj.Hist.YData = yc;
+
+% free hand
+data_cine.Panel.View.Comp.hPlotObj.Snake.Visible = 'off';
+
+if isfield(data_cine, 'Snake')
+    if iSlice <= numel(data_cine.Snake)
+        if ~isempty(data_cine.Snake(iSlice).sC)
+            data_cine.Panel.View.Comp.hPlotObj.Snake.Visible = 'on';
+        end
+    end
+end
 
 % % snake
 % x0 = data.Image.x0;

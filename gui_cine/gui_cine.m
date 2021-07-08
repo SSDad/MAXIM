@@ -3,6 +3,7 @@ function gui_cine
 %% global 
 global hFig_cine
 
+
 % global stopSlither
 % global reContL
 % global contrastRectLim
